@@ -30,13 +30,17 @@ Matrikelnummer irgendwo im gerenderten Text auftauchen.
 Astro tut das nicht, und die Content-Security-Policy fällt sonst erst in
 Produktion auf.
 
-**Die Seite lädt kein JavaScript.** Der einzige `<script>`-Block ist
-JSON-LD, also Daten, kein Code. Falls wieder Verhalten dazukommt: die
-Richtlinie setzt `script-src 'self'` ohne `unsafe-inline`, und Astro bettet
-kleine Skripte von sich aus in die Seite ein — ein solches Skript wird in
-Produktion stillschweigend blockiert. Dann gehört der Code in eine eigene
-Datei unter `public/`, und `tools/live.mjs` meldet, sobald wieder ein
-ausführbares Skript auf der Seite auftaucht.
+**Das gesamte Seitenverhalten liegt in `public/js/register.js`** —
+Inhaltsverzeichnis, Auftritt beim Scrollen, Zählwerk. Bewusst eine eigene
+Datei: die Richtlinie setzt `script-src 'self'` ohne `unsafe-inline`, und
+Astro bettet kleine `<script>`-Blöcke aus Komponenten von sich aus in die
+Seite ein — so ein Skript wird in Produktion stillschweigend blockiert, und
+lokal merkt man nichts. `tools/live.mjs` prüft deshalb nicht nur, dass das
+Skript da ist, sondern dass es **lief**: es setzt als Erstes `data-js` auf
+`<html>`, und die Prüfung meldet, wenn das Attribut fehlt.
+
+Ohne JavaScript bleibt die Seite vollständig benutzbar: Verzeichnis offen,
+alle Inhalte sichtbar, Zahlen stehen fest.
 
 `tools/lupe.mjs <url> <selektor> <datei>` nimmt einzelne Elemente auf.
 

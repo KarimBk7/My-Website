@@ -1,6 +1,6 @@
 ---
 import {
-  person, pruefstand, stammdaten, stationen, projekte,
+  person, pruefstand, stammdaten, stationen, arbeitsfelder, projekte,
   fremdbefunde, ui, type Lang,
 } from '../data/inhalt';
 
@@ -31,8 +31,26 @@ const bild = (name: string) => {
 
 const zahl = (n: number) => n.toLocaleString(lang === 'de' ? 'de-DE' : 'en-GB');
 
+/** Zerlegt eine Kennzahl wie "6.400" oder "90+" in Zahl und Suffix, damit das
+    Zaehlwerk sie hochlaufen lassen kann. Der sichtbare Text wird aus derselben
+    Zahl formatiert, damit Skript und Nicht-Skript dasselbe zeigen. */
+const kennzahl = (s: string) => {
+  const m = s.match(/^(\d[\d.]*)(\+?)$/);
+  return m ? { wert: Number(m[1].replace(/\./g, '')), suffix: m[2] } : null;
+};
+
 const mailto = `mailto:${person.email}?subject=${encodeURIComponent(t(ui.mailBetreff))}`;
 const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto GmbH', 'LUM GmbH'];
+
+/* Das Inhaltsverzeichnis. Die Sprungziele sind die Ueberschriften. */
+const eintraege: { id: string; label: string; nr?: string }[] = [
+  { id: 'h-felder', label: t(ui.arbeitsfelderTitel) },
+  { id: 'h-stamm', label: t(ui.stammdatenTitel) },
+  { id: 'h-stationen', label: t(ui.stationenTitel) },
+  ...projekte.map((p) => ({ id: `h-${p.id}`, label: t(p.titel), nr: p.nr })),
+  { id: 'h-befunde', label: t(ui.fremdbefundeTitel) },
+  { id: 'h-freigabe', label: t(ui.freigabeTitel) },
+];
 ---
 
 <header class="kopf">
@@ -73,249 +91,315 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
   </div>
 </div>
 
-<main id="inhalt" class="faden">
-  <!-- ------------------------------------------- Stammdaten / Stationen -->
-  <section class="abschnitt huelle" aria-labelledby="h-stamm">
-    <div class="spalten-2">
-      <div class="stapel">
-        <h2 class="titel-abschnitt" id="h-stamm">{t(ui.stammdatenTitel)}</h2>
-        <div class="gitter">
-          {stammdaten.map((f) => (
-            <div class="gitter-reihe">
-              <span class="feld-name">{t(f.label)}</span>
-              <span>{t(f.wert)}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div class="stapel">
-        <h2 class="titel-abschnitt">{t(ui.stationenTitel)}</h2>
-        <div class="gitter">
-          {stationen.map((s) => (
-            <div class="gitter-reihe">
-              <span class="feld-name">{t(s.zeit)}</span>
-              <div>
-                <div style="font-variation-settings:'wght' 620">{t(s.rolle)}</div>
-                <div class="messwert" style="font-size:.8125rem;color:var(--gruen);margin:.1rem 0 .35rem">{s.ort}</div>
-                <p class="fliess" style="margin:0;font-size:.9375rem">{t(s.text)}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+<div class="rumpf">
+  {/* Inhaltsverzeichnis. Offen als Vorgabe; das Skript merkt sich die Wahl
+      und klappt es auf schmalen Bildschirmen zu. Ohne Skript bleibt es offen. */}
+  <aside class="register" id="register" aria-label={t(ui.register)}>
+    <div class="register-kopf">
+      <button class="klappe" type="button" data-klappe aria-expanded="true" aria-controls="register" aria-label={t(ui.registerZu)}>
+        <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true">
+          <line x1="1" y1="2" x2="17" y2="2" stroke="currentColor" stroke-width="2" />
+          <line x1="1" y1="7" x2="17" y2="7" stroke="currentColor" stroke-width="2" />
+          <line x1="1" y1="12" x2="17" y2="12" stroke="currentColor" stroke-width="2" />
+        </svg>
+      </button>
+      <span class="feld-name">{t(ui.register)}</span>
     </div>
-  </section>
+    <nav aria-label={t(ui.register)}>
+      <ul>
+        {eintraege.map((e) => (
+          <li><a href={`#${e.id}`}><span class="nr">{e.nr ?? ''}</span>{e.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <div class="register-fuss">
+      <a href="/dokumente/lebenslauf-abdil-karim-bakir.pdf">{t(ui.lebenslaufPdf)}</a>
+      <a href={mailto}>{t(ui.kontakt)}</a>
+    </div>
+  </aside>
 
-  <!-- ------------------------------------------------------ Messreihen -->
-  {projekte.map((p) => (
-    <section class="abschnitt huelle" aria-labelledby={`h-${p.id}`}>
-      <div class="stapel" style="--l:2rem">
-        <div class="blatt-kopf">
-          <span class="blatt-nr">{p.nr}</span>
-          <h2 class="titel-blatt" id={`h-${p.id}`}>{t(p.titel)}</h2>
-          <p class="fliess" style="margin:0">{t(p.kurz)}</p>
-        </div>
+  <button class="klappe register-griff" type="button" data-klappe aria-expanded="false" aria-controls="register" aria-label={t(ui.registerAuf)}>
+    <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true">
+      <line x1="1" y1="2" x2="17" y2="2" stroke="currentColor" stroke-width="2" />
+      <line x1="1" y1="7" x2="17" y2="7" stroke="currentColor" stroke-width="2" />
+      <line x1="1" y1="12" x2="17" y2="12" stroke="currentColor" stroke-width="2" />
+    </svg>
+  </button>
+  <div class="register-schleier" aria-hidden="true"></div>
 
-        <div class="gitter">
-          {p.kopf.map((f) => (
-            <div class="gitter-reihe">
-              <span class="feld-name">{t(f.l)}</span>
-              <span>{t(f.w)}</span>
+  <main id="inhalt" class="faden">
+    <!-- ---------------------------------------------------- Arbeitsfelder -->
+    <section class="abschnitt huelle" aria-labelledby="h-felder">
+      <div class="stapel" style="--l:1.25rem">
+        <h2 class="titel-abschnitt" id="h-felder">{t(ui.arbeitsfelderTitel)}</h2>
+        <div class="felder">
+          {arbeitsfelder.map((f) => (
+            <div class="aufbau">
+              <h3>{t(f.name)}</h3>
+              <p>{t(f.beleg)}</p>
             </div>
           ))}
         </div>
+      </div>
+    </section>
 
-        <div class="spalten-2">
-          <div class="stapel" style="--l:.75rem">
-            <h3 class="feld-name">{t(ui.aufgabe)}</h3>
-            <p class="fliess" style="margin:0">{t(p.aufgabe)}</p>
-            {'herausforderung' in p && p.herausforderung && (
-              <div style="border-left:1px solid var(--gruen-linie);padding-left:1rem;margin-top:.75rem">
-                <h4 style="font-size:.9375rem">{t(p.herausforderung.titel)}</h4>
-                <p class="fliess" style="margin:.4rem 0 0;font-size:.9375rem">{t(p.herausforderung.text)}</p>
+    <!-- ------------------------------------------- Stammdaten / Stationen -->
+    <section class="abschnitt huelle" aria-labelledby="h-stamm">
+      <div class="spalten-2">
+        <div class="stapel">
+          <h2 class="titel-abschnitt" id="h-stamm">{t(ui.stammdatenTitel)}</h2>
+          <div class="gitter">
+            {stammdaten.map((f) => (
+              <div class="gitter-reihe aufbau">
+                <span class="feld-name">{t(f.label)}</span>
+                <span>{t(f.wert)}</span>
               </div>
-            )}
-          </div>
-
-          <div class="stapel" style="--l:.75rem">
-            <h3 class="feld-name">{t(ui.meinBeitrag)}</h3>
-            <ul class="liste">
-              {p.beitrag[lang].map((b) => <li><span></span><span>{b}</span></li>)}
-            </ul>
+            ))}
           </div>
         </div>
 
-        {/* Die grosse Zahlenreihe traegt nur dort, wo die Zahlen das Argument
-            sind. Viermal wiederholt waere sie das Geruest der Seite. */}
-        {p.id === 'spesenkonfigurator' ? (
-          <div class="zahlenreihe">
-            {p.kennzahlen.map((k) => (
-              <div>
-                <div class="zahl">{k.wert}</div>
-                <div class="zahl-l">{t(k.l)}</div>
-                <div class="zahl-s">{t(k.s)}</div>
+        <div class="stapel">
+          <h2 class="titel-abschnitt" id="h-stationen">{t(ui.stationenTitel)}</h2>
+          <div class="gitter">
+            {stationen.map((s) => (
+              <div class="gitter-reihe aufbau">
+                <span class="feld-name">{t(s.zeit)}</span>
+                <div>
+                  <div style="font-variation-settings:'wght' 620">{t(s.rolle)}</div>
+                  <div class="messwert" style="font-size:.8125rem;color:var(--gruen);margin:.1rem 0 .35rem">{s.ort}</div>
+                  <p class="fliess" style="margin:0;font-size:.9375rem">{t(s.text)}</p>
+                </div>
               </div>
             ))}
-          </div>
-        ) : (
-          <div class="stapel" style="--l:.6rem">
-            <h3 class="feld-name">{t(ui.kennwerte)}</h3>
-            <div class="kennwerte">
-              {p.kennzahlen.map((k) => (
-                <div>
-                  <span class="w">{k.wert}</span>
-                  <span class="l">{t(k.l)}</span>
-                  <span class="s">{t(k.s)}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Die Messwerte sitzen dort, wo sie hingehören: im Projekt, aus dem
-            sie stammen. Kurz gehalten — es geht darum zu zeigen, dass die
-            Optimierung stattgefunden hat und belegbar ist. */}
-        {p.id === 'spesenkonfigurator' && (
-          <div class="stapel" style="--l:.75rem">
-            <h3 class="feld-name">{t(ui.performanzTitel)}</h3>
-            <p class="fliess" style="margin:0">{t(ui.performanzText)}</p>
-            <table class="messtabelle messtabelle--kompakt">
-              <thead>
-                <tr>
-                  <th scope="col" class="feld-name">{t(ui.pruefpunkt)}</th>
-                  <th scope="col" class="feld-name">{t(pruefstand.stufen.vorher)}</th>
-                  <th scope="col" class="feld-name">{t(pruefstand.stufen.nachher)}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pruefstand.zeilen.map((z) => (
-                  <tr>
-                    <td>
-                      {t(z.label)}
-                      <div class="mess-quelle" style="margin-top:.15rem">{t(pruefstand.last)}</div>
-                    </td>
-                    <td class="messwert">
-                      {z.vorher === null ? (
-                        <span class="stufe stufe--offen">{t(z.vorherText!)}</span>
-                      ) : (
-                        <>{zahl(z.vorher)}{z.einheit && <span class="mess-einheit">{z.einheit}</span>}</>
-                      )}
-                    </td>
-                    <td class="messwert" style="font-variation-settings:'wght' 620">
-                      {zahl(z.nachher)}{z.einheit && <span class="mess-einheit">{z.einheit}</span>}
-                      {z.faktor && <div style="font-size:.75rem;color:var(--gruen);margin-top:.15rem">{t(ui.faktor)} {z.faktor}</div>}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {'bilder' in p && p.bilder && (
-          <div class="bildreihe">
-            {p.bilder.map((b) => (
-              <figure data-breit={'breit' in b && b.breit ? '' : undefined}>
-                <img
-                  src={bild(b.datei).gross}
-                  srcset={bild(b.datei).srcset}
-                  sizes={'breit' in b && b.breit
-                    ? '(max-width: 52rem) 92vw, 72rem'
-                    : '(max-width: 52rem) 92vw, 30vw'}
-                  width={bild(b.datei).breite}
-                  height={bild(b.datei).hoehe}
-                  alt={t(b.bu)}
-                  loading="lazy"
-                  decoding="async"
-                />
-                <figcaption>{t(b.bu)}</figcaption>
-              </figure>
-            ))}
-          </div>
-        )}
-
-        {'maengel' in p && p.maengel && (
-          <div class="maengel">
-            <h3 class="titel-blatt" style="font-size:1.125rem">{t(p.maengel.titel)}</h3>
-            <p class="fliess" style="margin:.5rem 0 1rem;color:var(--rot)">{t(p.maengel.hinweis)}</p>
-            <ul class="liste">
-              {p.maengel.punkte[lang].map((m) => <li><span></span><span>{m}</span></li>)}
-            </ul>
-          </div>
-        )}
-
-        {'themen' in p && p.themen && (
-          <div class="stapel" style="--l:.75rem">
-            <h3 class="feld-name">{t(ui.themenlandkarte)}</h3>
-            <div class="landkarte">
-              {p.themen.map((g) => (
-                <div>
-                  <h4>{t(g.gruppe)} <span>{g.punkte.length}</span></h4>
-                  <ul>{g.punkte.map((x) => <li>{x}</li>)}</ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div class="spalten-2">
-          <div class="stapel" style="--l:.6rem">
-            <h3 class="feld-name">{t(ui.werkzeuge)}</h3>
-            <ul class="marken">{p.stack.map((s) => <li>{s}</li>)}</ul>
-          </div>
-          <div class="stapel" style="--l:.6rem">
-            {'auslieferung' in p && p.auslieferung && (
-              <>
-                <h3 class="feld-name">{t(ui.auslieferung)}</h3>
-                <p class="fliess" style="margin:0;font-size:.9375rem">{t(p.auslieferung)}</p>
-              </>
-            )}
-            <h3 class="feld-name">{t(ui.einordnung)}</h3>
-            <p class="fliess" style="margin:0;font-size:.9375rem">{t(p.einordnung)}</p>
-            {'repo' in p && p.repo && (
-              <p style="margin:0"><a class="messwert" style="font-size:.8125rem" href={p.repo} rel="noopener">{p.repo.replace('https://', '')}</a></p>
-            )}
           </div>
         </div>
       </div>
     </section>
-  ))}
 
-  <!-- ----------------------------------------------------- Fremdbefunde -->
-  <section class="abschnitt huelle" aria-labelledby="h-befunde">
-    <div class="stapel" style="--l:1.75rem">
-      <div class="stapel" style="--l:.75rem">
-        <h2 class="titel-abschnitt" id="h-befunde">{t(ui.fremdbefundeTitel)}</h2>
-        <p class="fliess">{t(ui.fremdbefundeText)}</p>
-      </div>
-      <div class="spalten-2">
-        {fremdbefunde.map((f) => (
-          <div class="befund stapel" style="--l:.85rem">
-            {f.zitate[lang].map((z) => <blockquote>{z}</blockquote>)}
-            <div class="gitter-reihe" style="border:0;padding-bottom:0">
-              <span class="feld-name">{t(ui.quelle)}</span>
-              <span>
-                <span style="font-variation-settings:'wght' 620">{f.quelle}</span>
-                <span style="color:var(--tinte-3)"> · {t(f.rolle)}</span>
-              </span>
-            </div>
-            <a class="knopf knopf--rand" href={f.datei} style="align-self:start;color:var(--gruen-tief)">
-              {t(ui.pdfOeffnen)}
-            </a>
+    <!-- ------------------------------------------------------ Messreihen -->
+    {projekte.map((p) => (
+      <section class="abschnitt huelle" aria-labelledby={`h-${p.id}`}>
+        <div class="stapel" style="--l:2rem">
+          <div class="blatt-kopf">
+            <span class="blatt-nr">{p.nr}</span>
+            <h2 class="titel-blatt" id={`h-${p.id}`}>{t(p.titel)}</h2>
+            <p class="fliess" style="margin:0">{t(p.kurz)}</p>
           </div>
-        ))}
+
+          <div class="gitter">
+            {p.kopf.map((f) => (
+              <div class="gitter-reihe aufbau">
+                <span class="feld-name">{t(f.l)}</span>
+                <span>{t(f.w)}</span>
+              </div>
+            ))}
+          </div>
+
+          <div class="spalten-2">
+            <div class="stapel" style="--l:.75rem">
+              <h3 class="feld-name">{t(ui.aufgabe)}</h3>
+              <p class="fliess" style="margin:0">{t(p.aufgabe)}</p>
+              {'herausforderung' in p && p.herausforderung && (
+                <div style="border-left:1px solid var(--gruen-linie);padding-left:1rem;margin-top:.75rem">
+                  <h4 style="font-size:.9375rem">{t(p.herausforderung.titel)}</h4>
+                  <p class="fliess" style="margin:.4rem 0 0;font-size:.9375rem">{t(p.herausforderung.text)}</p>
+                </div>
+              )}
+            </div>
+
+            <div class="stapel" style="--l:.75rem">
+              <h3 class="feld-name">{t(ui.meinBeitrag)}</h3>
+              <ul class="liste">
+                {p.beitrag[lang].map((b) => <li class="aufbau"><span></span><span>{b}</span></li>)}
+              </ul>
+            </div>
+          </div>
+
+          {/* Die grosse Zahlenreihe traegt nur dort, wo die Zahlen das Argument
+              sind. Viermal wiederholt waere sie das Geruest der Seite. */}
+          {p.id === 'spesenkonfigurator' ? (
+            <div class="zahlenreihe">
+              {p.kennzahlen.map((k) => {
+                const n = kennzahl(k.wert);
+                return (
+                  <div class="aufbau">
+                    <div class="zahl" data-zahl={n?.wert} data-suffix={n?.suffix || undefined}>
+                      {n ? zahl(n.wert) + n.suffix : k.wert}
+                    </div>
+                    <div class="zahl-l">{t(k.l)}</div>
+                    <div class="zahl-s">{t(k.s)}</div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div class="stapel" style="--l:.6rem">
+              <h3 class="feld-name">{t(ui.kennwerte)}</h3>
+              <div class="kennwerte">
+                {p.kennzahlen.map((k) => {
+                  const n = kennzahl(k.wert);
+                  return (
+                    <div class="aufbau">
+                      <span class="w" data-zahl={n?.wert} data-suffix={n?.suffix || undefined}>
+                        {n ? zahl(n.wert) + n.suffix : k.wert}
+                      </span>
+                      <span class="l">{t(k.l)}</span>
+                      <span class="s">{t(k.s)}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Die Messwerte sitzen dort, wo sie hingehoeren: im Projekt, aus dem
+              sie stammen. Kurz gehalten -- es geht darum zu zeigen, dass die
+              Optimierung stattgefunden hat und belegbar ist. */}
+          {p.id === 'spesenkonfigurator' && (
+            <div class="stapel" style="--l:.75rem">
+              <h3 class="feld-name">{t(ui.performanzTitel)}</h3>
+              <p class="fliess" style="margin:0">{t(ui.performanzText)}</p>
+              <table class="messtabelle messtabelle--kompakt">
+                <thead>
+                  <tr>
+                    <th scope="col" class="feld-name">{t(ui.pruefpunkt)}</th>
+                    <th scope="col" class="feld-name">{t(pruefstand.stufen.vorher)}</th>
+                    <th scope="col" class="feld-name">{t(pruefstand.stufen.nachher)}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pruefstand.zeilen.map((z) => (
+                    <tr class="aufbau">
+                      <td>
+                        {t(z.label)}
+                        <div class="mess-quelle" style="margin-top:.15rem">{t(pruefstand.last)}</div>
+                      </td>
+                      <td class="messwert">
+                        {z.vorher === null ? (
+                          <span class="stufe stufe--offen">{t(z.vorherText!)}</span>
+                        ) : (
+                          <>
+                            <span data-zahl={z.vorher}>{zahl(z.vorher)}</span>
+                            {z.einheit && <span class="mess-einheit">{z.einheit}</span>}
+                          </>
+                        )}
+                      </td>
+                      <td class="messwert" style="font-variation-settings:'wght' 620">
+                        <span data-zahl={z.nachher}>{zahl(z.nachher)}</span>
+                        {z.einheit && <span class="mess-einheit">{z.einheit}</span>}
+                        {z.faktor && <div style="font-size:.75rem;color:var(--gruen);margin-top:.15rem">{t(ui.faktor)} {z.faktor}</div>}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {'bilder' in p && p.bilder && (
+            <div class="bildreihe">
+              {p.bilder.map((b) => (
+                <figure class="aufbau" data-breit={'breit' in b && b.breit ? '' : undefined}>
+                  <img
+                    src={bild(b.datei).gross}
+                    srcset={bild(b.datei).srcset}
+                    sizes={'breit' in b && b.breit
+                      ? '(max-width: 52rem) 92vw, 72rem'
+                      : '(max-width: 52rem) 92vw, 30vw'}
+                    width={bild(b.datei).breite}
+                    height={bild(b.datei).hoehe}
+                    alt={t(b.bu)}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <figcaption>{t(b.bu)}</figcaption>
+                </figure>
+              ))}
+            </div>
+          )}
+
+          {'maengel' in p && p.maengel && (
+            <div class="maengel">
+              <h3 class="titel-blatt" style="font-size:1.125rem">{t(p.maengel.titel)}</h3>
+              <p class="fliess" style="margin:.5rem 0 1rem;color:var(--rot)">{t(p.maengel.hinweis)}</p>
+              <ul class="liste">
+                {p.maengel.punkte[lang].map((m) => <li class="aufbau"><span></span><span>{m}</span></li>)}
+              </ul>
+            </div>
+          )}
+
+          {'themen' in p && p.themen && (
+            <div class="stapel" style="--l:.75rem">
+              <h3 class="feld-name">{t(ui.themenlandkarte)}</h3>
+              <div class="landkarte">
+                {p.themen.map((g) => (
+                  <div class="aufbau">
+                    <h4>{t(g.gruppe)} <span>{g.punkte.length}</span></h4>
+                    <ul>{g.punkte.map((x) => <li>{x}</li>)}</ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div class="spalten-2">
+            <div class="stapel" style="--l:.6rem">
+              <h3 class="feld-name">{t(ui.werkzeuge)}</h3>
+              <ul class="marken">{p.stack.map((s) => <li>{s}</li>)}</ul>
+            </div>
+            <div class="stapel" style="--l:.6rem">
+              {'auslieferung' in p && p.auslieferung && (
+                <>
+                  <h3 class="feld-name">{t(ui.auslieferung)}</h3>
+                  <p class="fliess" style="margin:0;font-size:.9375rem">{t(p.auslieferung)}</p>
+                </>
+              )}
+              <h3 class="feld-name">{t(ui.einordnung)}</h3>
+              <p class="fliess" style="margin:0;font-size:.9375rem">{t(p.einordnung)}</p>
+              {'repo' in p && p.repo && (
+                <p style="margin:0"><a class="messwert" style="font-size:.8125rem" href={p.repo} rel="noopener">{p.repo.replace('https://', '')}</a></p>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <!-- ----------------------------------------------------- Fremdbefunde -->
+    <section class="abschnitt huelle" aria-labelledby="h-befunde">
+      <div class="stapel" style="--l:1.75rem">
+        <div class="stapel" style="--l:.75rem">
+          <h2 class="titel-abschnitt" id="h-befunde">{t(ui.fremdbefundeTitel)}</h2>
+          <p class="fliess">{t(ui.fremdbefundeText)}</p>
+        </div>
+        <div class="spalten-2">
+          {fremdbefunde.map((f) => (
+            <div class="befund stapel aufbau" style="--l:.85rem">
+              {f.zitate[lang].map((z) => <blockquote>{z}</blockquote>)}
+              <div class="gitter-reihe" style="border:0;padding-bottom:0">
+                <span class="feld-name">{t(ui.quelle)}</span>
+                <span>
+                  <span style="font-variation-settings:'wght' 620">{f.quelle}</span>
+                  <span style="color:var(--tinte-3)"> · {t(f.rolle)}</span>
+                </span>
+              </div>
+              <a class="knopf knopf--rand" href={f.datei} style="align-self:start;color:var(--gruen-tief)">
+                {t(ui.pdfOeffnen)}
+              </a>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-</main>
+    </section>
+  </main>
+</div>
 
 <!-- ---------------------------------------------------------- Freigabe -->
 <footer class="freigabe">
   <div class="huelle abschnitt">
     <div class="spalten-2">
       <div class="stapel">
-        <h2 class="titel-abschnitt">{t(ui.freigabeTitel)}</h2>
+        <h2 class="titel-abschnitt" id="h-freigabe">{t(ui.freigabeTitel)}</h2>
         <p class="fliess" style="color:#d6e5dd">{t(ui.freigabeText)}</p>
         <div style="display:flex;flex-wrap:wrap;gap:.75rem">
           <a class="knopf" href={mailto}>{person.email}</a>
@@ -344,4 +428,4 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
   <p style="margin:0">{t(ui.fussnote)}</p>
 </div>
 
-
+<script type="module" src="/js/register.js" is:inline></script>

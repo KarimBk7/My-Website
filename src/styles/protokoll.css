@@ -4,6 +4,10 @@
 @import '@fontsource-variable/archivo/standard.css';
 @import '@fontsource-variable/spline-sans-mono';
 
+/* Register, Arbeitsfelder und Bewegung liegen in einer eigenen Datei,
+   damit dieses Stylesheet das Grundsystem bleibt und lesbar. */
+@import './register.css';
+
 /* ==========================================================================
    Prüfprotokoll — Gestaltungssystem
    Ein Abnahmeprotokoll ist Papier unter Bürolicht. Die Seite ist deshalb
@@ -159,7 +163,16 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
 
 /* --- Protokollkopf ------------------------------------------------------- */
 
-.kopf { background: var(--gruen); color: #fff; }
+.kopf {
+  background: var(--gruen);
+  color: #fff;
+  /* Der Stempel startet vergroessert und schief und ragt dabei kurz ueber
+     den rechten Rand -- auf dem Telefon ergibt das einen aufblitzenden
+     Querbalken. Hier abschneiden, nicht am body: dessen overflow wird ans
+     Ansichtsfenster weitergereicht und wirkt deshalb nicht auf das Kind.
+     `clip` statt `hidden`, damit kein Scroll-Container entsteht. */
+  overflow: clip;
+}
 .kopf a:not(.knopf) { color: #fff; }
 .kopf-innen {
   display: grid;

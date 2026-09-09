@@ -52,12 +52,19 @@ const messwerte = await seite.evaluate(() => {
   };
 });
 
-// Die Seite kommt jetzt ohne JavaScript aus. Wenn hier je wieder ein Skript
-// auftaucht, soll das auffallen -- unter script-src 'self' faellt ein
-// eingebettetes Skript sonst lautlos aus.
-const skripte = await seite.evaluate(
-  () => [...document.querySelectorAll('script')].filter((s) => s.type !== 'application/ld+json').length,
-);
+// Genau ein Skript darf auf der Seite liegen, und zwar als eigene Datei --
+// unter script-src 'self' faellt ein eingebettetes Skript lautlos aus.
+// Entscheidend ist nicht, dass es da steht, sondern dass es LIEF: das Skript
+// setzt als Erstes data-js auf <html>. Fehlt das Attribut, wurde es blockiert.
+const skript = await seite.evaluate(() => {
+  const alle = [...document.querySelectorAll('script')].filter((s) => s.type !== 'application/ld+json');
+  return {
+    anzahl: alle.length,
+    quellen: alle.map((s) => s.getAttribute('src') ?? '(eingebettet)'),
+    gelaufen: 'js' in document.documentElement.dataset,
+    registerStand: document.documentElement.dataset.register ?? '(nicht gesetzt)',
+  };
+});
 
 const kopf = antwort.headers();
 const erwartet = ['content-security-policy', 'x-content-type-options', 'x-frame-options', 'referrer-policy'];
@@ -71,7 +78,7 @@ console.log(JSON.stringify({
   kopfzeilenFehlen: erwartet.filter((k) => !kopf[k]),
   bilder: { gesamt: bilder.length, geladen: bilder.filter((b) => b.ok).length,
             fehlend: bilder.filter((b) => !b.ok).map((b) => b.src) },
-  skripteAufDerSeite: skripte,
+  skript,
   messwerte,
   auffaellig,
 }, null, 2));

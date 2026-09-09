@@ -101,10 +101,17 @@ const befund = await page.evaluate((muster) => {
 const messreihen = await page.locator('.messtabelle--kompakt tbody tr').count();
 const schematischMarkiert = await page.locator('.messtabelle--kompakt .stufe--offen').count();
 
-// Mobiler Querüberlauf
+// Mobiler Querüberlauf. Absichtlich WÄHREND der Auftritts-Animationen
+// gemessen, nicht danach: ein Element, das kurz über den Rand ragt, erzeugt
+// einen aufblitzenden Querbalken, den eine spätere Messung nicht mehr sieht.
 const mctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
 const mpage = await mctx.newPage();
-await mpage.goto(BASIS + '/', { waitUntil: 'networkidle' });
+await mpage.goto(BASIS + '/', { waitUntil: 'domcontentloaded' });
+const mobilFrueh = await mpage.evaluate(() => {
+  const d = document.documentElement;
+  return { ueberlauf: d.scrollWidth > d.clientWidth + 1, breite: d.scrollWidth };
+});
+await mpage.waitForLoadState('networkidle');
 const mobilUeberlauf = await mpage.evaluate(() => {
   const d = document.documentElement;
   const schuldige = [...document.querySelectorAll('*')]
@@ -120,5 +127,6 @@ console.log(JSON.stringify({
   befund,
   messwerte: { zeilen: messreihen, schematischMarkiert },
   mobil: mobilUeberlauf,
+  mobilWaehrendAnimation: mobilFrueh,
   konsolenfehler: fehler,
 }, null, 2));

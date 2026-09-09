@@ -111,8 +111,8 @@ export const stammdaten: { label: S; wert: S }[] = [
   {
     label: { de: 'Schwerpunkt', en: 'Focus' },
     wert: {
-      de: 'Java-Backend und Datenverarbeitung',
-      en: 'Java backend and data processing',
+      de: 'Backend als Kern — Java und Datenverarbeitung. Dazu Web, Cloud-Infrastruktur und Hardware.',
+      en: 'Backend at the core — Java and data processing. Beyond that: web, cloud infrastructure and hardware.',
     },
   },
   {
@@ -145,6 +145,45 @@ export const stammdaten: { label: S; wert: S }[] = [
     wert: {
       de: 'Ubuntu, OpenBSD, Cloudflare (DNS, Reverse Proxy, SSL/TLS), Nextcloud, Raspberry Pi',
       en: 'Ubuntu, OpenBSD, Cloudflare (DNS, reverse proxy, SSL/TLS), Nextcloud, Raspberry Pi',
+    },
+  },
+];
+
+/* ---------------------------------------------------------- Arbeitsfelder */
+
+/**
+ * Vier Felder, je ein Beleg aus den Unterlagen. Backend ist der Kern und
+ * steht deshalb zuerst; die drei anderen sind belegt, nicht behauptet:
+ * Cloud aus dem Arbeitszeugnis Lesto Branto, Hardware aus dem Raspberry-Pi-
+ * Server im Lebenslauf, Web aus dem Lern-Repository und dieser Seite.
+ */
+export const arbeitsfelder: { name: S; beleg: S }[] = [
+  {
+    name: { de: 'Backend', en: 'Backend' },
+    beleg: {
+      de: 'Java, Datenverarbeitung, Performance unter Last. Tabellenkern, Undo/Redo und Absturzsicherung im Spesenkonfigurator.',
+      en: 'Java, data processing, performance under load. Table core, undo/redo and crash protection in the expense configurator.',
+    },
+  },
+  {
+    name: { de: 'Web', en: 'Web' },
+    beleg: {
+      de: 'HTML, CSS, JavaScript, HTTP und FastAPI im Lern-Repository. Diese Seite: statisch mit Astro und TypeScript, ohne Tracker.',
+      en: 'HTML, CSS, JavaScript, HTTP and FastAPI in the learning repository. This page: static, Astro and TypeScript, no trackers.',
+    },
+  },
+  {
+    name: { de: 'Cloud & Betrieb', en: 'Cloud & operations' },
+    beleg: {
+      de: 'Cloudflare mit DNS, Reverse Proxy und SSL/TLS, Nextcloud, Ubuntu und OpenBSD. Unternehmens-Cloud bei Lesto Branto aufgebaut und betrieben.',
+      en: 'Cloudflare with DNS, reverse proxy and SSL/TLS, Nextcloud, Ubuntu and OpenBSD. Built and operate the company cloud at Lesto Branto.',
+    },
+  },
+  {
+    name: { de: 'Hardware', en: 'Hardware' },
+    beleg: {
+      de: 'Eigener Nextcloud-Server auf einem Raspberry Pi mit eigener Domain, abgesichert über Cloudflare. Hardware-Montage.',
+      en: 'My own Nextcloud server on a Raspberry Pi with its own domain, secured through Cloudflare. Hardware assembly.',
     },
   },
 ];
@@ -443,15 +482,25 @@ export const ui: Record<string, S> = {
    * Wenn sich deine Positionierung ändert, gehören beide angepasst.
    */
   kopfText: {
-    de: 'Informatikstudent an der FU Berlin. Ich baue Backends, die unter Last messbar schneller werden — und schreibe auf, um wie viel.',
-    en: 'Computer science student at FU Berlin. I build backends that get measurably faster under load — and write down by how much.',
+    de: 'Informatikstudent an der FU Berlin. Mein Kern ist das Backend — Java, Datenverarbeitung, Performance unter Last. Dazu Web, Cloud-Infrastruktur und Hardware: vom eigenen Server auf dem Raspberry Pi hinter Cloudflare bis zu dieser Seite.',
+    en: 'Computer science student at FU Berlin. My core is the backend — Java, data processing, performance under load. Beyond that: web, cloud infrastructure and hardware, from my own Raspberry Pi server behind Cloudflare to this very page.',
   },
 
   pruefling: { de: 'Prüfling', en: 'Item under test' },
   standort: { de: 'Standort', en: 'Location' },
   standortWert: { de: 'Berlin, Deutschland', en: 'Berlin, Germany' },
+
+  /* Inhaltsverzeichnis in der linken Spalte */
+  register: { de: 'Inhalt', en: 'Contents' },
+  registerAuf: { de: 'Inhaltsverzeichnis einblenden', en: 'Show contents' },
+  registerZu: { de: 'Inhaltsverzeichnis ausblenden', en: 'Hide contents' },
+  arbeitsfelderTitel: { de: 'Arbeitsfelder', en: 'Fields of work' },
+
   freigegebenFuer: { de: 'Freigegeben für', en: 'Released for' },
-  rolle: { de: 'Software Engineering · Backend', en: 'Software Engineering · Backend' },
+  rolle: {
+    de: 'Software Engineering · Backend, Web, Cloud, Hardware',
+    en: 'Software Engineering · Backend, Web, Cloud, Hardware',
+  },
   kontakt: { de: 'Kontakt aufnehmen', en: 'Get in touch' },
   protokollNr: { de: 'Protokoll-Nr.', en: 'Protocol no.' },
   stand: { de: 'Stand', en: 'As of' },
@@ -505,19 +554,19 @@ export const ui: Record<string, S> = {
 
   freigabeTitel: { de: 'Freigabe', en: 'Release' },
   freigabeText: {
-    de: 'Ich suche eine Position als Software Engineer mit Schwerpunkt Backend, in Berlin oder remote. Schreiben Sie mir — ich antworte innerhalb von zwei Werktagen.',
-    en: 'I am looking for a software engineering position with a backend focus, in Berlin or remote. Write to me — I reply within two working days.',
+    de: 'Ich suche eine Position als Software Engineer — Backend als Kern, gern mit Web-, Cloud- oder Hardware-Anteil. In Berlin oder remote. Schreiben Sie mir — ich antworte innerhalb von zwei Werktagen.',
+    en: 'I am looking for a software engineering position — backend at the core, gladly with a web, cloud or hardware share. In Berlin or remote. Write to me — I reply within two working days.',
   },
   lebenslaufPdf: { de: 'Lebenslauf als PDF', en: 'CV as PDF' },
   mailBetreff: { de: 'Anfrage über die Website', en: 'Enquiry via your website' },
 
   seiteTitel: {
-    de: 'Abdil Karim Bakir — Software Engineer, Backend',
-    en: 'Abdil Karim Bakir — Software Engineer, Backend',
+    de: 'Abdil Karim Bakir — Software Engineer',
+    en: 'Abdil Karim Bakir — Software Engineer',
   },
   seiteBeschreibung: {
-    de: 'Informatikstudent an der FU Berlin mit Schwerpunkt Java-Backend. Drei belegte Projekte, gemessene Ergebnisse, zwei Arbeitszeugnisse.',
-    en: 'Computer science student at FU Berlin focused on Java backend work. Three documented projects, measured results, two employment references.',
+    de: 'Informatikstudent an der FU Berlin. Backend als Kern, dazu Web, Cloud-Infrastruktur und Hardware. Drei belegte Projekte, gemessene Ergebnisse, zwei Arbeitszeugnisse.',
+    en: 'Computer science student at FU Berlin. Backend at the core, plus web, cloud infrastructure and hardware. Three documented projects, measured results, two employment references.',
   },
   skipLink: { de: 'Zum Inhalt springen', en: 'Skip to content' },
   fussnote: {
