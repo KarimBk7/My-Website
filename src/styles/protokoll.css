@@ -351,23 +351,6 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 .landkarte ul { margin: 0.7rem 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.3rem; }
 .landkarte li { font-family: var(--mono); font-size: 0.6875rem; border: var(--spur) solid var(--haar-stark); padding: 0.15rem 0.4rem; color: var(--tinte-2); }
 
-/* --- Graph --------------------------------------------------------------- */
-
-.graph-rahmen { border: var(--spur) solid var(--haar-stark); background: #fff; position: relative; }
-.graph-rahmen canvas { display: block; width: 100%; height: auto; touch-action: pan-y; cursor: crosshair; }
-.graph-rahmen canvas:focus-visible { outline: 2px solid var(--gruen); outline-offset: -2px; }
-.graph-hinweis { font-family: var(--mono); font-size: 0.75rem; color: var(--tinte-3); margin: 0.5rem 0 0; }
-.graph-status {
-  position: absolute; left: 0; bottom: 0; margin: 0;
-  font-family: var(--mono); font-size: 0.75rem;
-  background: var(--gruen); color: #fff; padding: 0.3rem 0.6rem;
-  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-.graph-status:empty { display: none; }
-.graph-legende { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.75rem; font-family: var(--mono); font-size: 0.75rem; color: var(--tinte-3); }
-.graph-legende span { display: inline-flex; align-items: center; gap: 0.4rem; }
-.graph-legende i { width: 0.6rem; height: 0.6rem; border-radius: 50%; display: inline-block; }
-
 /* --- Fremdbefunde -------------------------------------------------------- */
 
 .befund { border-top: 2px solid var(--tinte); padding-top: 1.1rem; }

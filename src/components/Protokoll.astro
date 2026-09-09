@@ -1,9 +1,8 @@
 ---
 import {
   person, pruefstand, stammdaten, stationen, projekte,
-  agenten, fremdbefunde, ui, type Lang,
+  fremdbefunde, ui, type Lang,
 } from '../data/inhalt';
-import graph from '../data/graph.json';
 
 /* Bilder bewusst NICHT ueber astro:assets.
    Cloudflare hat dieses Projekt als Worker angelegt und dabei einen Adapter
@@ -285,68 +284,6 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
     </section>
   ))}
 
-  <!-- ------------------------------------------------------- Prüfmittel -->
-  <section class="abschnitt huelle" aria-labelledby="h-agenten">
-    <div class="stapel" style="--l:2rem">
-      <div class="stapel" style="--l:.75rem">
-        <h2 class="titel-abschnitt" id="h-agenten">{t(agenten.titel)}</h2>
-        <p class="fliess">{t(agenten.einleitung)}</p>
-      </div>
-
-      <div class="spalten-2">
-        {agenten.teilung.spalten.map((s) => (
-          <div class="stapel" style="--l:.75rem">
-            <h3 class="feld-name">{t(s.kopf)}</h3>
-            <ul class="liste">{s.punkte[lang].map((p) => <li><span></span><span>{p}</span></li>)}</ul>
-          </div>
-        ))}
-      </div>
-
-      <div class="stapel" style="--l:.75rem">
-        <h3 class="titel-blatt" style="font-size:1.125rem">{t(agenten.graph.titel)}</h3>
-        <p class="fliess" style="margin:0">{t(agenten.graph.text)}</p>
-
-        <div class="kennwerte">
-          <div><span class="w">{zahl(graph.meta.quelle_knoten)}</span><span class="l">{lang === 'de' ? 'Knoten' : 'nodes'}</span></div>
-          <div><span class="w">{zahl(graph.meta.quelle_kanten)}</span><span class="l">{lang === 'de' ? 'Kanten' : 'edges'}</span></div>
-          <div><span class="w">{graph.meta.communities}</span><span class="l">{lang === 'de' ? 'Themencluster' : 'clusters'}</span></div>
-          <div><span class="w">193</span><span class="l">{lang === 'de' ? 'ausgewertete Dateien' : 'files analysed'}</span></div>
-        </div>
-
-        <div class="graph-rahmen">
-          <canvas id="graph" width="1200" height="620" role="img" tabindex="0"
-            aria-label={lang === 'de'
-              ? 'Ausschnitt des Wissensgraphen: 136 Knoten aus den eigenen Repositories, verbunden durch 349 Kanten.'
-              : 'Excerpt of the knowledge graph: 136 nodes from my own repositories, connected by 349 edges.'}></canvas>
-          <p class="graph-status" id="graph-status"></p>
-        </div>
-        <p class="graph-hinweis">{t(ui.graphBedienung)}</p>
-        <div class="graph-legende">
-          <span><i style="background:#1d5c44"></i>{t(agenten.graph.legende.projektron)}</span>
-          <span><i style="background:#a3231c"></i>{t(agenten.graph.legende.kaiju)}</span>
-          <span>{t(agenten.graph.hinweis)}</span>
-        </div>
-      </div>
-
-      <div class="spalten-2">
-        <div class="stapel" style="--l:.75rem">
-          <h3 class="feld-name">{t(agenten.werkzeuge.titel)}</h3>
-          <div class="gitter">
-            {agenten.werkzeuge.punkte.map((w) => (
-              <div class="gitter-reihe">
-                <span class="messwert" style="font-size:.875rem">{w.n}</span>
-                <span style="font-size:.9375rem">{t(w.t)}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div style="border:1px solid var(--haar-stark);padding:1.25rem;align-self:start">
-          <p class="fliess" style="margin:0;color:var(--tinte)">{t(agenten.grenze)}</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ----------------------------------------------------- Fremdbefunde -->
   <section class="abschnitt huelle" aria-labelledby="h-befunde">
     <div class="stapel" style="--l:1.75rem">
@@ -409,6 +346,4 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
   <p style="margin:0">{t(ui.fussnote)}</p>
 </div>
 
-<script type="application/json" id="graph-daten" is:inline set:html={JSON.stringify(graph)}></script>
 
-<script type="module" src="/js/protokoll.js" is:inline></script>

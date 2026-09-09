@@ -43,18 +43,6 @@ const bilder = await seite.evaluate(() =>
   })),
 );
 
-// Der Wissensgraph ist das einzige Skript auf der Seite: wenn die
-// Content-Security-Policy es blockiert, faellt genau er aus, und zwar lautlos.
-// Geprueft wird deshalb, ob die Leinwand wirklich bemalt wurde.
-const graphGemalt = await seite.evaluate(() => {
-  const c = document.getElementById('graph');
-  if (!c || !c.width) return false;
-  const ctx = c.getContext('2d');
-  const d = ctx.getImageData(0, 0, c.width, c.height).data;
-  for (let i = 3; i < d.length; i += 4 * 97) if (d[i] > 0) return true; // irgendein Pixel deckend
-  return false;
-});
-
 // Die Messwerte im Projektblatt: vier Zeilen, die nicht gemessene markiert.
 const messwerte = await seite.evaluate(() => {
   const zeilen = [...document.querySelectorAll('.messtabelle--kompakt tbody tr')];
@@ -63,6 +51,13 @@ const messwerte = await seite.evaluate(() => {
     schematischMarkiert: document.querySelectorAll('.messtabelle--kompakt .stufe--offen').length,
   };
 });
+
+// Die Seite kommt jetzt ohne JavaScript aus. Wenn hier je wieder ein Skript
+// auftaucht, soll das auffallen -- unter script-src 'self' faellt ein
+// eingebettetes Skript sonst lautlos aus.
+const skripte = await seite.evaluate(
+  () => [...document.querySelectorAll('script')].filter((s) => s.type !== 'application/ld+json').length,
+);
 
 const kopf = antwort.headers();
 const erwartet = ['content-security-policy', 'x-content-type-options', 'x-frame-options', 'referrer-policy'];
@@ -76,7 +71,7 @@ console.log(JSON.stringify({
   kopfzeilenFehlen: erwartet.filter((k) => !kopf[k]),
   bilder: { gesamt: bilder.length, geladen: bilder.filter((b) => b.ok).length,
             fehlend: bilder.filter((b) => !b.ok).map((b) => b.src) },
-  graphGemalt,
+  skripteAufDerSeite: skripte,
   messwerte,
   auffaellig,
 }, null, 2));

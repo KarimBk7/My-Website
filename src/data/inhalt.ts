@@ -395,80 +395,6 @@ export const projekte = [
   },
 ] as const;
 
-/* ------------------------------------------------- Arbeit mit KI-Agenten */
-
-export const agenten = {
-  titel: { de: 'Prüfmittel: Arbeit mit KI-Agenten', en: 'Instruments: working with AI agents' },
-  einleitung: {
-    de: 'Diese Seite ist selbst der Beleg. Sie ist mit Claude Code entstanden, unter einer Design-Vorgabe, die ich eingerichtet habe. Wie das abläuft, steht hier offen — einschließlich der Arbeitsteilung.',
-    en: 'This page is the evidence itself. It was built with Claude Code under a design skill I set up. How that works is stated openly here, including the division of labour.',
-  },
-  graph: {
-    titel: { de: 'Wissensgraph über die eigenen Repositories', en: 'Knowledge graph over my own repositories' },
-    text: {
-      de: 'Damit die Projektbeschreibungen auf dieser Seite aus Belegen entstehen und nicht aus Erinnerung, habe ich meine Repositories vorher in einen Wissensgraphen überführt: Quelltext strukturell über den Syntaxbaum, Dokumentation und Diagramme über Sprachmodell-Agenten. Jede Kante trägt eine Belegstufe — abgeleitet, erschlossen oder unsicher. Unten ein Ausschnitt.',
-      en: 'So that the project descriptions on this page come from evidence rather than memory, I first turned my repositories into a knowledge graph: source code structurally via its syntax tree, documentation and diagrams via language-model agents. Every edge carries a confidence level — extracted, inferred or ambiguous. Below is an excerpt.',
-    },
-    hinweis: {
-      de: 'Ausschnitt: die 136 am stärksten verbundenen eigenen Knoten. Externe Bibliotheksklassen sind entfernt.',
-      en: 'Excerpt: the 136 most connected of my own nodes. External library classes removed.',
-    },
-    legende: { projektron: { de: 'Spesenkonfigurator', en: 'Expense configurator' }, kaiju: { de: 'Kaiju Adventure', en: 'Kaiju Adventure' } },
-  },
-  teilung: {
-    titel: { de: 'Arbeitsteilung', en: 'Division of labour' },
-    spalten: [
-      {
-        kopf: { de: 'Was der Agent macht', en: 'What the agent does' },
-        punkte: {
-          de: [
-            'Quelltext und Dokumente durchsuchen und strukturieren',
-            'Entwürfe schreiben, umbauen, wieder verwerfen',
-            'Mechanische Prüfungen fahren: Kontrast, Umbruch, Konsole',
-            'Alternativen ausarbeiten, damit ich sie vergleichen kann',
-          ],
-          en: [
-            'Search and structure source code and documents',
-            'Write drafts, rebuild them, discard them again',
-            'Run mechanical checks: contrast, reflow, console',
-            'Work out alternatives so I can compare them',
-          ],
-        },
-      },
-      {
-        kopf: { de: 'Was ich entscheide', en: 'What I decide' },
-        punkte: {
-          de: [
-            'Welche Aussage die Seite treffen soll und für wen',
-            'Welche Zahl belegt ist und welche nicht veröffentlicht wird',
-            'Welche der vorgelegten Richtungen gebaut wird',
-            'Was aus den Unterlagen draußen bleibt und warum',
-          ],
-          en: [
-            'What the page should claim, and to whom',
-            'Which figure is backed by evidence and which is not published',
-            'Which of the presented directions gets built',
-            'What stays out of the documents, and why',
-          ],
-        },
-      },
-    ],
-  },
-  werkzeuge: {
-    titel: { de: 'Eingesetzte Werkzeuge', en: 'Tools in use' },
-    punkte: [
-      { n: 'Claude Code', t: { de: 'Agent an der Kommandozeile und in der Entwicklungsumgebung', en: 'Agent at the command line and in the editor' } },
-      { n: 'Skills & Plugins', t: { de: 'Eigene Vorgaben für Design, Animation und Codeprüfung', en: 'Own rulesets for design, animation and code review' } },
-      { n: 'Subagenten', t: { de: 'Parallele Extraktion über mehrere Dateibündel', en: 'Parallel extraction across several file bundles' } },
-      { n: 'Playwright', t: { de: 'Automatisierte Prüfung der fertigen Seite im Browser', en: 'Automated checks of the finished page in the browser' } },
-    ],
-  },
-  grenze: {
-    de: 'Was ein Agent nicht ersetzt: die Entscheidung, was wahr ist. Der schematische Vorher-Wert in Prüfpunkt P-03 ist als schematisch ausgewiesen, weil er nie gemessen wurde. Solche Stellen findet kein Werkzeug von allein.',
-    en: 'What an agent does not replace: deciding what is true. The schematic before-value in test point P-03 is marked as schematic because it was never measured. No tool finds those places on its own.',
-  },
-};
-
 /* ----------------------------------------------------------- Fremdbefunde */
 
 export const fremdbefunde = [
@@ -534,10 +460,6 @@ export const ui: Record<string, S> = {
   spurHinweis: {
     de: 'Logarithmische Skala. Offener Kreis: vorher. Gefüllter Kreis: nachher. Die gestrichelte Linie bei P-03 läuft aus dem Bild, weil für den Vorher-Zustand nur „mehrere Minuten“ überliefert ist.',
     en: 'Logarithmic scale. Hollow circle: before. Filled circle: after. The dashed line at P-03 runs off the chart because the before state is recorded only as “several minutes”.',
-  },
-  graphBedienung: {
-    de: 'Zeiger oder Fingertipp wählt einen Knoten. Mit Tabulator anspringen, dann mit den Pfeiltasten durchgehen.',
-    en: 'Pointer or tap selects a node. Tab to focus, then step through with the arrow keys.',
   },
   kennwerte: { de: 'Kennwerte', en: 'Key figures' },
   pruefpunkt: { de: 'Prüfpunkt', en: 'Test point' },

@@ -26,11 +26,17 @@ Alt-Texte an allen Bildern, Konsolenfehler, ob der Vorher/Nachher-Schalter die
 Werte tatsächlich umschaltet, und ob Anschrift, Telefonnummer oder
 Matrikelnummer irgendwo im gerenderten Text auftauchen.
 
-`tools/serve-mit-headern.mjs` wendet `public/_headers` an. Das ist wichtig: die
-Content-Security-Policy verbietet eingebettete Skripte, und Astro bettet kleine
-Skripte von sich aus ein. Deshalb liegt das Seitenverhalten bewusst in
-`public/js/protokoll.js` statt in einem `<script>`-Block der Komponente. Wer
-das zurückbaut, bricht die Seite in Produktion, ohne es lokal zu merken.
+`tools/serve-mit-headern.mjs` wendet `public/_headers` an — die Vorschau von
+Astro tut das nicht, und die Content-Security-Policy fällt sonst erst in
+Produktion auf.
+
+**Die Seite lädt kein JavaScript.** Der einzige `<script>`-Block ist
+JSON-LD, also Daten, kein Code. Falls wieder Verhalten dazukommt: die
+Richtlinie setzt `script-src 'self'` ohne `unsafe-inline`, und Astro bettet
+kleine Skripte von sich aus in die Seite ein — ein solches Skript wird in
+Produktion stillschweigend blockiert. Dann gehört der Code in eine eigene
+Datei unter `public/`, und `tools/live.mjs` meldet, sobald wieder ein
+ausführbares Skript auf der Seite auftaucht.
 
 `tools/lupe.mjs <url> <selektor> <datei>` nimmt einzelne Elemente auf.
 
@@ -76,13 +82,13 @@ aufgefallen.
 ## Aufbau
 
 ```
-src/data/inhalt.ts        Sämtliche Inhalte, zweisprachig, mit Quellenangabe je Zahl
-src/data/graph.json       Ausschnitt des Wissensgraphen, Layout vorberechnet
+src/data/inhalt.ts        Sämtliche Inhalte, zweisprachig
+src/data/bilder.json      Manifest der vorberechneten Bilder (aus tools/bilder.mjs)
 src/styles/protokoll.css  Das Gestaltungssystem
 src/components/           Die Seite
 public/dokumente/         Lebenslauf und geschwärzte Zeugnisse
-public/js/protokoll.js    Verhalten (Schalter, Graph, Einblendung)
-tools/                    Prüfwerkzeuge
+public/media/             Vorberechnete WebP-Varianten der Screenshots
+tools/                    Prüf- und Bildwerkzeuge
 ```
 
 ## Regeln für diese Seite
