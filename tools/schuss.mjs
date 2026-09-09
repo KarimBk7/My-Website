@@ -96,11 +96,14 @@ const befund = await page.evaluate((muster) => {
   };
 }, sperrmuster);
 
-// Schalter wirklich bedienen und prüfen, dass sich Werte ändern.
-const vorWert = await page.locator('.messtabelle tbody tr').first().locator('[data-rolle="wert"]').innerText();
-await page.locator('#schalter button[data-stand="vorher"]').click();
-await page.waitForTimeout(200);
-const nachWert = await page.locator('.messtabelle tbody tr').first().locator('[data-rolle="wert"]').innerText();
+// Die Messwerte im Projektblatt M-1: vier Zeilen, jede mit Quelle, und die
+// nicht gemessene Angabe muss als solche markiert sein.
+const messreihen = await page.locator('.messtabelle--kompakt tbody tr').count();
+const ohneQuelle = await page.evaluate(() =>
+  [...document.querySelectorAll('.messtabelle--kompakt tbody tr')]
+    .filter((tr) => !tr.querySelector('.mess-quelle')?.textContent.trim()).length,
+);
+const schematischMarkiert = await page.locator('.messtabelle--kompakt .stufe--offen').count();
 
 // Mobiler Querüberlauf
 const mctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
@@ -119,7 +122,7 @@ await browser.close();
 
 console.log(JSON.stringify({
   befund,
-  schalter: { nachher: vorWert, vorher: nachWert, wechseltWerte: vorWert !== nachWert },
+  messwerte: { zeilen: messreihen, ohneQuelle, schematischMarkiert },
   mobil: mobilUeberlauf,
   konsolenfehler: fehler,
 }, null, 2));

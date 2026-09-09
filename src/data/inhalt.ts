@@ -515,6 +515,11 @@ export const ui: Record<string, S> = {
   pruefer: { de: 'Prüfstellen', en: 'Verified by' },
   sprache: { de: 'Sprache', en: 'Language' },
 
+  performanzTitel: { de: 'Performance-Optimierung', en: 'Performance work' },
+  performanzText: {
+    de: 'Ein großer Teil meiner Arbeit ging in die Performance. Nach dem Stresstest mit 10.000 Zeilen habe ich jede Optimierung einzeln vorher und nachher gemessen; die vier wichtigsten Werte stehen hier. Sie stammen aus der Projektdokumentation, nicht aus der Erinnerung.',
+    en: 'A large part of my work went into performance. After the 10,000-row stress test I measured every optimisation individually, before and after; the four most important values are here. They come from the project documentation, not from memory.',
+  },
   pruefstandTitel: { de: 'Prüfstand', en: 'Test bench' },
   pruefstandText: {
     de: 'Vier Messungen aus Messreihe M-1, jeweils bei 10.000 Zeilen.',

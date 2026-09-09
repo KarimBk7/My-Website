@@ -3,67 +3,9 @@
    kleine Skripte in die Seite ein, und die Content-Security-Policy
    (script-src 'self') verbietet genau das. Extern bleibt die Richtlinie streng. */
 
-/* --- Prüfstand: Wurfschalter ------------------------------------------- */
-const schalter = document.getElementById('schalter');
-if (schalter) {
-  const tabelle = document.querySelector('.messtabelle');
-  const commitFeld = document.getElementById('commit');
-  const commits = { vorher: 'de361dd', nachher: '7c59f7b' };
-  const englisch = document.documentElement.lang === 'en';
-  const gebiet = englisch ? 'en-GB' : 'de-DE';
-  const wortGemessen = englisch ? 'measured' : 'gemessen';
-  const wortSchematisch = englisch ? 'schematic, not measured' : 'schematisch, nicht gemessen';
-  const laenge = (n) => Math.max(2, (Math.log10(n + 1) / Math.log10(10001)) * 100);
-
-  const pruefstand = document.getElementById('pruefstand');
-
-  const setze = (stand) => {
-    schalter.dataset.stand = stand;
-    if (pruefstand) pruefstand.dataset.stand = stand;
-    schalter.querySelectorAll('button').forEach((b) =>
-      b.setAttribute('aria-pressed', String(b.dataset.stand === stand)),
-    );
-    if (commitFeld) commitFeld.textContent = commits[stand];
-
-    tabelle?.querySelectorAll('tbody tr').forEach((tr) => {
-      const roh = tr.dataset[stand];
-      const text = tr.dataset.vorherText;
-      const einheit = tr.dataset.einheit ?? '';
-      const wert = tr.querySelector('[data-rolle="wert"]');
-      const balken = tr.querySelector('[data-rolle="balken"]');
-      const stufe = tr.querySelector('[data-rolle="stufe"]');
-      const schematisch = stand === 'vorher' && !roh && !!text;
-
-      if (schematisch) {
-        wert.innerHTML = '<span style="font-size:.62em"></span>';
-        wert.firstChild.textContent = text;
-        balken.style.setProperty('--f', '1');
-        balken.dataset.schematisch = 'true';
-      } else {
-        const n = Number(roh);
-        wert.textContent = n.toLocaleString(gebiet);
-        if (einheit) {
-          const e = document.createElement('span');
-          e.className = 'mess-einheit';
-          e.textContent = einheit;
-          wert.appendChild(e);
-        }
-        balken.style.setProperty('--f', String(laenge(n) / 100));
-        balken.dataset.schematisch = 'false';
-      }
-      stufe.dataset.schematisch = String(schematisch);
-      stufe.classList.toggle('stufe--offen', schematisch);
-      stufe.lastChild.textContent = schematisch ? wortSchematisch : wortGemessen;
-    });
-  };
-
-  schalter.querySelectorAll('button').forEach((b) =>
-    b.addEventListener('click', () => setze(b.dataset.stand)),
-  );
-}
-
-/* Es gibt bewusst keine Einblendung je Abschnitt. Der eine gestaltete
-   Auftritt ist der Wurf des Schalters und die Werte, die mit ihm springen. */
+/* Der Vorher/Nachher-Schalter ist entfallen: die Messwerte stehen als feste
+   Tabelle im Projektblatt M-1, wo sie hergehören. Es bleibt genau ein
+   interaktives Element auf der Seite, der Wissensgraph. */
 
 /* --- Wissensgraph ------------------------------------------------------- */
 const leinwand = document.getElementById('graph');

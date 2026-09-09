@@ -31,14 +31,6 @@ const bild = (name: string) => {
 };
 
 const zahl = (n: number) => n.toLocaleString(lang === 'de' ? 'de-DE' : 'en-GB');
-/** Logarithmisch, sonst ist die 1 neben der 9600 unsichtbar. */
-const balken = (n: number) => Math.max(2, (Math.log10(n + 1) / Math.log10(10001)) * 100);
-
-/* Spurbild: gleiche logarithmische Skala wie die Balken, damit die 1 neben
-   der 9600 überhaupt eine Position hat. */
-const spurX = (v: number) => 208 + (Math.log10(v + 1) / Math.log10(10001)) * 752;
-const spurTicks = [1, 10, 100, 1000, 10000];
-const spurBahn = (i: number) => 42 + i * 52;
 
 const mailto = `mailto:${person.email}?subject=${encodeURIComponent(t(ui.mailBetreff))}`;
 const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto GmbH', 'LUM GmbH'];
@@ -96,120 +88,6 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
 </div>
 
 <main id="inhalt" class="faden">
-  <!-- ------------------------------------------------------- Prüfstand -->
-  <section class="abschnitt huelle" aria-labelledby="h-pruefstand">
-    <div class="stapel" style="--l:1.5rem">
-      <h2 class="titel-abschnitt" id="h-pruefstand">{t(ui.pruefstandTitel)}</h2>
-      <p class="fliess">{t(ui.pruefstandText)}</p>
-
-      <div class="pruefstand" id="pruefstand" data-stand="nachher">
-        <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between">
-          <div class="schalter" id="schalter" data-stand="nachher">
-            <span class="schalter__wurf" aria-hidden="true"></span>
-            <button type="button" data-stand="vorher" aria-pressed="false">{t(pruefstand.stufen.vorher)}</button>
-            <button type="button" data-stand="nachher" aria-pressed="true">{t(pruefstand.stufen.nachher)}</button>
-          </div>
-          <p class="messwert" style="margin:0;font-size:.8125rem;color:var(--tinte-3)">
-            {t(ui.standCommit)} <span id="commit">{pruefstand.commits.nachher}</span>
-            · {t(pruefstand.last)}
-          </p>
-        </div>
-
-        {/* Warum zwei Stellungen und kein Regler. Der Satz ist der Beleg dafuer,
-            dass die Beschraenkung Absicht ist und keine Bequemlichkeit. */}
-        <p class="fliess" style="margin:0;font-size:.9375rem;max-width:62ch">{t(ui.schalterGrund)}</p>
-
-        <figure class="spur">
-          <svg viewBox="0 0 1000 268" role="img"
-            aria-label={lang === 'de'
-              ? 'Vergleich beider Stände auf logarithmischer Skala: P-01 5051 auf 148 Millisekunden, P-02 5000 auf 600 Millisekunden, P-03 mehrere Minuten auf 283 Millisekunden, P-04 9600 auf 1 Ereignis.'
-              : 'Both states compared on a logarithmic scale: P-01 5051 to 148 milliseconds, P-02 5000 to 600 milliseconds, P-03 several minutes to 283 milliseconds, P-04 9600 to 1 event.'}>
-            {spurTicks.map((tk) => (
-              <>
-                <line class="netz" x1={spurX(tk)} y1="20" x2={spurX(tk)} y2="228" />
-                <text class="achse" x={spurX(tk)} y="252" text-anchor="middle">{zahl(tk)}</text>
-              </>
-            ))}
-            {pruefstand.zeilen.map((z, i) => {
-              const y = spurBahn(i);
-              const xn = spurX(z.nachher);
-              return (
-                <>
-                  {/* Die Einheit gehoert an die Bahn: P-04 zaehlt Ereignisse,
-                      die uebrigen messen Millisekunden. Eine gemeinsame Skala
-                      ohne Einheit waere auf dieser Seite der schlimmste Fehler. */}
-                  <text class="marke" x="0" y={y + 7}>{z.nr}</text>
-                  <text class="marke einheit" x="82" y={y + 7}>{t(z.achse)}</text>
-                  {z.vorher === null ? (
-                    <>
-                      <line class="offen" x1={xn} y1={y} x2="948" y2={y} />
-                      <path class="offen-marke" d={`M948 ${y - 7} L968 ${y} L948 ${y + 7} Z`} />
-                    </>
-                  ) : (
-                    <>
-                      <line class="zug" x1={xn} y1={y} x2={spurX(z.vorher)} y2={y} />
-                      <circle class="vorher" cx={spurX(z.vorher)} cy={y} r="8" />
-                    </>
-                  )}
-                  <circle class="nachher" cx={xn} cy={y} r="8" />
-                </>
-              );
-            })}
-          </svg>
-        </figure>
-        <p class="graph-hinweis">{t(ui.spurHinweis)}</p>
-
-        <table class="messtabelle">
-          <caption class="nur-sr">{t(ui.pruefstandTitel)}</caption>
-          <thead>
-            <tr>
-              <th scope="col" class="feld-name">{t(ui.pruefpunkt)}</th>
-              <th scope="col" class="feld-name">&nbsp;</th>
-              <th scope="col" class="feld-name">{t(ui.istwert)}</th>
-              <th scope="col" class="feld-name">{t(ui.quelle)}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pruefstand.zeilen.map((z) => {
-              const schematisch = z.vorher === null;
-              return (
-                <tr
-                  data-vorher={z.vorher ?? ''}
-                  data-vorher-text={schematisch ? t(z.vorherText!) : ''}
-                  data-nachher={z.nachher}
-                  data-einheit={z.einheit}
-                >
-                  <td class="mess-nr">{z.nr}</td>
-                  <td>
-                    <div>{t(z.label)}</div>
-                    {z.faktor && (
-                      <div class="messwert" style="font-size:.75rem;color:var(--gruen);margin-top:.2rem">
-                        {t(ui.faktor)} {z.faktor}
-                      </div>
-                    )}
-                  </td>
-                  <td>
-                    <span class="mess-wert" data-rolle="wert">
-                      {zahl(z.nachher)}{z.einheit && <span class="mess-einheit">{z.einheit}</span>}
-                    </span>
-                    <span class="balken" data-rolle="balken" style={`--f:${(balken(z.nachher) / 100).toFixed(4)}`}></span>
-                    <span class="stufe" data-rolle="stufe" style="margin-top:.5rem" data-schematisch={schematisch ? 'true' : 'false'}>
-                      <svg width="9" height="9" viewBox="0 0 9 9" aria-hidden="true">
-                        <path d="M1 4.8 3.4 7.2 8 1.6" fill="none" stroke="currentColor" stroke-width="1.6" />
-                      </svg>
-                      {t(ui.gemessen)}
-                    </span>
-                  </td>
-                  <td class="mess-quelle">{z.quelle}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
   <!-- ------------------------------------------- Stammdaten / Stationen -->
   <section class="abschnitt huelle" aria-labelledby="h-stamm">
     <div class="spalten-2">
@@ -306,6 +184,48 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* Die Messwerte sitzen dort, wo sie hingehören: im Projekt, aus dem
+            sie stammen. Kurz gehalten — es geht darum zu zeigen, dass die
+            Optimierung stattgefunden hat und belegbar ist. */}
+        {p.id === 'spesenkonfigurator' && (
+          <div class="stapel" style="--l:.75rem">
+            <h3 class="feld-name">{t(ui.performanzTitel)}</h3>
+            <p class="fliess" style="margin:0">{t(ui.performanzText)}</p>
+            <table class="messtabelle messtabelle--kompakt">
+              <thead>
+                <tr>
+                  <th scope="col" class="feld-name">{t(ui.pruefpunkt)}</th>
+                  <th scope="col" class="feld-name">{t(pruefstand.stufen.vorher)}</th>
+                  <th scope="col" class="feld-name">{t(pruefstand.stufen.nachher)}</th>
+                  <th scope="col" class="feld-name">{t(ui.quelle)}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pruefstand.zeilen.map((z) => (
+                  <tr>
+                    <td>
+                      {t(z.label)}
+                      <div class="mess-quelle" style="margin-top:.15rem">{t(pruefstand.last)}</div>
+                    </td>
+                    <td class="messwert">
+                      {z.vorher === null ? (
+                        <span class="stufe stufe--offen">{t(z.vorherText!)}</span>
+                      ) : (
+                        <>{zahl(z.vorher)}{z.einheit && <span class="mess-einheit">{z.einheit}</span>}</>
+                      )}
+                    </td>
+                    <td class="messwert" style="font-variation-settings:'wght' 620">
+                      {zahl(z.nachher)}{z.einheit && <span class="mess-einheit">{z.einheit}</span>}
+                      {z.faktor && <div style="font-size:.75rem;color:var(--gruen);margin-top:.15rem">{t(ui.faktor)} {z.faktor}</div>}
+                    </td>
+                    <td class="mess-quelle">{z.quelle}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
 

@@ -99,8 +99,8 @@ a:hover { text-decoration-color: var(--gruen); }
 
 .abschnitt { padding-block: clamp(3rem, 7vw, 5.5rem); position: relative; }
 .abschnitt + .abschnitt { border-top: var(--spur) solid var(--haar); }
-/* Der Prüfstand muss ohne Scrollen erreichbar sein: er ist der Beleg,
-   nicht die Überschrift darüber. */
+/* Der erste Abschnitt rueckt naeher an den Kopf: der Metadatenstreifen
+   trennt bereits, eine zweite grosse Luft darunter waere doppelt. */
 main > .abschnitt:first-child { padding-top: clamp(1.75rem, 3.2vw, 2.5rem); }
 
 /* --- Typografie ---------------------------------------------------------- */
@@ -235,45 +235,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
 }
 @media (max-width: 40rem) { .gitter-reihe { grid-template-columns: 1fr; gap: 0.15rem; } }
 
-/* --- Prüfstand ----------------------------------------------------------- */
-
-.pruefstand { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.75rem; }
-
-.schalter {
-  display: inline-grid;
-  grid-auto-flow: column;
-  border: var(--spur) solid var(--haar-stark);
-  background: var(--papier-tief);
-  position: relative;
-  isolation: isolate;
-}
-.schalter button {
-  appearance: none;
-  border: 0;
-  background: transparent;
-  font: inherit;
-  font-family: var(--mono);
-  font-size: 0.8125rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 0.62rem 1.5rem;
-  cursor: pointer;
-  color: var(--tinte-2);
-  z-index: 1;
-  transition: color var(--takt) var(--kurve);
-}
-.schalter button[aria-pressed='true'] { color: #fff; }
-.schalter__wurf {
-  position: absolute;
-  z-index: 0;
-  inset-block: 0;
-  left: 0;
-  width: 50%;
-  background: var(--gruen);
-  transition: transform var(--takt) var(--kurve);
-}
-.schalter[data-stand='nachher'] .schalter__wurf { transform: translateX(100%); }
-@media (prefers-reduced-motion: reduce) { .schalter__wurf { transition: none; } }
+/* --- Messtabelle ------------------------------------------------------- */
 
 .messtabelle { width: 100%; border-collapse: collapse; }
 .messtabelle caption { text-align: left; padding-bottom: 0.75rem; }
@@ -290,27 +252,22 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
 .messtabelle tbody tr { transition: background var(--takt) var(--kurve); }
 .messtabelle tbody tr:hover { background: var(--gruen-band); }
 
+/* Kompakte Fassung im Projektblatt: vier Spalten, Vorher und Nachher
+   nebeneinander statt umschaltbar. */
+.messtabelle--kompakt th, .messtabelle--kompakt td { padding: 0.6rem 1rem 0.6rem 0; }
+.messtabelle--kompakt .messwert { font-size: 1.0625rem; white-space: nowrap; }
+@media (max-width: 46rem) {
+  .messtabelle--kompakt, .messtabelle--kompakt tbody, .messtabelle--kompakt tr, .messtabelle--kompakt td { display: block; width: 100%; }
+  .messtabelle--kompakt thead { display: none; }
+  .messtabelle--kompakt tr { padding-block: 0.75rem; border-bottom: var(--spur) solid var(--haar); }
+  .messtabelle--kompakt td { border: 0; padding: 0.15rem 0; }
+}
+
 .mess-nr { font-family: var(--mono); font-size: 0.8125rem; color: var(--tinte-3); width: 4.5rem; }
 .mess-wert { font-family: var(--mono); font-size: clamp(1.15rem, 0.9rem + 1vw, 1.75rem); font-weight: 600; white-space: nowrap; }
 .mess-einheit { font-size: 0.75em; font-weight: 400; color: var(--tinte-3); margin-left: 0.15em; }
 .mess-quelle { font-family: var(--mono); font-size: 0.75rem; color: var(--tinte-3); word-break: break-word; }
 
-/* Balken: Länge auf logarithmischer Skala, sonst verschwindet die 1 ganz.
-   Skaliert statt Breite zu animieren — kein Layout-Durchlauf je Bild. */
-.balken {
-  display: block; height: 6px; width: 100%; background: var(--gruen); margin-top: 0.5rem;
-  transform-origin: left center;
-  transform: scaleX(var(--f, 1));
-  transition: transform var(--takt) var(--kurve);
-}
-.balken[data-schematisch='true'] {
-  background: repeating-linear-gradient(135deg, var(--rot) 0 4px, transparent 4px 8px);
-  outline: var(--spur) solid var(--rot);
-  outline-offset: -1px;
-}
-@media (prefers-reduced-motion: reduce) { .balken { transition: none; } }
-/* Die Schraffur darf nicht mitgestreckt werden, sie steht ohnehin auf voller Länge. */
-.balken[data-schematisch='true'] { transform: none; }
 
 /* Belegstufe. Trägt Text und Muster, nie nur Farbe. */
 .stufe {
@@ -437,9 +394,8 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 
 .stapel > * + * { margin-top: var(--l, 1.25rem); }
 
-/* Der eine gestaltete Auftritt ist der Wurf des Schalters und die Werte, die
-   mit ihm springen. Kein zweiter Auftritt je Abschnitt: eine identische
-   Einblendung auf jedem Abschnitt ist keine Gestaltung, sondern eine Gewohnheit. */
+/* Bewusst ohne Einblendung je Abschnitt: eine identische Animation auf jedem
+   Abschnitt ist keine Gestaltung, sondern eine Gewohnheit. */
 
 /* --- Messwert im Protokollkopf ------------------------------------------ */
 
@@ -462,32 +418,6 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 .kopf-mess .zahl span { font-size: 0.45em; font-weight: 400; margin-left: 0.1em; }
 .kopf-mess .text { color: #cfe0d8; font-size: 0.9375rem; max-width: 30ch; }
 
-/* --- Spurbild: beide Stände gleichzeitig -------------------------------- */
-
-.spur { border: var(--spur) solid var(--haar); background: #fff; padding: 0.9rem 1rem 0.5rem; }
-.spur svg { display: block; width: 100%; height: auto; }
-.spur .netz { stroke: var(--haar); stroke-width: 1; }
-.spur .achse { fill: var(--tinte-3); font-family: var(--mono); font-size: 20px; }
-.spur .marke { fill: var(--tinte-3); font-family: var(--mono); font-size: 21px; }
-.spur .einheit { fill: var(--tinte-2); font-size: 19px; }
-.spur .zug { stroke: var(--haar-stark); stroke-width: 2; }
-.spur .vorher { fill: #fff; stroke: var(--tinte-2); stroke-width: 2.5; }
-.spur .nachher { fill: var(--gruen); stroke: none; }
-.spur .offen { stroke: var(--rot); stroke-width: 2; stroke-dasharray: 7 6; }
-.spur .offen-marke { fill: var(--rot); font-family: var(--mono); font-size: 21px; }
-
-/* Der aktive Stand tritt hervor, der andere bleibt sichtbar: beide Spuren
-   nebeneinander sind der Beleg, nicht eine allein. */
-.pruefstand[data-stand='vorher'] .nachher { opacity: 0.3; }
-.pruefstand[data-stand='vorher'] .vorher { stroke: var(--gruen); stroke-width: 3.5; }
-.pruefstand[data-stand='nachher'] .vorher { opacity: 0.45; }
-/* Nur Deckkraft und Strichfarbe im Uebergang. Die Strichstaerke springt:
-   sie animiert zu lassen bringt optisch fast nichts, und der Detektor liest
-   "stroke-width" als Layout-Eigenschaft. Die Zeile hier zu aendern ist
-   billiger als eine Ausnahmeregel, die spaeter einen echten Fund verdeckt. */
-.spur circle { transition: opacity var(--takt) var(--kurve), stroke var(--takt) var(--kurve); }
-@media (prefers-reduced-motion: reduce) { .spur circle { transition: none; } }
-
 /* --- Kennwerte kompakt (statt der grossen Zahlenreihe) ------------------ */
 
 .kennwerte { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr)); border-top: var(--spur) solid var(--haar); }
@@ -503,6 +433,6 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 
 @media print {
   .kopf, .freigabe { background: #fff; color: #000; }
-  .schalter, .sprachwahl, .sprung { display: none; }
+  .sprachwahl, .sprung { display: none; }
   .abschnitt { padding-block: 1.5rem; break-inside: avoid; }
 }
