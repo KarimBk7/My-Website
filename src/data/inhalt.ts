@@ -433,7 +433,23 @@ export const fremdbefunde = [
 /* ------------------------------------------------------------ Oberfläche */
 
 export const ui: Record<string, S> = {
+  /**
+   * Der Satz unter dem Namen im grünen Kopf. Das Erste, was ein Recruiter
+   * liest. Kurz halten: drei Zeilen sind das Maximum, bevor der Kopf wächst
+   * und der Rest der Seite nach unten rutscht.
+   *
+   * Achtung: `seiteBeschreibung` weiter unten ist ein ZWEITER Text über dich —
+   * der erscheint in Google und in Link-Vorschauen, nicht auf der Seite.
+   * Wenn sich deine Positionierung ändert, gehören beide angepasst.
+   */
+  kopfText: {
+    de: 'Informatikstudent an der FU Berlin. Ich baue Backends, die unter Last messbar schneller werden — und schreibe auf, um wie viel.',
+    en: 'Computer science student at FU Berlin. I build backends that get measurably faster under load — and write down by how much.',
+  },
+
   pruefling: { de: 'Prüfling', en: 'Item under test' },
+  standort: { de: 'Standort', en: 'Location' },
+  standortWert: { de: 'Berlin, Deutschland', en: 'Berlin, Germany' },
   freigegebenFuer: { de: 'Freigegeben für', en: 'Released for' },
   rolle: { de: 'Software Engineering · Backend', en: 'Software Engineering · Backend' },
   kontakt: { de: 'Kontakt aufnehmen', en: 'Get in touch' },

@@ -40,9 +40,7 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
     <div>
       <h1 class="titel-gross">{person.nachname},<br />{person.vorname}</h1>
       <p class="kopf-zeile" style="margin:1.35rem 0 0;color:#d6e5dd;max-width:46ch">
-        {lang === 'de'
-          ? 'Informatikstudent an der FU Berlin. Ich baue Backends, die unter Last messbar schneller werden — und schreibe auf, um wie viel.'
-          : 'Computer science student at FU Berlin. I build backends that get measurably faster under load — and write down by how much.'}
+        {t(ui.kopfText)}
       </p>
     </div>
 
@@ -330,8 +328,8 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
           <a href={person.githubUrl} rel="me noopener">github.com/{person.github}</a>
         </div>
         <div class="gitter-reihe" style="border-bottom-color:rgba(255,255,255,.25)">
-          <span class="feld-name">{lang === 'de' ? 'Standort' : 'Location'}</span>
-          <span>Berlin, {lang === 'de' ? 'Deutschland' : 'Germany'}</span>
+          <span class="feld-name">{t(ui.standort)}</span>
+          <span>{t(ui.standortWert)}</span>
         </div>
         <div class="gitter-reihe" style="border-bottom-color:rgba(255,255,255,.25)">
           <span class="feld-name">{t(ui.stand)}</span>
