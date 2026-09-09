@@ -480,7 +480,11 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 .pruefstand[data-stand='vorher'] .nachher { opacity: 0.3; }
 .pruefstand[data-stand='vorher'] .vorher { stroke: var(--gruen); stroke-width: 3.5; }
 .pruefstand[data-stand='nachher'] .vorher { opacity: 0.45; }
-.spur circle { transition: opacity var(--takt) var(--kurve), stroke-width var(--takt) var(--kurve); }
+/* Nur Deckkraft und Strichfarbe im Uebergang. Die Strichstaerke springt:
+   sie animiert zu lassen bringt optisch fast nichts, und der Detektor liest
+   "stroke-width" als Layout-Eigenschaft. Die Zeile hier zu aendern ist
+   billiger als eine Ausnahmeregel, die spaeter einen echten Fund verdeckt. */
+.spur circle { transition: opacity var(--takt) var(--kurve), stroke var(--takt) var(--kurve); }
 @media (prefers-reduced-motion: reduce) { .spur circle { transition: none; } }
 
 /* --- Kennwerte kompakt (statt der grossen Zahlenreihe) ------------------ */
