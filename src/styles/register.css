@@ -158,7 +158,11 @@ h2[id] { scroll-margin-top: 1.5rem; }
 
 .kopf .titel-gross { animation: einfahren 0.75s var(--kurve) both; }
 .kopf .kopf-zeile  { animation: einfahren 0.7s var(--kurve) 0.14s both; }
-.kopf .stempel     { animation: stempeln 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.15) 0.32s both; }
+/* Der Ueberschwung steckt schon in den Keyframes (1,1 -> 0,99 -> 1), also
+   das Aufsetzen und Nachfedern eines Gummistempels. Die Kurve selbst federt
+   deshalb NICHT mit: zwei Ueberschwuenge uebereinander wirken gummiartig.
+   Gleichmaessiges Auslaufen wie ueberall sonst auf der Seite. */
+.kopf .stempel     { animation: stempeln 0.6s var(--kurve) 0.32s both; }
 .kopf .knopf       { animation: einfahren 0.6s var(--kurve) 0.5s both; }
 
 .streifen { position: relative; }
