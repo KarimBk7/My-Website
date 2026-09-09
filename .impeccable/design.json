@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-09T19:16:43.324Z",
+  "generatedAt": "2026-09-09T00:00:00.000Z",
   "title": "Design System: Prüfprotokoll — Bakir",
   "extensions": {
     "colorMeta": {
@@ -230,15 +230,15 @@
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Running prose in ink 2, capped at 68ch; 0.9375rem / 62ch for secondary prose."
+        "purpose": "Running prose in ink 2, capped at 68ch; 0.9375rem for secondary prose."
       },
       "label": {
         "displayName": "Field Label",
-        "purpose": "Mono uppercase field names beside their values, table column heads, sub-block captions. Never above a heading."
+        "purpose": "Mono uppercase field names beside their values, table column heads, sub-block captions. Never above a heading; the most-repeated class in the shipped page."
       },
       "metric": {
         "displayName": "Metric",
-        "purpose": "Numbers in the wide metric row, over a 0.9375rem label and a 0.8125rem source line."
+        "purpose": "Numbers in the wide metric row, over a 0.9375rem label and a 0.8125rem source line. Used once in the shipped page."
       },
       "measure": {
         "displayName": "Measured Value",
@@ -246,7 +246,7 @@
       },
       "citation": {
         "displayName": "Citation",
-        "purpose": "Source names, tags, sheet number, graph hint/legend/status, language picker."
+        "purpose": "Source names, tags, sheet number, metadata-strip values, language picker."
       }
     },
     "shadows": [],
@@ -274,12 +274,12 @@
       {
         "name": "skip-link",
         "value": "transform: translateY(-120%) → 0",
-        "purpose": "The skip link sliding in on focus."
+        "purpose": "The skip link sliding in on focus. The third and last transition in the stylesheet."
       },
       {
         "name": "reduced-motion",
-        "value": "@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto } }",
-        "purpose": "Currently gates smooth scrolling only; any new transition must be added to this query."
+        "value": "@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto } *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important } }",
+        "purpose": "A deliberate blanket rather than per-rule gating: one forgotten transition would void the promise, and that had already happened here once. Any new motion inherits the guarantee."
       }
     ],
     "breakpoints": [
@@ -310,7 +310,7 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "The contact and release action; paper stamp sitting inside a green band.",
+      "description": "The contact and release action; paper stamp sitting inside a green band. An anchor, not a button element.",
       "html": "<a class=\"ds-btn-primary\" href=\"#\">Kontakt aufnehmen<svg width=\"15\" height=\"15\" viewBox=\"0 0 15 15\" fill=\"none\" aria-hidden=\"true\"><path d=\"M2 7.5h11M8.5 3l4.5 4.5L8.5 12\" stroke=\"currentColor\" stroke-width=\"1.8\"/></svg></a>",
       "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 0.6rem; background: var(--papier, #f6f6f3); color: var(--gruen-tief, #164734); border: 0; border-radius: 0; padding: 0.8rem 1.35rem; font-family: \"Archivo Variable\", system-ui, sans-serif; font-variation-settings: 'wdth' 104, 'wght' 640; text-decoration: none; cursor: pointer; transition: transform 0.34s cubic-bezier(0.16,1,0.3,1), background 0.34s cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { background: #fff; transform: translateY(-2px); } .ds-btn-primary:active { transform: translateY(0); } .ds-btn-primary:focus-visible { outline: 2px solid var(--gruen, #1d5c44); outline-offset: 2px; border-radius: 0; }"
     },
@@ -326,7 +326,7 @@
       "name": "Evidence Chip",
       "kind": "chip",
       "refersTo": "chip-verified",
-      "description": "Marks the evidence level of a value. Green is the base state; the schematic variant is what the shipped page renders, always carrying its own text label.",
+      "description": "Marks the evidence level of a value. Green is the base state; the schematic variant is the only instance the shipped page renders, and it always carries its own text label.",
       "html": "<span class=\"ds-chip\">gemessen</span> <span class=\"ds-chip ds-chip--offen\">schematisch</span>",
       "css": ".ds-chip { display: inline-flex; align-items: center; gap: 0.4rem; font-family: \"Spline Sans Mono Variable\", ui-monospace, monospace; font-size: 0.6875rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.2rem 0.5rem; border: 1px solid var(--gruen-linie, #a9c2b6); background: var(--gruen-band, #e6ede9); color: var(--gruen-tief, #164734); white-space: nowrap; border-radius: 0; } .ds-chip--offen { border-color: var(--rot, #a3231c); background: var(--rot-band, #f6e9e8); color: var(--rot, #a3231c); }"
     },
@@ -355,6 +355,14 @@
       "css": ".ds-table { width: 100%; border-collapse: collapse; font-family: \"Archivo Variable\", system-ui, sans-serif; font-variant-numeric: tabular-nums; } .ds-table th, .ds-table td { text-align: left; padding: 0.6rem 1rem 0.6rem 0; border-bottom: 1px solid var(--haar, #cdcec8); vertical-align: baseline; } .ds-table thead th { border-bottom: 2px solid var(--tinte, #111318); padding-bottom: 0.5rem; } .ds-table tbody tr { transition: background 0.34s cubic-bezier(0.16,1,0.3,1); } .ds-table tbody tr:hover { background: var(--gruen-band, #e6ede9); } .ds-table .ds-mono { font-family: \"Spline Sans Mono Variable\", ui-monospace, monospace; font-size: 1.0625rem; white-space: nowrap; } .ds-after { font-variation-settings: 'wght' 620; } .ds-unit { font-size: 0.75em; font-weight: 400; color: var(--tinte-3, #6f747c); margin-left: 0.15em; } .ds-faktor { font-size: 0.75rem; color: var(--gruen, #1d5c44); margin-top: 0.15rem; } .ds-src { font-family: \"Spline Sans Mono Variable\", ui-monospace, monospace; font-size: 0.75rem; color: var(--tinte-3, #6f747c); word-break: break-word; } @media (max-width: 46rem) { .ds-table, .ds-table tbody, .ds-table tr, .ds-table td { display: block; width: 100%; } .ds-table thead { display: none; } .ds-table tr { padding-block: 0.75rem; border-bottom: 1px solid var(--haar, #cdcec8); } .ds-table td { border: 0; padding: 0.15rem 0; } }"
     },
     {
+      "name": "Compact Key-Figure Row",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "The denser of the two number rows: value and label on one baseline, the source wrapping to a full-width third line. Carries most of the project sheets.",
+      "html": "<div class=\"ds-kpi\"><div><span class=\"ds-kpi-w\">148 ms</span><span class=\"ds-kpi-l\">Validierung, 10.000 Zeilen</span><span class=\"ds-kpi-s\">Messprotokoll, 2025-11</span></div><div><span class=\"ds-kpi-w\">34×</span><span class=\"ds-kpi-l\">Beschleunigung</span><span class=\"ds-kpi-s\">Vorher/Nachher, gleiche Maschine</span></div></div>",
+      "css": ".ds-kpi { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr)); border-top: 1px solid var(--haar, #cdcec8); font-family: \"Archivo Variable\", system-ui, sans-serif; font-variant-numeric: tabular-nums; } .ds-kpi > div { min-width: 0; padding: 0.7rem 1rem 0.7rem 0; border-bottom: 1px solid var(--haar, #cdcec8); display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.15rem 0.55rem; } .ds-kpi-w { font-family: \"Spline Sans Mono Variable\", ui-monospace, monospace; font-size: 1.0625rem; font-weight: 600; } .ds-kpi-l { font-size: 0.875rem; color: var(--tinte-2, #4a4e55); } .ds-kpi-s { flex-basis: 100%; font-size: 0.8125rem; color: var(--tinte-3, #6f747c); overflow-wrap: anywhere; }"
+    },
+    {
       "name": "Language Picker",
       "kind": "nav",
       "refersTo": null,
@@ -366,37 +374,29 @@
       "name": "Release Stamp",
       "kind": "card",
       "refersTo": "stamp",
-      "description": "The stamped release block in the protocol head: what the record is approved for.",
-      "html": "<div class=\"ds-stamp\"><p class=\"ds-stamp-label\">Freigegeben für</p><p class=\"ds-stamp-value\">Software Engineering · Backend</p></div>",
-      "css": ".ds-stamp { border: 2px solid rgba(255,255,255,0.55); padding: 0.85rem 1.1rem; min-width: 15rem; background: var(--gruen, #1d5c44); border-radius: 0; color: #fff; font-family: \"Archivo Variable\", system-ui, sans-serif; } .ds-stamp-label { margin: 0; font-family: \"Spline Sans Mono Variable\", ui-monospace, monospace; font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: #a8c8ba; font-weight: 500; } .ds-stamp-value { margin: 0.2rem 0 0; font-variation-settings: 'wdth' 104, 'wght' 620; font-size: 1.0625rem; }"
+      "description": "The stamped release block in the protocol head: what the record is approved for. A white-alpha fill that only reads on the green band, so the band is part of the snippet.",
+      "html": "<div class=\"ds-stamp-band\"><div class=\"ds-stamp\"><p class=\"ds-stamp-label\">Freigegeben für</p><p class=\"ds-stamp-value\">Software Engineering · Backend</p></div></div>",
+      "css": ".ds-stamp-band { background: var(--gruen, #1d5c44); padding: 1.25rem; } .ds-stamp { border: 2px solid rgba(255,255,255,0.55); padding: 0.85rem 1.1rem; min-width: 15rem; background: rgba(255,255,255,0.06); border-radius: 0; color: #fff; font-family: \"Archivo Variable\", system-ui, sans-serif; } .ds-stamp-label { margin: 0; font-family: \"Spline Sans Mono Variable\", ui-monospace, monospace; font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: #a8c8ba; font-weight: 500; } .ds-stamp-value { margin: 0.2rem 0 0; font-variation-settings: 'wdth' 104, 'wght' 620; font-size: 1.0625rem; }"
     },
     {
       "name": "Defects Block",
       "kind": "card",
       "refersTo": null,
-      "description": "The one place red appears as a field: what the build does not do, listed under its own title.",
+      "description": "The one place red appears as a field: what the build does not do, listed under its own title with a written warning line.",
       "html": "<div class=\"ds-defects\"><h3 class=\"ds-defects-title\">Offene Mängel</h3><p class=\"ds-defects-note\">Nicht gemessen, nicht behauptet.</p><ul class=\"ds-list\"><li><span></span><span>Kein Lasttest über 10.000 Zeilen hinaus.</span></li></ul></div>",
       "css": ".ds-defects { border: 1px solid var(--rot, #a3231c); background: var(--rot-band, #f6e9e8); padding: clamp(1.1rem, 3vw, 1.75rem); border-radius: 0; font-family: \"Archivo Variable\", system-ui, sans-serif; } .ds-defects-title { margin: 0; font-size: 1.125rem; font-variation-settings: 'wdth' 106, 'wght' 640; line-height: 1.1; } .ds-defects-note { margin: 0.5rem 0 1rem; color: var(--rot, #a3231c); } .ds-list { margin: 0; padding: 0; list-style: none; } .ds-list li { padding-block: 0.5rem; border-bottom: 1px solid rgba(163,35,28,0.25); display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.7rem; align-items: baseline; } .ds-list li span:first-child { width: 0.5rem; height: 1px; background: var(--rot, #a3231c); transform: translateY(-0.32em); }"
-    },
-    {
-      "name": "Graph Status Plate",
-      "kind": "custom",
-      "refersTo": "graph-status",
-      "description": "The readout of the page's single interactive element: a solid green plate pinned to the canvas frame, collapsing when nothing is selected.",
-      "html": "<div class=\"ds-graph\"><canvas tabindex=\"0\" role=\"img\" aria-label=\"Wissensgraph\"></canvas><p class=\"ds-graph-status\">Scheduler — Projektron · 14</p></div>",
-      "css": ".ds-graph { border: 1px solid var(--haar-stark, #a9aaa3); background: #fff; position: relative; border-radius: 0; } .ds-graph canvas { display: block; width: 100%; height: 160px; touch-action: pan-y; cursor: crosshair; } .ds-graph canvas:focus-visible { outline: 2px solid var(--gruen, #1d5c44); outline-offset: -2px; } .ds-graph-status { position: absolute; left: 0; bottom: 0; margin: 0; font-family: \"Spline Sans Mono Variable\", ui-monospace, monospace; font-size: 0.75rem; background: var(--gruen, #1d5c44); color: #fff; padding: 0.3rem 0.6rem; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .ds-graph-status:empty { display: none; }"
     }
   ],
   "narrative": {
     "northStar": "The Acceptance Protocol",
-    "overview": "The page is a German acceptance-and-measurement record (Prüfprotokoll) rendered for the screen. Its personality is that of a signed inspection document: cool paper ground, hairline rules, right angles, and a measured value standing where a portrait would normally stand. Nothing is asserted without a number and a named source beside it, and the visual system exists to make that pairing legible at a glance — the number in mono, its provenance in a smaller mono line directly beside or beneath it.\n\nDensity is chosen over whitespace. Rows sit close, tables and field grids carry hairline dividers rather than gaps, and sections are separated by a single 1px rule instead of empty space. One continuous vertical hairline threads the whole main column, so scrolling reads as running down a form rather than paging through cards. The page is committed to light (color-scheme: light), chosen from the use scene — a recruiter, mid-morning, in an office or on a train — not from category habit.\n\nThe page is quiet. It carries no authored motion sequence: the shipped stylesheet holds three transitions, all of them hover or focus responses, and nothing enters, reveals or animates on scroll. Proof is delivered by static, comparable numbers rather than by a performance. The one interactive surface is the knowledge-graph canvas, and its answer is an instant redraw plus a text readout, not an animation.\n\nThe build refuses two arrangements the category ships by default: the dark-mode developer hero with gradient and \"Hi, I'm …\", and the whitespace-and-huge-grotesk minimal portfolio. It also carries zero shadows and zero rounded containers: the only radius in the shipped CSS is the 50% dot in the graph legend.",
+    "overview": "The page is a German acceptance-and-measurement record (Prüfprotokoll) rendered for the screen. Its personality is that of a signed inspection document: cool paper ground, hairline rules, right angles, and a measured value standing where a portrait would normally stand. Nothing is asserted without a number and a named source beside it, and the visual system exists to make that pairing legible at a glance — the number in mono, its provenance in a smaller mono line directly beside or beneath it.\n\nDensity is chosen over whitespace. Rows sit close, tables and field grids carry hairline dividers rather than gaps, and sections are separated by a single 1px rule instead of empty space. One continuous vertical hairline threads the whole main column, so scrolling reads as running down a form rather than paging through cards. The page is committed to light (color-scheme: light), chosen from the use scene — a recruiter, mid-morning, in an office or on a train — not from category habit.\n\nThe page is not merely quiet; it is inert. The shipped build loads no JavaScript at all: the only <script> element in the German homepage is application/ld+json, which is data, not code. There is no button, canvas, input, form, details or tabindex anywhere in the markup — every control on the page is a link. Proof is delivered by static, comparable numbers rather than by a performance, and the reader's whole interaction is scrolling and following links. The German homepage ships at roughly 42 KB. Two records now describe a page that no longer exists: the surface direction contract at .impeccable/surfaces/src-pages-index-astro.md still specifies a first viewport built on a load slider and a two-trace curve, with raises referencing a live control and an illuminated active state, and PRODUCT.md's Positioning still claims the site documents how he works with AI coding agents. Neither is in the build. The build is the record; both of those are stale and were left unedited.\n\nThe build refuses two arrangements the category ships by default: the dark-mode developer hero with gradient and \"Hi, I'm …\", and the whitespace-and-huge-grotesk minimal portfolio. It also carries zero shadows and zero rounded containers: border-radius: 0 appears exactly once in the shipped CSS, on the focus ring, and no other radius value exists anywhere.",
     "keyCharacteristics": [
       "Cool protocol paper with near-black ink; committed to light, no dark mode.",
       "Inspection green in full-bleed bands; stamp red used only semantically.",
-      "Hairline rules at 1px; right angles only; no shadows, no rounded cards.",
+      "Hairline rules at 1px; right angles only, without exception; no shadows, no rounded cards.",
       "Archivo (wght + wdth) for text, Spline Sans Mono for every measured value, protocol number and field label.",
       "Tabular numerals globally; numbers are meant to be compared down a column.",
-      "No authored motion beyond hover and focus transitions; no entrance animation anywhere."
+      "Zero JavaScript and zero interactive elements; motion is three hover/focus transitions and nothing else."
     ],
     "rules": [
       {
@@ -411,7 +411,7 @@
       },
       {
         "name": "The Never-By-Hue-Alone Rule",
-        "body": "Every state carries its own words. The schematic value renders as a chip whose label spells the state out, inside a 1px red border on red wash; the defects block is titled and its warning line is written, not merely coloured; the graph's red cluster is named in the legend beside its dot. Removing colour must not remove meaning — a red fill with no words in it is not a state.",
+        "body": "Every state carries its own words. The schematic value renders as a chip whose label spells the state out, inside a 1px red border on red wash; the defects block is titled and its warning line is written, not merely coloured. Removing colour must not remove meaning — a red fill with no words in it is not a state.",
         "section": "colors"
       },
       {
@@ -455,8 +455,18 @@
         "section": "components"
       },
       {
-        "name": "The External-Script Rule",
-        "body": "Behaviour lives in public/js/protokoll.js, loaded as a module src with is:inline. The shipped CSP in public/_headers sets script-src 'self' and Astro inlines small component scripts; moving this code into a component <script> breaks the page in production only.",
+        "name": "The Reduced-Motion-Blanket Rule",
+        "body": "One global @media (prefers-reduced-motion: reduce) block sets scroll-behavior: auto and collapses every animation and transition duration to 0.01ms on *, *::before and *::after. The blanket is deliberate rather than rule-by-rule: one forgotten transition voids the promise, and that had already happened here once. New motion inherits the guarantee automatically.",
+        "section": "components"
+      },
+      {
+        "name": "The No-Script Rule",
+        "body": "The page ships zero JavaScript, and every state it shows is reachable through semantic HTML and CSS alone. Behaviour is not the default answer on this surface; if something can be a link, a table, a srcset or a print stylesheet, it is one.",
+        "section": "components"
+      },
+      {
+        "name": "The External-Script Rule (forward-looking)",
+        "body": "If behaviour is ever added, it must load as an external file under public/ via a module src with is:inline — never as a component <script>. public/_headers sets script-src 'self' with no unsafe-inline, and Astro inlines small component scripts, so an inlined script is silently blocked in production while every local check stays green. This rule constrains the next script; it does not describe the present build, which loads none.",
         "section": "components"
       },
       {
@@ -475,17 +485,18 @@
       "Do keep new work light; color-scheme: light is a decision taken from the use scene.",
       "Do put a measurement in the sheet it came from, in as few columns as it needs.",
       "Do stack a table into blocks below 46rem rather than shrinking or truncating its values.",
-      "Do gate any new transition behind @media (prefers-reduced-motion: reduce), as scroll-behavior already is.",
-      "Do give any interactive surface a keyboard path and a text readout, as the graph canvas has."
+      "Do reach for semantic HTML and CSS before script; the page currently needs none.",
+      "Do give any surface added later a keyboard path and a visible focus ring, as every link on the page has."
     ],
     "donts": [
       "Don't add box-shadow in any form; this system has none.",
-      "Don't round corners. border-radius: 0 everywhere except the legend dot.",
+      "Don't round corners. border-radius: 0, with no exception anywhere in the build.",
       "Don't float a label or eyebrow above a heading; labels belong beside their value in the field grid.",
       "Don't introduce a third hue, or use red for emphasis, hover or decoration.",
       "Don't let colour alone carry a state: pair it with a text label.",
       "Don't animate width or height, and don't add per-section entrance animations.",
-      "Don't move behaviour into a component <script>; the shipped CSP forbids inline script.",
+      "Don't put behaviour in a component <script>; the shipped CSP forbids inline script.",
+      "Don't replace the global reduced-motion block with per-rule gates.",
       "Don't route images through astro:assets or <Image>; use the pre-generated manifest.",
       "Don't publish a postal address, phone number or matriculation number, or republish a client's corporate identity assets, in the artifact or any file it serves."
     ]

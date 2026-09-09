@@ -13,6 +13,8 @@
 /dokumente/*
   Cache-Control: public, max-age=86400
 
-# Traegt keinen Inhalts-Hash im Namen, deshalb kurz und mit Rueckfrage.
-/js/*
-  Cache-Control: public, max-age=3600, must-revalidate
+# Die Seite laedt kein JavaScript. Falls je wieder Verhalten dazukommt, gehoert
+# es in eine eigene Datei unter public/ -- die Richtlinie oben verbietet
+# eingebettete Skripte, und Astro bettet kleine Skripte von sich aus ein.
+# Dann hier eine kurze Cache-Regel mit Rueckfrage ergaenzen, denn ein
+# Dateiname ohne Inhalts-Hash darf nicht dauerhaft im Cache stehen.
