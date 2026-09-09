@@ -15,5 +15,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }

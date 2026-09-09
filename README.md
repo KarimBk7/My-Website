@@ -42,13 +42,26 @@ das zurückbaut, bricht die Seite in Produktion, ohne es lokal zu merken.
    - Framework preset: **Astro**
    - Build command: `npm run build`
    - Build output directory: `dist`
-   - Node-Version: 20 oder neuer (Umgebungsvariable `NODE_VERSION=22`)
+   - Umgebungsvariable **`NODE_VERSION` = `22.16.0`**
 3. Speichern und ausrollen. Jeder Push auf `main` löst einen neuen Build aus.
 
-Eigene Domain: **Custom domains** → Domain hinzufügen. Danach in
-`astro.config.mjs` das Feld `site`, in `public/robots.txt` und in
-`public/sitemap.xml` die Adresse anpassen — dort steht bis dahin die
-`pages.dev`-Vorgabe.
+Die Node-Version ist nicht optional: Astro 7 verlangt mindestens 22.12.0
+(siehe `engines` in der `package.json`). Cloudflare wählt ohne Vorgabe eine
+ältere Version, und der Build bricht ab.
+
+Danach die Adresse eintragen. An drei Stellen steht bis dahin die Vorgabe
+`https://my-website.pages.dev`, die zum tatsächlichen Projektnamen oder zur
+eigenen Domain passen muss:
+
+- `astro.config.mjs` → `site`
+- `public/robots.txt` → `Sitemap:`
+- `public/sitemap.xml` → alle `loc` und `hreflang`
+
+Stimmt sie nicht, zeigen Canonical-Links, hreflang und Sitemap auf eine
+Adresse, die es nicht gibt. Sichtbar ist das nicht, für Suchmaschinen schon.
+
+Eigene Domain: **Custom domains** → Domain hinzufügen, dann dieselben drei
+Stellen erneut anpassen.
 
 ## Aufbau
 
