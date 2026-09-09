@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://my-website.pages.dev/sitemap.xml
+Sitemap: https://my-website.abdilkarimb.workers.dev/sitemap.xml

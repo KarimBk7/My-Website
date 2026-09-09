@@ -2,15 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://my-website.pages.dev/</loc>
-    <xhtml:link rel="alternate" hreflang="de" href="https://my-website.pages.dev/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://my-website.pages.dev/en/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://my-website.pages.dev/"/>
+    <loc>https://my-website.abdilkarimb.workers.dev/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://my-website.abdilkarimb.workers.dev/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://my-website.abdilkarimb.workers.dev/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://my-website.abdilkarimb.workers.dev/"/>
   </url>
   <url>
-    <loc>https://my-website.pages.dev/en/</loc>
-    <xhtml:link rel="alternate" hreflang="de" href="https://my-website.pages.dev/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://my-website.pages.dev/en/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://my-website.pages.dev/"/>
+    <loc>https://my-website.abdilkarimb.workers.dev/en/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://my-website.abdilkarimb.workers.dev/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://my-website.abdilkarimb.workers.dev/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://my-website.abdilkarimb.workers.dev/"/>
   </url>
 </urlset>
