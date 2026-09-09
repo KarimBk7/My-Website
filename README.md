@@ -73,6 +73,23 @@ tools/                    Prüfwerkzeuge
 - Die Corporate-Identity-Dateien der Projektron GmbH gehören dem Kunden und
   werden hier nicht veröffentlicht.
 
+## Offene Baustelle
+
+`src/components/Protokoll.astro` enthält 59 Inline-`style`-Attribute mit fest
+eingetragenen Schriftgrößen und Farben. Sie umgehen die Token-Ebene aus
+`src/styles/protokoll.css` und `DESIGN.md`. Der Detektor meldet das als
+54 beratende Befunde:
+
+```bash
+"…/impeccable" detect --json src/components/Protokoll.astro src/styles/protokoll.css
+```
+
+Sichtbar ist davon nichts — die Werte stimmen, sie stehen nur am falschen Ort.
+Wer die Seite weiterbaut, sollte die wiederkehrenden Werte (0.75/0.8125/0.9375
+rem, die halbtransparenten Weißtöne auf den grünen Bändern) als benannte Token
+ins Stylesheet holen und die Inline-Angaben ersetzen. Das ist ein eigener
+Durchgang mit eigener Prüfung, kein Nebenbei-Umbau.
+
 ## Quellenunterlagen
 
 Liegen in `.myFilesAndProjects/` und sind bewusst nicht im Repository.
