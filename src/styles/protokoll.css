@@ -359,8 +359,8 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 
 .landkarte { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr)); gap: 1px; background: var(--haar); border: var(--spur) solid var(--haar); }
 .landkarte > div { background: var(--papier); padding: 1rem; }
-.landkarte h4 { font-size: 0.9375rem; display: flex; justify-content: space-between; gap: 0.5rem; align-items: baseline; }
-.landkarte h4 span { font-family: var(--mono); font-size: 0.75rem; color: var(--tinte-3); }
+.landkarte h5 { font-size: 0.9375rem; display: flex; justify-content: space-between; gap: 0.5rem; align-items: baseline; }
+.landkarte h5 span { font-family: var(--mono); font-size: 0.75rem; color: var(--tinte-3); }
 .landkarte ul { margin: 0.7rem 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.3rem; }
 .landkarte li { font-family: var(--mono); font-size: 0.6875rem; border: var(--spur) solid var(--haar-stark); padding: 0.15rem 0.4rem; color: var(--tinte-2); }
 

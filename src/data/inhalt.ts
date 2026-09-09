@@ -490,6 +490,15 @@ export const ui: Record<string, S> = {
   standort: { de: 'Standort', en: 'Location' },
   standortWert: { de: 'Berlin, Deutschland', en: 'Berlin, Germany' },
 
+  /* Sammelüberschrift über den drei Projektblättern. Sie ist auch das
+     Sprungziel des Elternknotens im Inhaltsverzeichnis — ein Eintrag, der
+     nirgendwohin führt, wäre dort der einzige tote Punkt. */
+  projekteTitel: { de: 'Projekte', en: 'Projects' },
+  projekteText: {
+    de: 'Drei Arbeiten, je ein Blatt: eine Auftragsentwicklung für ein Softwareunternehmen, ein von Grund auf selbst gebautes Spiel ohne fertige Engine und ein über anderthalb Jahre gepflegtes Lernrepository.',
+    en: 'Three pieces of work, one sheet each: a contract development for a software company, a game built from scratch without an engine, and a learning repository maintained over eighteen months.',
+  },
+
   /* Inhaltsverzeichnis in der linken Spalte */
   register: { de: 'Inhalt', en: 'Contents' },
   registerAuf: { de: 'Inhaltsverzeichnis einblenden', en: 'Show contents' },

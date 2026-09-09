@@ -42,12 +42,19 @@ const kennzahl = (s: string) => {
 const mailto = `mailto:${person.email}?subject=${encodeURIComponent(t(ui.mailBetreff))}`;
 const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto GmbH', 'LUM GmbH'];
 
-/* Das Inhaltsverzeichnis. Die Sprungziele sind die Ueberschriften. */
-const eintraege: { id: string; label: string; nr?: string }[] = [
+/* Das Inhaltsverzeichnis. Jedes Sprungziel ist eine echte Ueberschrift auf
+   der Seite, auch der Elternknoten "Projekte" -- ein Eintrag, der nirgendwohin
+   fuehrt, waere der einzige tote Punkt in der Liste. */
+type Eintrag = { id: string; label: string; nr?: string; kinder?: Eintrag[] };
+const eintraege: Eintrag[] = [
   { id: 'h-felder', label: t(ui.arbeitsfelderTitel) },
   { id: 'h-stamm', label: t(ui.stammdatenTitel) },
   { id: 'h-stationen', label: t(ui.stationenTitel) },
-  ...projekte.map((p) => ({ id: `h-${p.id}`, label: t(p.titel), nr: p.nr })),
+  {
+    id: 'h-projekte',
+    label: t(ui.projekteTitel),
+    kinder: projekte.map((p) => ({ id: `h-${p.id}`, label: t(p.titel), nr: p.nr })),
+  },
   { id: 'h-befunde', label: t(ui.fremdbefundeTitel) },
   { id: 'h-freigabe', label: t(ui.freigabeTitel) },
 ];
@@ -108,7 +115,21 @@ const eintraege: { id: string; label: string; nr?: string }[] = [
     <nav aria-label={t(ui.register)}>
       <ul>
         {eintraege.map((e) => (
-          <li><a href={`#${e.id}`}><span class="nr">{e.nr ?? ''}</span>{e.label}</a></li>
+          <li class={e.kinder ? 'hat-kinder' : undefined}>
+            <a href={`#${e.id}`} data-eintrag={e.id}>{e.label}</a>
+            {e.kinder && (
+              <ul class="kinder">
+                {e.kinder.map((k) => (
+                  <li>
+                    <a href={`#${k.id}`} data-eintrag={k.id}>
+                      <span class="nr">{k.nr}</span>
+                      <span class="text">{k.label}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
         ))}
       </ul>
     </nav>
@@ -176,13 +197,20 @@ const eintraege: { id: string; label: string; nr?: string }[] = [
       </div>
     </section>
 
-    <!-- ------------------------------------------------------ Messreihen -->
+    <!-- -------------------------------------------------------- Projekte -->
+    <section class="abschnitt huelle" aria-labelledby="h-projekte">
+      <div class="stapel" style="--l:.75rem">
+        <h2 class="titel-abschnitt" id="h-projekte">{t(ui.projekteTitel)}</h2>
+        <p class="fliess">{t(ui.projekteText)}</p>
+      </div>
+    </section>
+
     {projekte.map((p) => (
-      <section class="abschnitt huelle" aria-labelledby={`h-${p.id}`}>
+      <section class="abschnitt huelle blatt" aria-labelledby={`h-${p.id}`}>
         <div class="stapel" style="--l:2rem">
           <div class="blatt-kopf">
             <span class="blatt-nr">{p.nr}</span>
-            <h2 class="titel-blatt" id={`h-${p.id}`}>{t(p.titel)}</h2>
+            <h3 class="titel-blatt" id={`h-${p.id}`}>{t(p.titel)}</h3>
             <p class="fliess" style="margin:0">{t(p.kurz)}</p>
           </div>
 
@@ -197,18 +225,18 @@ const eintraege: { id: string; label: string; nr?: string }[] = [
 
           <div class="spalten-2">
             <div class="stapel" style="--l:.75rem">
-              <h3 class="feld-name">{t(ui.aufgabe)}</h3>
+              <h4 class="feld-name">{t(ui.aufgabe)}</h4>
               <p class="fliess" style="margin:0">{t(p.aufgabe)}</p>
               {'herausforderung' in p && p.herausforderung && (
                 <div style="border-left:1px solid var(--gruen-linie);padding-left:1rem;margin-top:.75rem">
-                  <h4 style="font-size:.9375rem">{t(p.herausforderung.titel)}</h4>
+                  <h5 style="font-size:.9375rem">{t(p.herausforderung.titel)}</h5>
                   <p class="fliess" style="margin:.4rem 0 0;font-size:.9375rem">{t(p.herausforderung.text)}</p>
                 </div>
               )}
             </div>
 
             <div class="stapel" style="--l:.75rem">
-              <h3 class="feld-name">{t(ui.meinBeitrag)}</h3>
+              <h4 class="feld-name">{t(ui.meinBeitrag)}</h4>
               <ul class="liste">
                 {p.beitrag[lang].map((b) => <li class="aufbau"><span></span><span>{b}</span></li>)}
               </ul>
@@ -234,7 +262,7 @@ const eintraege: { id: string; label: string; nr?: string }[] = [
             </div>
           ) : (
             <div class="stapel" style="--l:.6rem">
-              <h3 class="feld-name">{t(ui.kennwerte)}</h3>
+              <h4 class="feld-name">{t(ui.kennwerte)}</h4>
               <div class="kennwerte">
                 {p.kennzahlen.map((k) => {
                   const n = kennzahl(k.wert);
@@ -257,7 +285,7 @@ const eintraege: { id: string; label: string; nr?: string }[] = [
               Optimierung stattgefunden hat und belegbar ist. */}
           {p.id === 'spesenkonfigurator' && (
             <div class="stapel" style="--l:.75rem">
-              <h3 class="feld-name">{t(ui.performanzTitel)}</h3>
+              <h4 class="feld-name">{t(ui.performanzTitel)}</h4>
               <p class="fliess" style="margin:0">{t(ui.performanzText)}</p>
               <table class="messtabelle messtabelle--kompakt">
                 <thead>
@@ -320,7 +348,7 @@ const eintraege: { id: string; label: string; nr?: string }[] = [
 
           {'maengel' in p && p.maengel && (
             <div class="maengel">
-              <h3 class="titel-blatt" style="font-size:1.125rem">{t(p.maengel.titel)}</h3>
+              <h4 class="titel-blatt" style="font-size:1.125rem">{t(p.maengel.titel)}</h4>
               <p class="fliess" style="margin:.5rem 0 1rem;color:var(--rot)">{t(p.maengel.hinweis)}</p>
               <ul class="liste">
                 {p.maengel.punkte[lang].map((m) => <li class="aufbau"><span></span><span>{m}</span></li>)}
@@ -330,11 +358,11 @@ const eintraege: { id: string; label: string; nr?: string }[] = [
 
           {'themen' in p && p.themen && (
             <div class="stapel" style="--l:.75rem">
-              <h3 class="feld-name">{t(ui.themenlandkarte)}</h3>
+              <h4 class="feld-name">{t(ui.themenlandkarte)}</h4>
               <div class="landkarte">
                 {p.themen.map((g) => (
                   <div class="aufbau">
-                    <h4>{t(g.gruppe)} <span>{g.punkte.length}</span></h4>
+                    <h5>{t(g.gruppe)} <span>{g.punkte.length}</span></h5>
                     <ul>{g.punkte.map((x) => <li>{x}</li>)}</ul>
                   </div>
                 ))}
@@ -344,17 +372,17 @@ const eintraege: { id: string; label: string; nr?: string }[] = [
 
           <div class="spalten-2">
             <div class="stapel" style="--l:.6rem">
-              <h3 class="feld-name">{t(ui.werkzeuge)}</h3>
+              <h4 class="feld-name">{t(ui.werkzeuge)}</h4>
               <ul class="marken">{p.stack.map((s) => <li>{s}</li>)}</ul>
             </div>
             <div class="stapel" style="--l:.6rem">
               {'auslieferung' in p && p.auslieferung && (
                 <>
-                  <h3 class="feld-name">{t(ui.auslieferung)}</h3>
+                  <h4 class="feld-name">{t(ui.auslieferung)}</h4>
                   <p class="fliess" style="margin:0;font-size:.9375rem">{t(p.auslieferung)}</p>
                 </>
               )}
-              <h3 class="feld-name">{t(ui.einordnung)}</h3>
+              <h4 class="feld-name">{t(ui.einordnung)}</h4>
               <p class="fliess" style="margin:0;font-size:.9375rem">{t(p.einordnung)}</p>
               {'repo' in p && p.repo && (
                 <p style="margin:0"><a class="messwert" style="font-size:.8125rem" href={p.repo} rel="noopener">{p.repo.replace('https://', '')}</a></p>

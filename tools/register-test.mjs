@@ -47,6 +47,12 @@ const fehler = [];
   ergebnis.aktiverEintrag = await p.evaluate(
     () => document.querySelector('#register a[aria-current="true"]')?.getAttribute('href') ?? null,
   );
+  // Steht ein Projekt im Licht, muss der Elternknoten "Projekte" mitmarkiert
+  // sein -- sonst weiss man beim Scrollen nicht mehr, wo man ist.
+  ergebnis.elternMitmarkiert = await p.evaluate(
+    () => !!document.querySelector('#register .hat-kinder[data-kind-aktiv]'),
+  );
+  await p.locator('#register').screenshot({ path: '.impeccable/review/pruef-register-aktiv.png' });
 
   // Zählwerk: der sichtbare Endstand muss exakt der Zahl aus den Daten
   // entsprechen. Erst zur Zahl scrollen, dann das Auslaufen abwarten.
