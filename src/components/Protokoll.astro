@@ -34,7 +34,7 @@ const balken = (n: number) => Math.max(2, (Math.log10(n + 1) / Math.log10(10001)
 
 /* Spurbild: gleiche logarithmische Skala wie die Balken, damit die 1 neben
    der 9600 überhaupt eine Position hat. */
-const spurX = (v: number) => 110 + (Math.log10(v + 1) / Math.log10(10001)) * 850;
+const spurX = (v: number) => 208 + (Math.log10(v + 1) / Math.log10(10001)) * 752;
 const spurTicks = [1, 10, 100, 1000, 10000];
 const spurBahn = (i: number) => 42 + i * 52;
 
@@ -113,6 +113,10 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
           </p>
         </div>
 
+        {/* Warum zwei Stellungen und kein Regler. Der Satz ist der Beleg dafuer,
+            dass die Beschraenkung Absicht ist und keine Bequemlichkeit. */}
+        <p class="fliess" style="margin:0;font-size:.9375rem;max-width:62ch">{t(ui.schalterGrund)}</p>
+
         <figure class="spur">
           <svg viewBox="0 0 1000 268" role="img"
             aria-label={lang === 'de'
@@ -129,7 +133,11 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
               const xn = spurX(z.nachher);
               return (
                 <>
+                  {/* Die Einheit gehoert an die Bahn: P-04 zaehlt Ereignisse,
+                      die uebrigen messen Millisekunden. Eine gemeinsame Skala
+                      ohne Einheit waere auf dieser Seite der schlimmste Fehler. */}
                   <text class="marke" x="0" y={y + 7}>{z.nr}</text>
+                  <text class="marke einheit" x="82" y={y + 7}>{t(z.achse)}</text>
                   {z.vorher === null ? (
                     <>
                       <line class="offen" x1={xn} y1={y} x2="948" y2={y} />

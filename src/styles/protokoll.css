@@ -469,6 +469,7 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 .spur .netz { stroke: var(--haar); stroke-width: 1; }
 .spur .achse { fill: var(--tinte-3); font-family: var(--mono); font-size: 20px; }
 .spur .marke { fill: var(--tinte-3); font-family: var(--mono); font-size: 21px; }
+.spur .einheit { fill: var(--tinte-2); font-size: 19px; }
 .spur .zug { stroke: var(--haar-stark); stroke-width: 2; }
 .spur .vorher { fill: #fff; stroke: var(--tinte-2); stroke-width: 2.5; }
 .spur .nachher { fill: var(--gruen); stroke: none; }
