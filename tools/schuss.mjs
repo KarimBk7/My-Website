@@ -41,7 +41,7 @@ for (const a of ANSICHTEN) {
   page.on('pageerror', (e) => fehler.push(`[${a.name}] ${e.message}`));
 
   await page.goto(BASIS + a.pfad, { waitUntil: 'networkidle' });
-  await page.evaluate(() => document.querySelectorAll('.einzug').forEach((el) => el.classList.add('da')));
+  // Keine Einblendung mehr zu setzen: die Seite hat keine Abschnittsanimation.
 
   // Bilder tragen loading="lazy" — richtig für echte Besucher, aber eine
   // Ganzseitenaufnahme ohne Scrollen fotografiert sonst leere Rahmen.

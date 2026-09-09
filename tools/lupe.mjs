@@ -7,7 +7,7 @@ const [, , url, selektor, datei, index = '0'] = process.argv;
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 2 });
 await page.goto(url, { waitUntil: 'networkidle' });
-await page.evaluate(() => document.querySelectorAll('.einzug').forEach((e) => e.classList.add('da')));
+
 const el = page.locator(selektor).nth(Number(index));
 await el.scrollIntoViewIfNeeded();
 await page.waitForTimeout(500);

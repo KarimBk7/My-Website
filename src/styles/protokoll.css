@@ -1,4 +1,7 @@
-@import '@fontsource-variable/archivo';
+/* "standard" statt der Vorgabe: nur diese Datei liefert die Breitenachse
+   (font-stretch 62–125 %). Der Standard-Import bringt allein die Gewichtsachse,
+   und jede wdth-Angabe unten liefe ins Leere. */
+@import '@fontsource-variable/archivo/standard.css';
 @import '@fontsource-variable/spline-sans-mono';
 
 /* ==========================================================================
@@ -386,7 +389,9 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 /* --- Graph --------------------------------------------------------------- */
 
 .graph-rahmen { border: var(--spur) solid var(--haar-stark); background: #fff; position: relative; }
-.graph-rahmen canvas { display: block; width: 100%; height: auto; touch-action: pan-y; }
+.graph-rahmen canvas { display: block; width: 100%; height: auto; touch-action: pan-y; cursor: crosshair; }
+.graph-rahmen canvas:focus-visible { outline: 2px solid var(--gruen); outline-offset: -2px; }
+.graph-hinweis { font-family: var(--mono); font-size: 0.75rem; color: var(--tinte-3); margin: 0.5rem 0 0; }
 .graph-status {
   position: absolute; left: 0; bottom: 0; margin: 0;
   font-family: var(--mono); font-size: 0.75rem;
@@ -432,11 +437,64 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 
 .stapel > * + * { margin-top: var(--l, 1.25rem); }
 
-/* Der eine gestaltete Auftritt: Messreihen fahren einmal ein. */
-@media (prefers-reduced-motion: no-preference) {
-  .einzug { opacity: 0; transform: translateY(14px); }
-  .einzug.da { opacity: 1; transform: none; transition: opacity 0.6s var(--kurve), transform 0.6s var(--kurve); }
+/* Der eine gestaltete Auftritt ist der Wurf des Schalters und die Werte, die
+   mit ihm springen. Kein zweiter Auftritt je Abschnitt: eine identische
+   Einblendung auf jedem Abschnitt ist keine Gestaltung, sondern eine Gewohnheit. */
+
+/* --- Messwert im Protokollkopf ------------------------------------------ */
+
+.kopf-mess {
+  margin-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  padding-top: 0.85rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  flex-wrap: wrap;
 }
+.kopf-mess .zahl {
+  font-family: var(--mono);
+  font-size: clamp(2rem, 1.2rem + 2.6vw, 3.1rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.kopf-mess .zahl span { font-size: 0.45em; font-weight: 400; margin-left: 0.1em; }
+.kopf-mess .text { color: #cfe0d8; font-size: 0.9375rem; max-width: 30ch; }
+
+/* --- Spurbild: beide Stände gleichzeitig -------------------------------- */
+
+.spur { border: var(--spur) solid var(--haar); background: #fff; padding: 0.9rem 1rem 0.5rem; }
+.spur svg { display: block; width: 100%; height: auto; }
+.spur .netz { stroke: var(--haar); stroke-width: 1; }
+.spur .achse { fill: var(--tinte-3); font-family: var(--mono); font-size: 20px; }
+.spur .marke { fill: var(--tinte-3); font-family: var(--mono); font-size: 21px; }
+.spur .zug { stroke: var(--haar-stark); stroke-width: 2; }
+.spur .vorher { fill: #fff; stroke: var(--tinte-2); stroke-width: 2.5; }
+.spur .nachher { fill: var(--gruen); stroke: none; }
+.spur .offen { stroke: var(--rot); stroke-width: 2; stroke-dasharray: 7 6; }
+.spur .offen-marke { fill: var(--rot); font-family: var(--mono); font-size: 21px; }
+
+/* Der aktive Stand tritt hervor, der andere bleibt sichtbar: beide Spuren
+   nebeneinander sind der Beleg, nicht eine allein. */
+.pruefstand[data-stand='vorher'] .nachher { opacity: 0.3; }
+.pruefstand[data-stand='vorher'] .vorher { stroke: var(--gruen); stroke-width: 3.5; }
+.pruefstand[data-stand='nachher'] .vorher { opacity: 0.45; }
+.spur circle { transition: opacity var(--takt) var(--kurve), stroke-width var(--takt) var(--kurve); }
+@media (prefers-reduced-motion: reduce) { .spur circle { transition: none; } }
+
+/* --- Kennwerte kompakt (statt der grossen Zahlenreihe) ------------------ */
+
+.kennwerte { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr)); border-top: var(--spur) solid var(--haar); }
+.kennwerte > div {
+  min-width: 0;
+  padding: 0.7rem 1rem 0.7rem 0;
+  border-bottom: var(--spur) solid var(--haar);
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.15rem 0.55rem;
+}
+.kennwerte .w { font-family: var(--mono); font-size: 1.0625rem; font-weight: 600; }
+.kennwerte .l { font-size: 0.875rem; color: var(--tinte-2); }
+.kennwerte .s { flex-basis: 100%; font-size: 0.8125rem; color: var(--tinte-3); overflow-wrap: anywhere; }
 
 @media print {
   .kopf, .freigabe { background: #fff; color: #000; }

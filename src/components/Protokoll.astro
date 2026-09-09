@@ -32,6 +32,12 @@ const zahl = (n: number) => n.toLocaleString(lang === 'de' ? 'de-DE' : 'en-GB');
 /** Logarithmisch, sonst ist die 1 neben der 9600 unsichtbar. */
 const balken = (n: number) => Math.max(2, (Math.log10(n + 1) / Math.log10(10001)) * 100);
 
+/* Spurbild: gleiche logarithmische Skala wie die Balken, damit die 1 neben
+   der 9600 überhaupt eine Position hat. */
+const spurX = (v: number) => 110 + (Math.log10(v + 1) / Math.log10(10001)) * 850;
+const spurTicks = [1, 10, 100, 1000, 10000];
+const spurBahn = (i: number) => 42 + i * 52;
+
 const mailto = `mailto:${person.email}?subject=${encodeURIComponent(t(ui.mailBetreff))}`;
 const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto GmbH', 'LUM GmbH'];
 ---
@@ -45,6 +51,17 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
           ? 'Informatikstudent an der FU Berlin. Ich baue Backends, die unter Last messbar schneller werden — und schreibe auf, um wie viel.'
           : 'Computer science student at FU Berlin. I build backends that get measurably faster under load — and write down by how much.'}
       </p>
+
+      {/* Der gemessene Wert steht im ersten Bildausschnitt, nicht erst darunter:
+          nicht der Name ist der Beleg, sondern die Zahl. */}
+      <div class="kopf-mess">
+        <span class="zahl">148<span>ms</span></span>
+        <span class="text">
+          {lang === 'de'
+            ? 'Prüfung nach jeder Änderung bei 10.000 Zeilen. Vorher 5.051 ms — Faktor 34.'
+            : 'Validation after every edit at 10,000 rows. Before: 5,051 ms — a factor of 34.'}
+        </span>
+      </div>
     </div>
 
     <div class="stapel" style="--l:1rem">
@@ -83,7 +100,7 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
       <h2 class="titel-abschnitt" id="h-pruefstand">{t(ui.pruefstandTitel)}</h2>
       <p class="fliess">{t(ui.pruefstandText)}</p>
 
-      <div class="pruefstand">
+      <div class="pruefstand" id="pruefstand" data-stand="nachher">
         <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between">
           <div class="schalter" id="schalter" data-stand="nachher">
             <span class="schalter__wurf" aria-hidden="true"></span>
@@ -95,6 +112,42 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
             · {t(pruefstand.last)}
           </p>
         </div>
+
+        <figure class="spur">
+          <svg viewBox="0 0 1000 268" role="img"
+            aria-label={lang === 'de'
+              ? 'Vergleich beider Stände auf logarithmischer Skala: P-01 5051 auf 148 Millisekunden, P-02 5000 auf 600 Millisekunden, P-03 mehrere Minuten auf 283 Millisekunden, P-04 9600 auf 1 Ereignis.'
+              : 'Both states compared on a logarithmic scale: P-01 5051 to 148 milliseconds, P-02 5000 to 600 milliseconds, P-03 several minutes to 283 milliseconds, P-04 9600 to 1 event.'}>
+            {spurTicks.map((tk) => (
+              <>
+                <line class="netz" x1={spurX(tk)} y1="20" x2={spurX(tk)} y2="228" />
+                <text class="achse" x={spurX(tk)} y="252" text-anchor="middle">{zahl(tk)}</text>
+              </>
+            ))}
+            {pruefstand.zeilen.map((z, i) => {
+              const y = spurBahn(i);
+              const xn = spurX(z.nachher);
+              return (
+                <>
+                  <text class="marke" x="0" y={y + 7}>{z.nr}</text>
+                  {z.vorher === null ? (
+                    <>
+                      <line class="offen" x1={xn} y1={y} x2="948" y2={y} />
+                      <path class="offen-marke" d={`M948 ${y - 7} L968 ${y} L948 ${y + 7} Z`} />
+                    </>
+                  ) : (
+                    <>
+                      <line class="zug" x1={xn} y1={y} x2={spurX(z.vorher)} y2={y} />
+                      <circle class="vorher" cx={spurX(z.vorher)} cy={y} r="8" />
+                    </>
+                  )}
+                  <circle class="nachher" cx={xn} cy={y} r="8" />
+                </>
+              );
+            })}
+          </svg>
+        </figure>
+        <p class="graph-hinweis">{t(ui.spurHinweis)}</p>
 
         <table class="messtabelle">
           <caption class="nur-sr">{t(ui.pruefstandTitel)}</caption>
@@ -182,7 +235,7 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
 
   <!-- ------------------------------------------------------ Messreihen -->
   {projekte.map((p) => (
-    <section class="abschnitt huelle einzug" aria-labelledby={`h-${p.id}`}>
+    <section class="abschnitt huelle" aria-labelledby={`h-${p.id}`}>
       <div class="stapel" style="--l:2rem">
         <div class="blatt-kopf">
           <span class="blatt-nr">{p.nr}</span>
@@ -219,15 +272,32 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
           </div>
         </div>
 
-        <div class="zahlenreihe">
-          {p.kennzahlen.map((k) => (
-            <div>
-              <div class="zahl">{k.wert}</div>
-              <div class="zahl-l">{t(k.l)}</div>
-              <div class="zahl-s">{t(k.s)}</div>
+        {/* Die grosse Zahlenreihe traegt nur dort, wo die Zahlen das Argument
+            sind. Viermal wiederholt waere sie das Geruest der Seite. */}
+        {p.id === 'spesenkonfigurator' ? (
+          <div class="zahlenreihe">
+            {p.kennzahlen.map((k) => (
+              <div>
+                <div class="zahl">{k.wert}</div>
+                <div class="zahl-l">{t(k.l)}</div>
+                <div class="zahl-s">{t(k.s)}</div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="stapel" style="--l:.6rem">
+            <h3 class="feld-name">{t(ui.kennwerte)}</h3>
+            <div class="kennwerte">
+              {p.kennzahlen.map((k) => (
+                <div>
+                  <span class="w">{k.wert}</span>
+                  <span class="l">{t(k.l)}</span>
+                  <span class="s">{t(k.s)}</span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        )}
 
         {'bilder' in p && p.bilder && (
           <div class="bildreihe">
@@ -294,7 +364,7 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
   ))}
 
   <!-- ------------------------------------------------------- Prüfmittel -->
-  <section class="abschnitt huelle einzug" aria-labelledby="h-agenten">
+  <section class="abschnitt huelle" aria-labelledby="h-agenten">
     <div class="stapel" style="--l:2rem">
       <div class="stapel" style="--l:.75rem">
         <h2 class="titel-abschnitt" id="h-agenten">{t(agenten.titel)}</h2>
@@ -314,20 +384,21 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
         <h3 class="titel-blatt" style="font-size:1.125rem">{t(agenten.graph.titel)}</h3>
         <p class="fliess" style="margin:0">{t(agenten.graph.text)}</p>
 
-        <div class="zahlenreihe" style="margin-top:.5rem">
-          <div><div class="zahl">{zahl(graph.meta.quelle_knoten)}</div><div class="zahl-l">{lang === 'de' ? 'Knoten' : 'nodes'}</div></div>
-          <div><div class="zahl">{zahl(graph.meta.quelle_kanten)}</div><div class="zahl-l">{lang === 'de' ? 'Kanten' : 'edges'}</div></div>
-          <div><div class="zahl">{graph.meta.communities}</div><div class="zahl-l">{lang === 'de' ? 'Themencluster' : 'clusters'}</div></div>
-          <div><div class="zahl">193</div><div class="zahl-l">{lang === 'de' ? 'ausgewertete Dateien' : 'files analysed'}</div></div>
+        <div class="kennwerte">
+          <div><span class="w">{zahl(graph.meta.quelle_knoten)}</span><span class="l">{lang === 'de' ? 'Knoten' : 'nodes'}</span></div>
+          <div><span class="w">{zahl(graph.meta.quelle_kanten)}</span><span class="l">{lang === 'de' ? 'Kanten' : 'edges'}</span></div>
+          <div><span class="w">{graph.meta.communities}</span><span class="l">{lang === 'de' ? 'Themencluster' : 'clusters'}</span></div>
+          <div><span class="w">193</span><span class="l">{lang === 'de' ? 'ausgewertete Dateien' : 'files analysed'}</span></div>
         </div>
 
         <div class="graph-rahmen">
-          <canvas id="graph" width="1200" height="620" role="img"
+          <canvas id="graph" width="1200" height="620" role="img" tabindex="0"
             aria-label={lang === 'de'
               ? 'Ausschnitt des Wissensgraphen: 136 Knoten aus den eigenen Repositories, verbunden durch 349 Kanten.'
               : 'Excerpt of the knowledge graph: 136 nodes from my own repositories, connected by 349 edges.'}></canvas>
           <p class="graph-status" id="graph-status"></p>
         </div>
+        <p class="graph-hinweis">{t(ui.graphBedienung)}</p>
         <div class="graph-legende">
           <span><i style="background:#1d5c44"></i>{t(agenten.graph.legende.projektron)}</span>
           <span><i style="background:#a3231c"></i>{t(agenten.graph.legende.kaiju)}</span>
@@ -355,7 +426,7 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
   </section>
 
   <!-- ----------------------------------------------------- Fremdbefunde -->
-  <section class="abschnitt huelle einzug" aria-labelledby="h-befunde">
+  <section class="abschnitt huelle" aria-labelledby="h-befunde">
     <div class="stapel" style="--l:1.75rem">
       <div class="stapel" style="--l:.75rem">
         <h2 class="titel-abschnitt" id="h-befunde">{t(ui.fremdbefundeTitel)}</h2>

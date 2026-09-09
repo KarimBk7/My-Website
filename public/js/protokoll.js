@@ -15,8 +15,11 @@ if (schalter) {
   const wortSchematisch = englisch ? 'schematic, not measured' : 'schematisch, nicht gemessen';
   const laenge = (n) => Math.max(2, (Math.log10(n + 1) / Math.log10(10001)) * 100);
 
+  const pruefstand = document.getElementById('pruefstand');
+
   const setze = (stand) => {
     schalter.dataset.stand = stand;
+    if (pruefstand) pruefstand.dataset.stand = stand;
     schalter.querySelectorAll('button').forEach((b) =>
       b.setAttribute('aria-pressed', String(b.dataset.stand === stand)),
     );
@@ -59,18 +62,8 @@ if (schalter) {
   );
 }
 
-/* --- Einzug: ein Auftritt, einmal -------------------------------------- */
-const beobachter = new IntersectionObserver(
-  (eintraege) =>
-    eintraege.forEach((e) => {
-      if (e.isIntersecting) {
-        e.target.classList.add('da');
-        beobachter.unobserve(e.target);
-      }
-    }),
-  { rootMargin: '0px 0px -12% 0px' },
-);
-document.querySelectorAll('.einzug').forEach((el) => beobachter.observe(el));
+/* Es gibt bewusst keine Einblendung je Abschnitt. Der eine gestaltete
+   Auftritt ist der Wurf des Schalters und die Werte, die mit ihm springen. */
 
 /* --- Wissensgraph ------------------------------------------------------- */
 const leinwand = document.getElementById('graph');
@@ -134,11 +127,30 @@ if (leinwand && rohdaten) {
     zeichne();
   };
 
-  leinwand.addEventListener('pointermove', (e) => {
+  const beiZeiger = (e) => {
     const r = leinwand.getBoundingClientRect();
     zeige(treffer(e.clientX - r.left, e.clientY - r.top));
+  };
+
+  // Zeiger fuer Maus. Tippen fuer das Telefon: ohne pointerdown waere der
+  // Graph auf genau dem Geraet eine Tapete, auf dem die meisten ihn oeffnen.
+  leinwand.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') beiZeiger(e); });
+  leinwand.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') zeige(-1); });
+  leinwand.addEventListener('pointerdown', (e) => { beiZeiger(e); e.preventDefault(); });
+
+  // Tastatur: mit Pfeilen durch die Knoten, absteigend nach Verbindungsgrad.
+  leinwand.addEventListener('keydown', (e) => {
+    const n = daten.nodes.length;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') zeige((aktiv + 1) % n);
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') zeige((aktiv <= 0 ? n : aktiv) - 1);
+    else if (e.key === 'Home') zeige(0);
+    else if (e.key === 'End') zeige(n - 1);
+    else if (e.key === 'Escape') zeige(-1);
+    else return;
+    e.preventDefault();
   });
-  leinwand.addEventListener('pointerleave', () => zeige(-1));
+  leinwand.addEventListener('blur', () => zeige(-1));
+
   zeichne();
 
   let zeitgeber;

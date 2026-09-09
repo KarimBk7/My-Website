@@ -513,9 +513,19 @@ export const ui: Record<string, S> = {
 
   pruefstandTitel: { de: 'Prüfstand', en: 'Test bench' },
   pruefstandText: {
-    de: 'Vier Messungen aus der Performance-Arbeit am Spesenkonfigurator, Messreihe M-1, jeweils bei 10.000 Zeilen. Der Schalter wirft das Protokoll zwischen den beiden aufgezeichneten Ständen um.',
-    en: 'Four measurements from the performance work on the expense configurator, test series M-1, each at 10,000 rows. The switch throws the protocol between the two recorded states.',
+    de: 'Vier Messungen aus Messreihe M-1, jeweils bei 10.000 Zeilen.',
+    en: 'Four measurements from test series M-1, each at 10,000 rows.',
   },
+  spurTitel: { de: 'Beide Stände im Vergleich', en: 'Both states compared' },
+  spurHinweis: {
+    de: 'Logarithmische Skala. Offener Kreis: vorher. Gefüllter Kreis: nachher. Die gestrichelte Linie bei P-03 läuft aus dem Bild, weil für den Vorher-Zustand nur „mehrere Minuten“ überliefert ist.',
+    en: 'Logarithmic scale. Hollow circle: before. Filled circle: after. The dashed line at P-03 runs off the chart because the before state is recorded only as “several minutes”.',
+  },
+  graphBedienung: {
+    de: 'Zeiger oder Fingertipp wählt einen Knoten. Mit Tabulator anspringen, dann mit den Pfeiltasten durchgehen.',
+    en: 'Pointer or tap selects a node. Tab to focus, then step through with the arrow keys.',
+  },
+  kennwerte: { de: 'Kennwerte', en: 'Key figures' },
   pruefpunkt: { de: 'Prüfpunkt', en: 'Test point' },
   istwert: { de: 'Istwert', en: 'Measured value' },
   quelle: { de: 'Quelle', en: 'Source' },
