@@ -1,0 +1,133 @@
+{
+  "kaiju-sprites": {
+    "breite": 2570,
+    "hoehe": 200,
+    "seitenverhaeltnis": 12.85,
+    "varianten": [
+      {
+        "datei": "/media/kaiju-sprites-800.webp",
+        "breite": 800,
+        "kb": 11
+      },
+      {
+        "datei": "/media/kaiju-sprites-1600.webp",
+        "breite": 1600,
+        "kb": 23
+      }
+    ]
+  },
+  "kaiju-titelbild": {
+    "breite": 1041,
+    "hoehe": 1040,
+    "seitenverhaeltnis": 1.001,
+    "varianten": [
+      {
+        "datei": "/media/kaiju-titelbild-800.webp",
+        "breite": 800,
+        "kb": 66
+      },
+      {
+        "datei": "/media/kaiju-titelbild-1041.webp",
+        "breite": 1041,
+        "kb": 92
+      }
+    ]
+  },
+  "kaiju-weltkarte": {
+    "breite": 510,
+    "hoehe": 500,
+    "seitenverhaeltnis": 1.02,
+    "varianten": [
+      {
+        "datei": "/media/kaiju-weltkarte-510.webp",
+        "breite": 510,
+        "kb": 10
+      }
+    ]
+  },
+  "projektron-einstellungen": {
+    "breite": 815,
+    "hoehe": 480,
+    "seitenverhaeltnis": 1.6979,
+    "varianten": [
+      {
+        "datei": "/media/projektron-einstellungen-800.webp",
+        "breite": 800,
+        "kb": 14
+      },
+      {
+        "datei": "/media/projektron-einstellungen-815.webp",
+        "breite": 815,
+        "kb": 14
+      }
+    ]
+  },
+  "projektron-hauptfenster": {
+    "breite": 1410,
+    "hoehe": 665,
+    "seitenverhaeltnis": 2.1203,
+    "varianten": [
+      {
+        "datei": "/media/projektron-hauptfenster-800.webp",
+        "breite": 800,
+        "kb": 17
+      },
+      {
+        "datei": "/media/projektron-hauptfenster-1410.webp",
+        "breite": 1410,
+        "kb": 37
+      }
+    ]
+  },
+  "projektron-pruefbericht": {
+    "breite": 815,
+    "hoehe": 480,
+    "seitenverhaeltnis": 1.6979,
+    "varianten": [
+      {
+        "datei": "/media/projektron-pruefbericht-800.webp",
+        "breite": 800,
+        "kb": 14
+      },
+      {
+        "datei": "/media/projektron-pruefbericht-815.webp",
+        "breite": 815,
+        "kb": 15
+      }
+    ]
+  },
+  "projektron-tableiste": {
+    "breite": 2570,
+    "hoehe": 175,
+    "seitenverhaeltnis": 14.6857,
+    "varianten": [
+      {
+        "datei": "/media/projektron-tableiste-800.webp",
+        "breite": 800,
+        "kb": 3
+      },
+      {
+        "datei": "/media/projektron-tableiste-1600.webp",
+        "breite": 1600,
+        "kb": 7
+      }
+    ]
+  },
+  "projektron-zeilenassistent": {
+    "breite": 810,
+    "hoehe": 480,
+    "seitenverhaeltnis": 1.6875,
+    "varianten": [
+      {
+        "datei": "/media/projektron-zeilenassistent-800.webp",
+        "breite": 800,
+        "kb": 13
+      },
+      {
+        "datei": "/media/projektron-zeilenassistent-810.webp",
+        "breite": 810,
+        "kb": 13
+      }
+    ]
+  }
+}

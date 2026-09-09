@@ -1,31 +1,33 @@
 ---
-import { Image } from 'astro:assets';
 import {
   person, pruefstand, stammdaten, stationen, projekte,
   agenten, fremdbefunde, ui, type Lang,
 } from '../data/inhalt';
 import graph from '../data/graph.json';
 
-import projektronHauptfenster from '../assets/media/projektron-hauptfenster.png';
-import projektronZeilenassistent from '../assets/media/projektron-zeilenassistent.png';
-import projektronPruefbericht from '../assets/media/projektron-pruefbericht.png';
-import projektronEinstellungen from '../assets/media/projektron-einstellungen.png';
-import kaijuTitelbild from '../assets/media/kaiju-titelbild.png';
-import kaijuWeltkarte from '../assets/media/kaiju-weltkarte.png';
-import kaijuSprites from '../assets/media/kaiju-sprites.png';
+/* Bilder bewusst NICHT ueber astro:assets.
+   Cloudflare hat dieses Projekt als Worker angelegt und dabei einen Adapter
+   eingesetzt, dessen Bilddienst <Image> auf einen Laufzeit-Endpunkt /_image
+   umbiegt -- den die statische Auslieferung nicht bedient. Lokal war alles
+   gruen, live antworteten alle sieben Bilder mit 404.
+   Die Varianten erzeugt jetzt `node tools/bilder.mjs` vorab nach public/media,
+   dieses Manifest haelt Groessen und Dateinamen. Damit haengt nichts mehr an
+   einer Hosting-Eigenheit, und der Build laesst sich vor dem Deploy pruefen. */
+import bilder from '../data/bilder.json';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = (s: Record<Lang, string>) => s[lang];
 
-const bilder: Record<string, ImageMetadata> = {
-  'projektron-hauptfenster': projektronHauptfenster,
-  'projektron-zeilenassistent': projektronZeilenassistent,
-  'projektron-pruefbericht': projektronPruefbericht,
-  'projektron-einstellungen': projektronEinstellungen,
-  'kaiju-titelbild': kaijuTitelbild,
-  'kaiju-weltkarte': kaijuWeltkarte,
-  'kaiju-sprites': kaijuSprites,
+/** Liefert Quelle, srcset und Naturgroesse eines vorberechneten Bildes. */
+const bild = (name: string) => {
+  const m = (bilder as Record<string, any>)[name];
+  return {
+    breite: m.breite,
+    hoehe: m.hoehe,
+    gross: m.varianten[m.varianten.length - 1].datei,
+    srcset: m.varianten.map((v: any) => `${v.datei} ${v.breite}w`).join(', '),
+  };
 };
 
 const zahl = (n: number) => n.toLocaleString(lang === 'de' ? 'de-DE' : 'en-GB');
@@ -311,12 +313,17 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
           <div class="bildreihe">
             {p.bilder.map((b) => (
               <figure data-breit={'breit' in b && b.breit ? '' : undefined}>
-                <Image
-                  src={bilder[b.datei]}
+                <img
+                  src={bild(b.datei).gross}
+                  srcset={bild(b.datei).srcset}
+                  sizes={'breit' in b && b.breit
+                    ? '(max-width: 52rem) 92vw, 72rem'
+                    : '(max-width: 52rem) 92vw, 30vw'}
+                  width={bild(b.datei).breite}
+                  height={bild(b.datei).hoehe}
                   alt={t(b.bu)}
-                  widths={[420, 840, 1400]}
-                  sizes={'breit' in b && b.breit ? '(max-width: 52rem) 92vw, 74rem' : '(max-width: 52rem) 92vw, 30vw'}
                   loading="lazy"
+                  decoding="async"
                 />
                 <figcaption>{t(b.bu)}</figcaption>
               </figure>
