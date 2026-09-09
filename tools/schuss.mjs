@@ -41,12 +41,39 @@ for (const a of ANSICHTEN) {
   page.on('pageerror', (e) => fehler.push(`[${a.name}] ${e.message}`));
 
   await page.goto(BASIS + a.pfad, { waitUntil: 'networkidle' });
-  await page.evaluate(() => {
-    document.querySelectorAll('.einzug').forEach((el) => el.classList.add('da'));
-    window.scrollTo(0, 0);
-  });
-  await page.waitForTimeout(350);
+  await page.evaluate(() => document.querySelectorAll('.einzug').forEach((el) => el.classList.add('da')));
+
+  // Bilder tragen loading="lazy" — richtig für echte Besucher, aber eine
+  // Ganzseitenaufnahme ohne Scrollen fotografiert sonst leere Rahmen.
+  // Einmal durchfahren, warten bis alles geladen ist, zurück nach oben.
+  if (a.voll) {
+    await page.evaluate(async () => {
+      const schritt = window.innerHeight * 0.8;
+      for (let y = 0; y < document.body.scrollHeight; y += schritt) {
+        window.scrollTo(0, y);
+        await new Promise((r) => setTimeout(r, 60));
+      }
+      window.scrollTo(0, document.body.scrollHeight);
+      await new Promise((r) => setTimeout(r, 250));
+      window.scrollTo(0, 0);
+    });
+    await page.waitForFunction(
+      () => Array.from(document.images).every((i) => i.complete && i.naturalWidth > 0),
+      null,
+      { timeout: 20000 },
+    );
+  }
+  await page.waitForTimeout(400);
   await page.screenshot({ path: `${ZIEL}/${a.name}.png`, fullPage: a.voll });
+
+  // Gegenprobe, nur für Ganzseiten: bei Ausschnitten sind Bilder unterhalb
+  // des Sichtfelds zu Recht noch nicht geladen.
+  if (a.voll) {
+    const fehlend = await page.evaluate(
+      () => Array.from(document.images).filter((i) => !i.complete || i.naturalWidth === 0).length,
+    );
+    if (fehlend) fehler.push(`[${a.name}] ${fehlend} Bild(er) beim Auslösen noch nicht geladen`);
+  }
   await ctx.close();
 }
 
