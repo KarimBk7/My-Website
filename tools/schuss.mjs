@@ -96,13 +96,9 @@ const befund = await page.evaluate((muster) => {
   };
 }, sperrmuster);
 
-// Die Messwerte im Projektblatt M-1: vier Zeilen, jede mit Quelle, und die
-// nicht gemessene Angabe muss als solche markiert sein.
+// Die Messwerte im Projektblatt M-1: vier Zeilen, und die nicht gemessene
+// Angabe muss als solche markiert sein.
 const messreihen = await page.locator('.messtabelle--kompakt tbody tr').count();
-const ohneQuelle = await page.evaluate(() =>
-  [...document.querySelectorAll('.messtabelle--kompakt tbody tr')]
-    .filter((tr) => !tr.querySelector('.mess-quelle')?.textContent.trim()).length,
-);
 const schematischMarkiert = await page.locator('.messtabelle--kompakt .stufe--offen').count();
 
 // Mobiler Querüberlauf
@@ -122,7 +118,7 @@ await browser.close();
 
 console.log(JSON.stringify({
   befund,
-  messwerte: { zeilen: messreihen, ohneQuelle, schematischMarkiert },
+  messwerte: { zeilen: messreihen, schematischMarkiert },
   mobil: mobilUeberlauf,
   konsolenfehler: fehler,
 }, null, 2));

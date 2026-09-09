@@ -45,17 +45,6 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
           ? 'Informatikstudent an der FU Berlin. Ich baue Backends, die unter Last messbar schneller werden — und schreibe auf, um wie viel.'
           : 'Computer science student at FU Berlin. I build backends that get measurably faster under load — and write down by how much.'}
       </p>
-
-      {/* Der gemessene Wert steht im ersten Bildausschnitt, nicht erst darunter:
-          nicht der Name ist der Beleg, sondern die Zahl. */}
-      <div class="kopf-mess">
-        <span class="zahl">148<span>ms</span></span>
-        <span class="text">
-          {lang === 'de'
-            ? 'Prüfung nach jeder Änderung bei 10.000 Zeilen. Vorher 5.051 ms — Faktor 34.'
-            : 'Validation after every edit at 10,000 rows. Before: 5,051 ms — a factor of 34.'}
-        </span>
-      </div>
     </div>
 
     <div class="stapel" style="--l:1rem">
@@ -200,7 +189,6 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
                   <th scope="col" class="feld-name">{t(ui.pruefpunkt)}</th>
                   <th scope="col" class="feld-name">{t(pruefstand.stufen.vorher)}</th>
                   <th scope="col" class="feld-name">{t(pruefstand.stufen.nachher)}</th>
-                  <th scope="col" class="feld-name">{t(ui.quelle)}</th>
                 </tr>
               </thead>
               <tbody>
@@ -221,7 +209,6 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
                       {zahl(z.nachher)}{z.einheit && <span class="mess-einheit">{z.einheit}</span>}
                       {z.faktor && <div style="font-size:.75rem;color:var(--gruen);margin-top:.15rem">{t(ui.faktor)} {z.faktor}</div>}
                     </td>
-                    <td class="mess-quelle">{z.quelle}</td>
                   </tr>
                 ))}
               </tbody>

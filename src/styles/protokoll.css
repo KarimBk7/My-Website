@@ -405,27 +405,6 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 /* Bewusst ohne Einblendung je Abschnitt: eine identische Animation auf jedem
    Abschnitt ist keine Gestaltung, sondern eine Gewohnheit. */
 
-/* --- Messwert im Protokollkopf ------------------------------------------ */
-
-.kopf-mess {
-  margin-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.35);
-  padding-top: 0.85rem;
-  display: flex;
-  align-items: baseline;
-  gap: 0.9rem;
-  flex-wrap: wrap;
-}
-.kopf-mess .zahl {
-  font-family: var(--mono);
-  font-size: clamp(2rem, 1.2rem + 2.6vw, 3.1rem);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1;
-}
-.kopf-mess .zahl span { font-size: 0.45em; font-weight: 400; margin-left: 0.1em; }
-.kopf-mess .text { color: #cfe0d8; font-size: 0.9375rem; max-width: 30ch; }
-
 /* --- Kennwerte kompakt (statt der grossen Zahlenreihe) ------------------ */
 
 .kennwerte { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr)); border-top: var(--spur) solid var(--haar); }

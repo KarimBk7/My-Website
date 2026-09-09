@@ -335,6 +335,7 @@ export const projekte = [
       de: 'Schulprojekt aus dem Jahr 2022. Der Quelltext stammt vollständig von mir, Grafiken und Klänge vom übrigen Team.',
       en: 'School project from 2022. The source code is entirely mine; graphics and sound came from the rest of the team.',
     },
+    repo: 'https://github.com/KarimBk7/Little-Adventure',
   },
   {
     id: 'lernrepo',

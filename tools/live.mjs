@@ -55,12 +55,11 @@ const graphGemalt = await seite.evaluate(() => {
   return false;
 });
 
-// Die Messwerte im Projektblatt: vier Zeilen, jede mit Quelle.
+// Die Messwerte im Projektblatt: vier Zeilen, die nicht gemessene markiert.
 const messwerte = await seite.evaluate(() => {
   const zeilen = [...document.querySelectorAll('.messtabelle--kompakt tbody tr')];
   return {
     zeilen: zeilen.length,
-    ohneQuelle: zeilen.filter((tr) => !tr.querySelector('.mess-quelle')?.textContent.trim()).length,
     schematischMarkiert: document.querySelectorAll('.messtabelle--kompakt .stufe--offen').length,
   };
 });

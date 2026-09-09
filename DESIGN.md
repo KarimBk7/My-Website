@@ -46,13 +46,6 @@ typography:
     fontSize: "0.6875rem"
     fontWeight: 500
     letterSpacing: "0.08em"
-  measure-hero:
-    fontFamily: "Spline Sans Mono Variable, ui-monospace, monospace"
-    fontSize: "clamp(2rem, 1.2rem + 2.6vw, 3.1rem)"
-    fontWeight: 600
-    lineHeight: 1
-    letterSpacing: "-0.03em"
-    fontFeature: "'tnum' 1"
   metric:
     fontFamily: "Spline Sans Mono Variable, ui-monospace, monospace"
     fontSize: "clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem)"
@@ -203,7 +196,6 @@ A two-signal palette on cool paper: green means checked, red means not measured 
 - **Title** (`wdth` 106 / `wght` 640): measurement-sheet titles; drops to 1.125rem for block headings inside a sheet.
 - **Body** (400, line-height 1.55): running prose in ink 2, capped at 68ch; secondary prose drops to 0.9375rem and 62ch.
 - **Label** (mono 500, `0.08em`, uppercase, ink 3): field names in the two-column field grid, table column heads, the caption line above a sub-block.
-- **Measure Hero** (mono 600): the single headline figure in the protocol head, its unit riding at `0.45em` / 400.
 - **Metric** (mono 600): the numbers in the wide metric row, over a 0.9375rem label and a 0.8125rem source line.
 - **Measure** (mono 600, `white-space: nowrap`): values in the compact measurement table and the compact key-figure row. Units ride along at `0.75em` / 400 in ink 3.
 - **Citation** (mono 400, ink 3): source names, tags, the sheet number, the graph hint, legend and status, and the language picker.

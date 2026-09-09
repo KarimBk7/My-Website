@@ -236,10 +236,6 @@
         "displayName": "Field Label",
         "purpose": "Mono uppercase field names beside their values, table column heads, sub-block captions. Never above a heading."
       },
-      "measure-hero": {
-        "displayName": "Measure Hero",
-        "purpose": "The single headline figure in the protocol head; unit at 0.45em / 400."
-      },
       "metric": {
         "displayName": "Metric",
         "purpose": "Numbers in the wide metric row, over a 0.9375rem label and a 0.8125rem source line."
