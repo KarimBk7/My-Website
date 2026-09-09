@@ -1,0 +1,421 @@
+---
+import { Image } from 'astro:assets';
+import {
+  person, pruefstand, stammdaten, stationen, projekte,
+  agenten, fremdbefunde, ui, type Lang,
+} from '../data/inhalt';
+import graph from '../data/graph.json';
+
+import projektronHauptfenster from '../assets/media/projektron-hauptfenster.png';
+import projektronZeilenassistent from '../assets/media/projektron-zeilenassistent.png';
+import projektronPruefbericht from '../assets/media/projektron-pruefbericht.png';
+import projektronEinstellungen from '../assets/media/projektron-einstellungen.png';
+import kaijuTitelbild from '../assets/media/kaiju-titelbild.png';
+import kaijuWeltkarte from '../assets/media/kaiju-weltkarte.png';
+import kaijuSprites from '../assets/media/kaiju-sprites.png';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = (s: Record<Lang, string>) => s[lang];
+
+const bilder: Record<string, ImageMetadata> = {
+  'projektron-hauptfenster': projektronHauptfenster,
+  'projektron-zeilenassistent': projektronZeilenassistent,
+  'projektron-pruefbericht': projektronPruefbericht,
+  'projektron-einstellungen': projektronEinstellungen,
+  'kaiju-titelbild': kaijuTitelbild,
+  'kaiju-weltkarte': kaijuWeltkarte,
+  'kaiju-sprites': kaijuSprites,
+};
+
+const zahl = (n: number) => n.toLocaleString(lang === 'de' ? 'de-DE' : 'en-GB');
+/** Logarithmisch, sonst ist die 1 neben der 9600 unsichtbar. */
+const balken = (n: number) => Math.max(2, (Math.log10(n + 1) / Math.log10(10001)) * 100);
+
+const mailto = `mailto:${person.email}?subject=${encodeURIComponent(t(ui.mailBetreff))}`;
+const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto GmbH', 'LUM GmbH'];
+---
+
+<header class="kopf">
+  <div class="huelle kopf-innen">
+    <div>
+      <h1 class="titel-gross">{person.nachname},<br />{person.vorname}</h1>
+      <p class="kopf-zeile" style="margin:1.35rem 0 0;color:#d6e5dd;max-width:46ch">
+        {lang === 'de'
+          ? 'Informatikstudent an der FU Berlin. Ich baue Backends, die unter Last messbar schneller werden — und schreibe auf, um wie viel.'
+          : 'Computer science student at FU Berlin. I build backends that get measurably faster under load — and write down by how much.'}
+      </p>
+    </div>
+
+    <div class="stapel" style="--l:1rem">
+      <div class="stempel">
+        <p class="feld-name" style="margin:0">{t(ui.freigegebenFuer)}</p>
+        <p class="wert" style="margin:0">{t(ui.rolle)}</p>
+      </div>
+      <a class="knopf" href={mailto}>
+        {t(ui.kontakt)}
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+          <path d="M2 7.5h11M8.5 3l4.5 4.5L8.5 12" stroke="currentColor" stroke-width="1.8" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="streifen">
+  <div class="huelle streifen-innen">
+    <span class="streifen-feld"><span class="feld-name">{t(ui.pruefling)}</span><span class="wert">{person.nachname}, {person.vorname}</span></span>
+    <span class="streifen-feld"><span class="feld-name">{t(ui.protokollNr)}</span><span class="wert">{person.protokollNr}</span></span>
+    <span class="streifen-feld"><span class="feld-name">{t(ui.stand)}</span><span class="wert">{person.stand}</span></span>
+    <span class="streifen-feld"><span class="feld-name">{t(ui.pruefer)}</span><span class="wert">{stellen.join(' · ')}</span></span>
+    <nav class="sprachwahl" aria-label={t(ui.sprache)}>
+      <span class="feld-name" style="margin-right:.2rem">{t(ui.sprache)}</span>
+      <a href="/" hreflang="de" aria-current={lang === 'de' ? 'true' : undefined}>DE</a>
+      <a href="/en/" hreflang="en" aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+    </nav>
+  </div>
+</div>
+
+<main id="inhalt" class="faden">
+  <!-- ------------------------------------------------------- Prüfstand -->
+  <section class="abschnitt huelle" aria-labelledby="h-pruefstand">
+    <div class="stapel" style="--l:1.5rem">
+      <h2 class="titel-abschnitt" id="h-pruefstand">{t(ui.pruefstandTitel)}</h2>
+      <p class="fliess">{t(ui.pruefstandText)}</p>
+
+      <div class="pruefstand">
+        <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between">
+          <div class="schalter" id="schalter" data-stand="nachher">
+            <span class="schalter__wurf" aria-hidden="true"></span>
+            <button type="button" data-stand="vorher" aria-pressed="false">{t(pruefstand.stufen.vorher)}</button>
+            <button type="button" data-stand="nachher" aria-pressed="true">{t(pruefstand.stufen.nachher)}</button>
+          </div>
+          <p class="messwert" style="margin:0;font-size:.8125rem;color:var(--tinte-3)">
+            {t(ui.standCommit)} <span id="commit">{pruefstand.commits.nachher}</span>
+            · {t(pruefstand.last)}
+          </p>
+        </div>
+
+        <table class="messtabelle">
+          <caption class="nur-sr">{t(ui.pruefstandTitel)}</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="feld-name">{t(ui.pruefpunkt)}</th>
+              <th scope="col" class="feld-name">&nbsp;</th>
+              <th scope="col" class="feld-name">{t(ui.istwert)}</th>
+              <th scope="col" class="feld-name">{t(ui.quelle)}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pruefstand.zeilen.map((z) => {
+              const schematisch = z.vorher === null;
+              return (
+                <tr
+                  data-vorher={z.vorher ?? ''}
+                  data-vorher-text={schematisch ? t(z.vorherText!) : ''}
+                  data-nachher={z.nachher}
+                  data-einheit={z.einheit}
+                >
+                  <td class="mess-nr">{z.nr}</td>
+                  <td>
+                    <div>{t(z.label)}</div>
+                    {z.faktor && (
+                      <div class="messwert" style="font-size:.75rem;color:var(--gruen);margin-top:.2rem">
+                        {t(ui.faktor)} {z.faktor}
+                      </div>
+                    )}
+                  </td>
+                  <td>
+                    <span class="mess-wert" data-rolle="wert">
+                      {zahl(z.nachher)}{z.einheit && <span class="mess-einheit">{z.einheit}</span>}
+                    </span>
+                    <span class="balken" data-rolle="balken" style={`--f:${(balken(z.nachher) / 100).toFixed(4)}`}></span>
+                    <span class="stufe" data-rolle="stufe" style="margin-top:.5rem" data-schematisch={schematisch ? 'true' : 'false'}>
+                      <svg width="9" height="9" viewBox="0 0 9 9" aria-hidden="true">
+                        <path d="M1 4.8 3.4 7.2 8 1.6" fill="none" stroke="currentColor" stroke-width="1.6" />
+                      </svg>
+                      {t(ui.gemessen)}
+                    </span>
+                  </td>
+                  <td class="mess-quelle">{z.quelle}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------- Stammdaten / Stationen -->
+  <section class="abschnitt huelle" aria-labelledby="h-stamm">
+    <div class="spalten-2">
+      <div class="stapel">
+        <h2 class="titel-abschnitt" id="h-stamm">{t(ui.stammdatenTitel)}</h2>
+        <div class="gitter">
+          {stammdaten.map((f) => (
+            <div class="gitter-reihe">
+              <span class="feld-name">{t(f.label)}</span>
+              <span>{t(f.wert)}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="stapel">
+        <h2 class="titel-abschnitt">{t(ui.stationenTitel)}</h2>
+        <div class="gitter">
+          {stationen.map((s) => (
+            <div class="gitter-reihe">
+              <span class="feld-name">{t(s.zeit)}</span>
+              <div>
+                <div style="font-variation-settings:'wght' 620">{t(s.rolle)}</div>
+                <div class="messwert" style="font-size:.8125rem;color:var(--gruen);margin:.1rem 0 .35rem">{s.ort}</div>
+                <p class="fliess" style="margin:0;font-size:.9375rem">{t(s.text)}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------ Messreihen -->
+  {projekte.map((p) => (
+    <section class="abschnitt huelle einzug" aria-labelledby={`h-${p.id}`}>
+      <div class="stapel" style="--l:2rem">
+        <div class="blatt-kopf">
+          <span class="blatt-nr">{p.nr}</span>
+          <h2 class="titel-blatt" id={`h-${p.id}`}>{t(p.titel)}</h2>
+          <p class="fliess" style="margin:0">{t(p.kurz)}</p>
+        </div>
+
+        <div class="gitter">
+          {p.kopf.map((f) => (
+            <div class="gitter-reihe">
+              <span class="feld-name">{t(f.l)}</span>
+              <span>{t(f.w)}</span>
+            </div>
+          ))}
+        </div>
+
+        <div class="spalten-2">
+          <div class="stapel" style="--l:.75rem">
+            <h3 class="feld-name">{t(ui.aufgabe)}</h3>
+            <p class="fliess" style="margin:0">{t(p.aufgabe)}</p>
+            {'herausforderung' in p && p.herausforderung && (
+              <div style="border-left:1px solid var(--gruen-linie);padding-left:1rem;margin-top:.75rem">
+                <h4 style="font-size:.9375rem">{t(p.herausforderung.titel)}</h4>
+                <p class="fliess" style="margin:.4rem 0 0;font-size:.9375rem">{t(p.herausforderung.text)}</p>
+              </div>
+            )}
+          </div>
+
+          <div class="stapel" style="--l:.75rem">
+            <h3 class="feld-name">{t(ui.meinBeitrag)}</h3>
+            <ul class="liste">
+              {p.beitrag[lang].map((b) => <li><span></span><span>{b}</span></li>)}
+            </ul>
+          </div>
+        </div>
+
+        <div class="zahlenreihe">
+          {p.kennzahlen.map((k) => (
+            <div>
+              <div class="zahl">{k.wert}</div>
+              <div class="zahl-l">{t(k.l)}</div>
+              <div class="zahl-s">{t(k.s)}</div>
+            </div>
+          ))}
+        </div>
+
+        {'bilder' in p && p.bilder && (
+          <div class="bildreihe">
+            {p.bilder.map((b) => (
+              <figure data-breit={'breit' in b && b.breit ? '' : undefined}>
+                <Image
+                  src={bilder[b.datei]}
+                  alt={t(b.bu)}
+                  widths={[420, 840, 1400]}
+                  sizes={'breit' in b && b.breit ? '(max-width: 52rem) 92vw, 74rem' : '(max-width: 52rem) 92vw, 30vw'}
+                  loading="lazy"
+                />
+                <figcaption>{t(b.bu)}</figcaption>
+              </figure>
+            ))}
+          </div>
+        )}
+
+        {'maengel' in p && p.maengel && (
+          <div class="maengel">
+            <h3 class="titel-blatt" style="font-size:1.125rem">{t(p.maengel.titel)}</h3>
+            <p class="fliess" style="margin:.5rem 0 1rem;color:var(--rot)">{t(p.maengel.hinweis)}</p>
+            <ul class="liste">
+              {p.maengel.punkte[lang].map((m) => <li><span></span><span>{m}</span></li>)}
+            </ul>
+          </div>
+        )}
+
+        {'themen' in p && p.themen && (
+          <div class="stapel" style="--l:.75rem">
+            <h3 class="feld-name">{t(ui.themenlandkarte)}</h3>
+            <div class="landkarte">
+              {p.themen.map((g) => (
+                <div>
+                  <h4>{t(g.gruppe)} <span>{g.punkte.length}</span></h4>
+                  <ul>{g.punkte.map((x) => <li>{x}</li>)}</ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div class="spalten-2">
+          <div class="stapel" style="--l:.6rem">
+            <h3 class="feld-name">{t(ui.werkzeuge)}</h3>
+            <ul class="marken">{p.stack.map((s) => <li>{s}</li>)}</ul>
+          </div>
+          <div class="stapel" style="--l:.6rem">
+            {'auslieferung' in p && p.auslieferung && (
+              <>
+                <h3 class="feld-name">{t(ui.auslieferung)}</h3>
+                <p class="fliess" style="margin:0;font-size:.9375rem">{t(p.auslieferung)}</p>
+              </>
+            )}
+            <h3 class="feld-name">{t(ui.einordnung)}</h3>
+            <p class="fliess" style="margin:0;font-size:.9375rem">{t(p.einordnung)}</p>
+            {'repo' in p && p.repo && (
+              <p style="margin:0"><a class="messwert" style="font-size:.8125rem" href={p.repo} rel="noopener">{p.repo.replace('https://', '')}</a></p>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- ------------------------------------------------------- Prüfmittel -->
+  <section class="abschnitt huelle einzug" aria-labelledby="h-agenten">
+    <div class="stapel" style="--l:2rem">
+      <div class="stapel" style="--l:.75rem">
+        <h2 class="titel-abschnitt" id="h-agenten">{t(agenten.titel)}</h2>
+        <p class="fliess">{t(agenten.einleitung)}</p>
+      </div>
+
+      <div class="spalten-2">
+        {agenten.teilung.spalten.map((s) => (
+          <div class="stapel" style="--l:.75rem">
+            <h3 class="feld-name">{t(s.kopf)}</h3>
+            <ul class="liste">{s.punkte[lang].map((p) => <li><span></span><span>{p}</span></li>)}</ul>
+          </div>
+        ))}
+      </div>
+
+      <div class="stapel" style="--l:.75rem">
+        <h3 class="titel-blatt" style="font-size:1.125rem">{t(agenten.graph.titel)}</h3>
+        <p class="fliess" style="margin:0">{t(agenten.graph.text)}</p>
+
+        <div class="zahlenreihe" style="margin-top:.5rem">
+          <div><div class="zahl">{zahl(graph.meta.quelle_knoten)}</div><div class="zahl-l">{lang === 'de' ? 'Knoten' : 'nodes'}</div></div>
+          <div><div class="zahl">{zahl(graph.meta.quelle_kanten)}</div><div class="zahl-l">{lang === 'de' ? 'Kanten' : 'edges'}</div></div>
+          <div><div class="zahl">{graph.meta.communities}</div><div class="zahl-l">{lang === 'de' ? 'Themencluster' : 'clusters'}</div></div>
+          <div><div class="zahl">193</div><div class="zahl-l">{lang === 'de' ? 'ausgewertete Dateien' : 'files analysed'}</div></div>
+        </div>
+
+        <div class="graph-rahmen">
+          <canvas id="graph" width="1200" height="620" role="img"
+            aria-label={lang === 'de'
+              ? 'Ausschnitt des Wissensgraphen: 136 Knoten aus den eigenen Repositories, verbunden durch 349 Kanten.'
+              : 'Excerpt of the knowledge graph: 136 nodes from my own repositories, connected by 349 edges.'}></canvas>
+          <p class="graph-status" id="graph-status"></p>
+        </div>
+        <div class="graph-legende">
+          <span><i style="background:#1d5c44"></i>{t(agenten.graph.legende.projektron)}</span>
+          <span><i style="background:#a3231c"></i>{t(agenten.graph.legende.kaiju)}</span>
+          <span>{t(agenten.graph.hinweis)}</span>
+        </div>
+      </div>
+
+      <div class="spalten-2">
+        <div class="stapel" style="--l:.75rem">
+          <h3 class="feld-name">{t(agenten.werkzeuge.titel)}</h3>
+          <div class="gitter">
+            {agenten.werkzeuge.punkte.map((w) => (
+              <div class="gitter-reihe">
+                <span class="messwert" style="font-size:.875rem">{w.n}</span>
+                <span style="font-size:.9375rem">{t(w.t)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style="border:1px solid var(--haar-stark);padding:1.25rem;align-self:start">
+          <p class="fliess" style="margin:0;color:var(--tinte)">{t(agenten.grenze)}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ----------------------------------------------------- Fremdbefunde -->
+  <section class="abschnitt huelle einzug" aria-labelledby="h-befunde">
+    <div class="stapel" style="--l:1.75rem">
+      <div class="stapel" style="--l:.75rem">
+        <h2 class="titel-abschnitt" id="h-befunde">{t(ui.fremdbefundeTitel)}</h2>
+        <p class="fliess">{t(ui.fremdbefundeText)}</p>
+      </div>
+      <div class="spalten-2">
+        {fremdbefunde.map((f) => (
+          <div class="befund stapel" style="--l:.85rem">
+            {f.zitate[lang].map((z) => <blockquote>{z}</blockquote>)}
+            <div class="gitter-reihe" style="border:0;padding-bottom:0">
+              <span class="feld-name">{t(ui.quelle)}</span>
+              <span>
+                <span style="font-variation-settings:'wght' 620">{f.quelle}</span>
+                <span style="color:var(--tinte-3)"> · {t(f.rolle)}</span>
+              </span>
+            </div>
+            <a class="knopf knopf--rand" href={f.datei} style="align-self:start;color:var(--gruen-tief)">
+              {t(ui.pdfOeffnen)}
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ---------------------------------------------------------- Freigabe -->
+<footer class="freigabe">
+  <div class="huelle abschnitt">
+    <div class="spalten-2">
+      <div class="stapel">
+        <h2 class="titel-abschnitt">{t(ui.freigabeTitel)}</h2>
+        <p class="fliess" style="color:#d6e5dd">{t(ui.freigabeText)}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.75rem">
+          <a class="knopf" href={mailto}>{person.email}</a>
+          <a class="knopf knopf--rand" href="/dokumente/lebenslauf-abdil-karim-bakir.pdf">{t(ui.lebenslaufPdf)}</a>
+        </div>
+      </div>
+      <div class="gitter" style="border-top-color:rgba(255,255,255,.3)">
+        <div class="gitter-reihe" style="border-bottom-color:rgba(255,255,255,.25)">
+          <span class="feld-name">GitHub</span>
+          <a href={person.githubUrl} rel="me noopener">github.com/{person.github}</a>
+        </div>
+        <div class="gitter-reihe" style="border-bottom-color:rgba(255,255,255,.25)">
+          <span class="feld-name">{lang === 'de' ? 'Standort' : 'Location'}</span>
+          <span>Berlin, {lang === 'de' ? 'Deutschland' : 'Germany'}</span>
+        </div>
+        <div class="gitter-reihe" style="border-bottom-color:rgba(255,255,255,.25)">
+          <span class="feld-name">{t(ui.stand)}</span>
+          <span class="messwert">{person.stand}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="huelle fuss">
+  <p style="margin:0">{t(ui.fussnote)}</p>
+</div>
+
+<script type="application/json" id="graph-daten" is:inline set:html={JSON.stringify(graph)}></script>
+
+<script type="module" src="/js/protokoll.js" is:inline></script>

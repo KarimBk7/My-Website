@@ -1,0 +1,50 @@
+# Alles was mit "." beginnt - Dateien und Ordner, auf jeder Ebene
+# (.env, .DS_Store, .vscode, .idea, .astro, .vercel, .agents, ... )
+.*
+# ... ausser dieser Datei selbst, sonst laesst sie sich nicht committen
+!.gitignore
+
+# Persoenliche Unterlagen: Lebenslauf, Zeugnisse, Portfolio, Projektmaterial.
+# Durch ".*" schon abgedeckt - hier bewusst nochmal explizit, damit diese
+# Daten auch dann draussen bleiben, wenn die Regel oben mal geaendert wird.
+.myFilesAndProjects/
+
+# Skill-/Agent-Tooling
+skills-lock.json
+
+# package.json und package-lock.json waren hier eingetragen und wurden wieder
+# entfernt: Cloudflare Pages liest beide, um zu installieren und zu bauen.
+# Ohne sie schlaegt jeder Deploy fehl. Wer sie wieder ausschliessen will,
+# braucht einen anderen Auslieferungsweg.
+
+# Produktkontext bleibt privat.
+PRODUCT.md
+
+# Sperrmuster fuer die Pruefung auf private Daten (durch ".*" schon erfasst).
+.sperrmuster.json
+
+# Dependencies
+node_modules/
+
+# Build-Output
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# OS-Muell
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# graphify-Output
+graphify-out/
+
+# Impeccable: das Projektgedaechtnis (Richtungsvertrag, Design-System) gehoert
+# ins Repository, die Bildschirmaufnahmen nicht.
+!.impeccable/
+.impeccable/review/

@@ -1,0 +1,98 @@
+// Bildschirmaufnahmen der gebauten Seite. Ein Durchgang, alle Ansichten.
+// Aufruf: node tools/schuss.mjs [basis-url]
+import { chromium } from 'playwright';
+import { mkdirSync, readFileSync, existsSync } from 'node:fs';
+
+const BASIS = process.argv[2] ?? 'http://127.0.0.1:4321';
+const ZIEL = '.impeccable/review';
+mkdirSync(ZIEL, { recursive: true });
+
+// Die Sperrmuster stehen NICHT hier. Ein Prüfskript, das die zu schützenden
+// Daten im Klartext enthält, veröffentlicht sie selbst, sobald es committet
+// wird. Sie liegen in .sperrmuster.json, und die Datei ist gitignoriert.
+const SPERRDATEI = '.sperrmuster.json';
+const sperrmuster = existsSync(SPERRDATEI) ? JSON.parse(readFileSync(SPERRDATEI, 'utf8')) : null;
+if (!sperrmuster) {
+  console.error(`WARNUNG: ${SPERRDATEI} fehlt — die Prüfung auf private Daten wurde übersprungen.`);
+}
+
+const ANSICHTEN = [
+  { name: 'desktop', pfad: '/', width: 1440, height: 900, voll: true },
+  { name: 'mobile', pfad: '/', width: 390, height: 844, voll: true },
+  { name: 'desktop-hero', pfad: '/', width: 1440, height: 900, voll: false },
+  { name: 'mobile-hero', pfad: '/', width: 390, height: 844, voll: false },
+  { name: 'desktop-en', pfad: '/en/', width: 1440, height: 900, voll: true },
+  { name: 'desktop-1280', pfad: '/', width: 1280, height: 800, voll: false },
+];
+
+const browser = await chromium.launch();
+const fehler = [];
+
+for (const a of ANSICHTEN) {
+  const ctx = await browser.newContext({
+    viewport: { width: a.width, height: a.height },
+    deviceScaleFactor: 2,
+    // Bewegung stilllegen, sonst wird ein noch nicht eingefahrenes Element
+    // als fehlendes Element fotografiert.
+    reducedMotion: 'reduce',
+  });
+  const page = await ctx.newPage();
+  page.on('console', (m) => { if (m.type() === 'error') fehler.push(`[${a.name}] ${m.text()}`); });
+  page.on('pageerror', (e) => fehler.push(`[${a.name}] ${e.message}`));
+
+  await page.goto(BASIS + a.pfad, { waitUntil: 'networkidle' });
+  await page.evaluate(() => {
+    document.querySelectorAll('.einzug').forEach((el) => el.classList.add('da'));
+    window.scrollTo(0, 0);
+  });
+  await page.waitForTimeout(350);
+  await page.screenshot({ path: `${ZIEL}/${a.name}.png`, fullPage: a.voll });
+  await ctx.close();
+}
+
+// Ein paar harte Prüfungen, die kein Bild zeigt.
+const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+const page = await ctx.newPage();
+await page.goto(BASIS + '/', { waitUntil: 'networkidle' });
+
+const befund = await page.evaluate((muster) => {
+  const doc = document.documentElement;
+  const text = document.body.innerText;
+  return {
+    querUeberlauf: doc.scrollWidth > doc.clientWidth + 1,
+    scrollWidth: doc.scrollWidth,
+    clientWidth: doc.clientWidth,
+    h1: document.querySelectorAll('h1').length,
+    bilderOhneAlt: [...document.images].filter((i) => !i.alt).length,
+    leereLinks: [...document.querySelectorAll('a')].filter((a) => !a.textContent.trim() && !a.getAttribute('aria-label')).length,
+    privateDaten: muster ? muster.filter((m) => text.includes(m)) : 'nicht geprüft',
+  };
+}, sperrmuster);
+
+// Schalter wirklich bedienen und prüfen, dass sich Werte ändern.
+const vorWert = await page.locator('.messtabelle tbody tr').first().locator('[data-rolle="wert"]').innerText();
+await page.locator('#schalter button[data-stand="vorher"]').click();
+await page.waitForTimeout(200);
+const nachWert = await page.locator('.messtabelle tbody tr').first().locator('[data-rolle="wert"]').innerText();
+
+// Mobiler Querüberlauf
+const mctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+const mpage = await mctx.newPage();
+await mpage.goto(BASIS + '/', { waitUntil: 'networkidle' });
+const mobilUeberlauf = await mpage.evaluate(() => {
+  const d = document.documentElement;
+  const schuldige = [...document.querySelectorAll('*')]
+    .filter((el) => el.getBoundingClientRect().right > d.clientWidth + 1)
+    .slice(0, 6)
+    .map((el) => el.tagName.toLowerCase() + (el.className ? '.' + String(el.className).split(' ')[0] : ''));
+  return { ueberlauf: d.scrollWidth > d.clientWidth + 1, breite: d.scrollWidth, sicht: d.clientWidth, schuldige };
+});
+
+await browser.close();
+
+console.log(JSON.stringify({
+  befund,
+  schalter: { nachher: vorWert, vorher: nachWert, wechseltWerte: vorWert !== nachWert },
+  mobil: mobilUeberlauf,
+  konsolenfehler: fehler,
+}, null, 2));

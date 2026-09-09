@@ -1,0 +1,56 @@
+---
+import '../styles/protokoll.css';
+import { ui, person, type Lang } from '../data/inhalt';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const pfad = lang === 'de' ? '/' : '/en/';
+const kanonisch = new URL(pfad, Astro.site).href;
+const titel = ui.seiteTitel[lang];
+const beschreibung = ui.seiteBeschreibung[lang];
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titel}</title>
+    <meta name="description" content={beschreibung} />
+    <link rel="canonical" href={kanonisch} />
+    <link rel="alternate" hreflang="de" href={new URL('/', Astro.site).href} />
+    <link rel="alternate" hreflang="en" href={new URL('/en/', Astro.site).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL('/', Astro.site).href} />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={titel} />
+    <meta property="og:description" content={beschreibung} />
+    <meta property="og:url" content={kanonisch} />
+    <meta property="og:locale" content={lang === 'de' ? 'de_DE' : 'en_GB'} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#1d5c44" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: person.name,
+        email: `mailto:${person.email}`,
+        url: kanonisch,
+        sameAs: [person.githubUrl],
+        jobTitle: lang === 'de' ? 'Software Engineer, Backend' : 'Software Engineer, Backend',
+        address: { '@type': 'PostalAddress', addressLocality: 'Berlin', addressCountry: 'DE' },
+        alumniOf: { '@type': 'CollegeOrUniversity', name: 'Freie Universität Berlin' },
+      })}
+    />
+  </head>
+  <body>
+    <a class="sprung" href="#inhalt">{ui.skipLink[lang]}</a>
+    <slot />
+  </body>
+</html>

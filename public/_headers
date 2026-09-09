@@ -1,0 +1,18 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+
+# Astro haengt einen Inhalts-Hash an jeden Dateinamen. Diese Dateien aendern
+# sich nie unter derselben Adresse, also duerfen sie dauerhaft im Cache bleiben.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/dokumente/*
+  Cache-Control: public, max-age=86400
+
+# Traegt keinen Inhalts-Hash im Namen, deshalb kurz und mit Rueckfrage.
+/js/*
+  Cache-Control: public, max-age=3600, must-revalidate
