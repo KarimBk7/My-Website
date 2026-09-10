@@ -170,10 +170,11 @@ if (zaehler.length && !RUHIG.matches) {
    auch wirklich verfuegbar ist. */
 const lupe = document.getElementById('lupe');
 if (lupe && typeof lupe.showModal === 'function') {
-  const bild = lupe.querySelector('img');
+  const figur = lupe.querySelector('.lupe-figur');
   const bu = lupe.querySelector('.lupe-bu');
   const mass = lupe.querySelector('.lupe-mass');
   let ausloeser = null;
+  let bild = null;
 
   for (const a of document.querySelectorAll('a[data-lupe]')) {
     a.addEventListener('click', (e) => {
@@ -181,8 +182,12 @@ if (lupe && typeof lupe.showModal === 'function') {
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
       e.preventDefault();
       ausloeser = a;
+      // Das Bild entsteht erst hier und verschwindet beim Schliessen wieder.
+      // So enthaelt die Seite nie ein <img>, das kein Bild laedt.
+      bild = new Image();
       bild.src = a.href;
       bild.alt = a.dataset.bu ?? '';
+      figur.prepend(bild);
       bu.textContent = a.dataset.bu ?? '';
       // Masse aus dem Bildmanifest, nicht vom Vorschaubild: dessen
       // naturalWidth ist 0, solange es als lazy-Bild nicht geladen ist, und
@@ -200,7 +205,7 @@ if (lupe && typeof lupe.showModal === 'function') {
 
   // Fokus zurueck auf das Bild, von dem aus geoeffnet wurde.
   lupe.addEventListener('close', () => {
-    bild.removeAttribute('src');
+    if (bild) { bild.remove(); bild = null; }
     if (ausloeser) { ausloeser.focus(); ausloeser = null; }
   });
 }

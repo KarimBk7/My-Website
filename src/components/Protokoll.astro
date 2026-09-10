@@ -574,8 +574,12 @@ const eintraege: Eintrag[] = [
       </svg>
     </button>
   </form>
+  {/* Ohne <img>-Platzhalter: register.js legt das Bild beim Oeffnen an und
+      entfernt es beim Schliessen wieder. Ein mitgeliefertes <img> ohne src
+      waere dauerhaft ein Bild, das keines laedt -- und haette die drei
+      Bildwaechter (schuss.mjs, live.mjs) gezwungen, genau diesen Fall
+      auszunehmen. Lieber den Fall vermeiden als die Pruefung abstumpfen. */}
   <figure class="lupe-figur">
-    <img alt="" />
     <figcaption>
       <span class="lupe-bu"></span>
       <span class="lupe-mass feld-name"></span>

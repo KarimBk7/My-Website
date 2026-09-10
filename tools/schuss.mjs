@@ -57,13 +57,8 @@ for (const a of ANSICHTEN) {
       await new Promise((r) => setTimeout(r, 250));
       window.scrollTo(0, 0);
     });
-    // Nur Bilder pruefen, die auch eines laden SOLLEN. Die Bildlupe haelt ein
-    // leeres <img> bereit und befuellt es erst beim Oeffnen -- ohne src ist
-    // naturalWidth dauerhaft 0, und die Bedingung wuerde nie wahr.
     await page.waitForFunction(
-      () => Array.from(document.images)
-        .filter((i) => i.getAttribute('src'))
-        .every((i) => i.complete && i.naturalWidth > 0),
+      () => Array.from(document.images).every((i) => i.complete && i.naturalWidth > 0),
       null,
       { timeout: 20000 },
     );
@@ -75,9 +70,7 @@ for (const a of ANSICHTEN) {
   // des Sichtfelds zu Recht noch nicht geladen.
   if (a.voll) {
     const fehlend = await page.evaluate(
-      () => Array.from(document.images)
-        .filter((i) => i.getAttribute('src'))
-        .filter((i) => !i.complete || i.naturalWidth === 0).length,
+      () => Array.from(document.images).filter((i) => !i.complete || i.naturalWidth === 0).length,
     );
     if (fehlend) fehler.push(`[${a.name}] ${fehlend} Bild(er) beim Auslösen noch nicht geladen`);
   }
@@ -97,10 +90,7 @@ const befund = await page.evaluate((muster) => {
     scrollWidth: doc.scrollWidth,
     clientWidth: doc.clientWidth,
     h1: document.querySelectorAll('h1').length,
-    // Das leere Bild der Lupe traegt bewusst alt="" -- solange es kein src
-    // hat, zeigt es nichts an, und das Skript setzt beim Oeffnen sowohl src
-    // als auch alt aus der Bildunterschrift.
-    bilderOhneAlt: [...document.images].filter((i) => i.getAttribute('src') && !i.alt).length,
+    bilderOhneAlt: [...document.images].filter((i) => !i.alt).length,
     leereLinks: [...document.querySelectorAll('a')].filter((a) => !a.textContent.trim() && !a.getAttribute('aria-label')).length,
     privateDaten: muster ? muster.filter((m) => text.includes(m)) : 'nicht geprüft',
   };

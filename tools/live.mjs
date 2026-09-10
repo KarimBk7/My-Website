@@ -36,17 +36,11 @@ await seite.evaluate(async () => {
 });
 await seite.waitForTimeout(6000);
 
-// Nur Bilder zaehlen, die auch eines laden sollen. Die Bildlupe haelt ein
-// leeres <img> ohne src bereit und befuellt es erst beim Oeffnen -- als
-// "fehlendes Bild" gemeldet wuerde es jeden Lauf dauerhaft rot faerben und
-// damit genau die Warnung entwerten, um die es hier geht.
 const bilder = await seite.evaluate(() =>
-  [...document.images]
-    .filter((i) => i.getAttribute('src'))
-    .map((i) => ({
-      ok: i.complete && i.naturalWidth > 0,
-      src: (i.currentSrc || i.src).replace(location.origin, ''),
-    })),
+  [...document.images].map((i) => ({
+    ok: i.complete && i.naturalWidth > 0,
+    src: (i.currentSrc || i.src).replace(location.origin, ''),
+  })),
 );
 
 // Die Messwerte im Projektblatt: vier Zeilen, die nicht gemessene markiert.
