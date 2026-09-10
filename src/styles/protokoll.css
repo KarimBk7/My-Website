@@ -366,8 +366,39 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 
 /* --- Fremdbefunde -------------------------------------------------------- */
 
-.befund { border-top: 2px solid var(--tinte); padding-top: 1.1rem; }
-.befund blockquote { margin: 0 0 1rem; font-size: clamp(1.0625rem, 0.95rem + 0.6vw, 1.3125rem); line-height: 1.4; font-variation-settings: 'wght' 500; text-wrap: pretty; }
+/* Fremdbefunde: zwei Karten, deren Zeilen aneinander haengen.
+   Ohne subgrid stapelt jede Karte fuer sich, und weil die Zitate
+   unterschiedlich lang sind, stehen Quellenzeile und Knopf auf
+   verschiedenen Hoehen. Drei Zeilen je Karte: Zitate, Quelle, Knopf --
+   die Zitate liegen in einem eigenen Kasten, damit ihre Anzahl die
+   Zeilenzahl nicht veraendert. */
+.befunde {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr));
+  gap: clamp(1.5rem, 4vw, 3rem);
+  grid-template-rows: auto auto auto;
+}
+.befund {
+  border-top: 2px solid var(--tinte);
+  padding-top: 1.1rem;
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  row-gap: 0.85rem;
+  align-content: start;
+}
+/* Ohne subgrid (aeltere Browser) faellt es auf die bisherige Stapelung
+   zurueck: nicht ausgerichtet, aber vollstaendig lesbar. */
+@supports not (grid-template-rows: subgrid) {
+  .befunde { grid-template-rows: none; }
+  .befund { grid-row: auto; grid-template-rows: none; }
+}
+.befund .zitate { display: grid; gap: 0.85rem; align-content: start; }
+.befund .knopf { justify-self: start; align-self: start; }
+/* "QUELLE" ist kurz; die 9–15rem des Standard-Feldgitters draengen den
+   Firmennamen sonst in den Umbruch. */
+.befund .gitter-reihe { grid-template-columns: auto minmax(0, 1fr); gap: 0.4rem 0.9rem; }
+.befund blockquote { margin: 0; font-size: clamp(1.0625rem, 0.95rem + 0.6vw, 1.3125rem); line-height: 1.4; font-variation-settings: 'wght' 500; text-wrap: pretty; }
 .befund blockquote::before { content: '„'; color: var(--gruen); }
 .befund blockquote::after { content: '“'; color: var(--gruen); }
 :lang(en) .befund blockquote::before { content: '“'; }

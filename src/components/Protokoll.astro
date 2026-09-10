@@ -400,10 +400,15 @@ const eintraege: Eintrag[] = [
           <h2 class="titel-abschnitt" id="h-befunde">{t(ui.fremdbefundeTitel)}</h2>
           <p class="fliess">{t(ui.fremdbefundeText)}</p>
         </div>
-        <div class="spalten-2">
+        {/* Die beiden Karten teilen sich dieselben Zeilen (subgrid): Zitate,
+            Quellenzeile, Knopf stehen dadurch auf gleicher Hoehe, auch wenn
+            die Zitate unterschiedlich lang sind. */}
+        <div class="befunde">
           {fremdbefunde.map((f) => (
-            <div class="befund stapel aufbau" style="--l:.85rem">
-              {f.zitate[lang].map((z) => <blockquote>{z}</blockquote>)}
+            <div class="befund aufbau">
+              <div class="zitate">
+                {f.zitate[lang].map((z) => <blockquote>{z}</blockquote>)}
+              </div>
               <div class="gitter-reihe" style="border:0;padding-bottom:0">
                 <span class="feld-name">{t(ui.quelle)}</span>
                 <span>
@@ -411,7 +416,7 @@ const eintraege: Eintrag[] = [
                   <span style="color:var(--tinte-3)"> · {t(f.rolle)}</span>
                 </span>
               </div>
-              <a class="knopf knopf--rand" href={f.datei} style="align-self:start;color:var(--gruen-tief)">
+              <a class="knopf knopf--rand" href={f.datei} style="color:var(--gruen-tief)">
                 {t(ui.pdfOeffnen)}
               </a>
             </div>
