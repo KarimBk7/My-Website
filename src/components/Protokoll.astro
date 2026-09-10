@@ -86,18 +86,20 @@ const eintraege: Eintrag[] = [
   <div class="huelle kopf-innen">
     <div>
       <div class="name-zeile">
-        <h1 class="titel-gross">{person.nachname},<br />{person.vorname}</h1>
-        {/* Beide Profile in einer eigenen Gruppe: untereinander eng, zum Namen
-            hin der grosse Abstand der Namenszeile. */}
-        <div class="marken-paar">
-          <a class="marke-link" href={person.githubUrl} {...aussenIch}
-             aria-label={`${t(ui.githubProfil)} — github.com/${person.github} (${t(ui.neuerTab)})`}>
-            <svg width="26" height="26" viewBox="0 0 16 16" aria-hidden="true"><path d={githubMarke} fill="currentColor" /></svg>
-          </a>
-          <a class="marke-link" href={person.linkedinUrl} {...aussenIch}
-             aria-label={`${t(ui.linkedinProfil)} (${t(ui.neuerTab)})`}>
-            <svg width="24" height="24" viewBox="0 0 16 16" aria-hidden="true"><path d={linkedinMarke} fill="currentColor" /></svg>
-          </a>
+        <div class="namensblock">
+          <h1 class="titel-gross">{person.nachname},<br />{person.vorname}</h1>
+          {/* Beide Profile in einer eigenen Gruppe: untereinander eng, zum
+              Namen hin der grosse Abstand der Namenszeile. */}
+          <div class="marken-paar">
+            <a class="marke-link" href={person.githubUrl} {...aussenIch}
+               aria-label={`${t(ui.githubProfil)} — github.com/${person.github} (${t(ui.neuerTab)})`}>
+              <svg width="26" height="26" viewBox="0 0 16 16" aria-hidden="true"><path d={githubMarke} fill="currentColor" /></svg>
+            </a>
+            <a class="marke-link" href={person.linkedinUrl} {...aussenIch}
+               aria-label={`${t(ui.linkedinProfil)} (${t(ui.neuerTab)})`}>
+              <svg width="24" height="24" viewBox="0 0 16 16" aria-hidden="true"><path d={linkedinMarke} fill="currentColor" /></svg>
+            </a>
+          </div>
         </div>
       </div>
       <p class="kopf-zeile" style="margin:1.35rem 0 0;color:#d6e5dd;max-width:46ch">
@@ -106,6 +108,26 @@ const eintraege: Eintrag[] = [
     </div>
 
     <div class="stapel" style="--l:1rem">
+      {/* Lichtbild und Freigabestempel bilden zusammen den Ausweisteil des
+          Kopfes: links das Bild, rechts die Angaben -- so herum steht es auf
+          jedem Dokument. Das Bild wandert bewusst NICHT neben den Namen: der
+          ist zu breit, das Lichtbild waere dort in eine eigene Zeile gerutscht
+          und haette den Kopf um ein Drittel wachsen lassen.
+          Die Quelldatei ist 304 px breit, deshalb steht das Bild mit 8,5 rem
+          bewusst klein -- groesser waere es auf scharfen Bildschirmen sichtbar
+          weich, und eine weiche Aufnahme auf einer Seite ueber Messgenauigkeit
+          zieht alles andere mit runter. */}
+      <div class="ausweis">
+        <figure class="lichtbild">
+          <img
+            src={bild('portrait-bakir').gross}
+            width={bild('portrait-bakir').breite}
+            height={bild('portrait-bakir').hoehe}
+            alt={t(ui.lichtbildAlt)}
+            decoding="async"
+          />
+          <figcaption class="feld-name">{t(ui.lichtbild)}</figcaption>
+        </figure>
       <div class="stempel">
         <p class="feld-name" style="margin:0">{t(ui.freigegebenFuer)}</p>
         <p class="wert" style="margin:0">{t(ui.rolle)}</p>
@@ -114,6 +136,7 @@ const eintraege: Eintrag[] = [
             Freigabeblock am Fuss der Seite. */}
         <p class="feld-name stempel-trenner" style="margin:0">{t(ui.verfuegbarTitel)}</p>
         <p class="wert" style="margin:0">{t(ui.verfuegbarWert)}</p>
+      </div>
       </div>
       <div class="kontakt">
         <div class="knopfreihe">

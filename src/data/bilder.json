@@ -79,6 +79,18 @@
       }
     ]
   },
+  "portrait-bakir": {
+    "breite": 304,
+    "hoehe": 386,
+    "seitenverhaeltnis": 0.7876,
+    "varianten": [
+      {
+        "datei": "/media/portrait-bakir-304.webp",
+        "breite": 304,
+        "kb": 20
+      }
+    ]
+  },
   "projektron-einstellungen": {
     "breite": 787,
     "hoehe": 1072,

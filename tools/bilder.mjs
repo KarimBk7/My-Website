@@ -18,7 +18,9 @@ const ZIEL = 'public/media';
 const BREITEN = [800, 1600];
 
 await mkdir(ZIEL, { recursive: true });
-const dateien = (await readdir(QUELLE)).filter((f) => f.endsWith('.png'));
+// Bildschirmaufnahmen liegen als PNG vor, Fotos als JPEG. Beides wird ohnehin
+// zu WebP umgerechnet -- die Quellendung darf nur nicht luegen.
+const dateien = (await readdir(QUELLE)).filter((f) => /\.(png|jpe?g)$/i.test(f));
 const manifest = {};
 
 for (const datei of dateien) {

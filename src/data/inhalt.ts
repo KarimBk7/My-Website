@@ -655,6 +655,14 @@ export const ui: Record<string, S> = {
   bildVoll: { de: 'Volle Auflösung', en: 'Full resolution' },
   abnahme: { de: 'Abnahme', en: 'Sign-off' },
 
+  /* "Lichtbild" ist das Wort, das auf amtlichen Formularen ueber dem Foto
+     steht -- damit gehoert es zum Protokoll statt danebengeklebt zu sein. */
+  lichtbild: { de: 'Lichtbild', en: 'Photograph' },
+  lichtbildAlt: {
+    de: 'Porträtfoto von Abdil Karim Bakir',
+    en: 'Portrait photograph of Abdil Karim Bakir',
+  },
+
   /* Die Angabe, die vorher komplett fehlte. Ohne sie kann eine Recruiterin
      nicht entscheiden, ob die Stelle ueberhaupt passt -- und schreibt nicht.
      Sie steht deshalb im Kopf, nicht erst im Freigabeblock ganz unten. */

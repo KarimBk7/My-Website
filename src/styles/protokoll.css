@@ -209,6 +209,9 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
 /* Name und Marke nebeneinander. Unten ausgerichtet, damit das Zeichen auf
    der Grundlinie der zweiten Namenszeile sitzt und nicht daneben schwebt. */
 .name-zeile { display: flex; align-items: flex-end; gap: clamp(0.9rem, 2vw, 1.4rem); flex-wrap: wrap; }
+/* Ohne diesen Block bricht die Zeile zwischen Namen und Marken um, und die
+   beiden Symbole stehen allein unter dem Lichtbild statt am Namen. */
+.namensblock { display: flex; align-items: flex-end; gap: clamp(0.9rem, 2vw, 1.4rem); flex-wrap: wrap; min-width: 0; }
 .marke-link {
   display: inline-grid;
   place-items: center;
@@ -222,6 +225,42 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
               transform var(--takt) var(--kurve);
 }
 .marke-link:hover { background: rgba(255, 255, 255, 0.14); border-color: #fff; transform: translateY(-2px); }
+/* --- Lichtbild ---------------------------------------------------------- */
+/* Kein aufgeklebtes Portraet, sondern ein Formularfeld: derselbe 2-px-Rahmen
+   in halbdurchsichtigem Weiss wie Stempel und Profilmarken, dieselbe
+   Feldbeschriftung in Schreibmaschinenschrift wie ueberall sonst im Kopf.
+   Die Breite ist an die Quelldatei gebunden (304 px), nicht am Layout
+   gewaehlt: 144 px bleiben auch auf doppelt aufloesenden Bildschirmen
+   scharf. Wer die Datei austauscht, darf hier hoeher gehen. */
+/* Ausweisteil: Bild links, Angaben rechts -- so herum steht es auf jedem
+   Dokument. Bricht auf schmalen Fenstern untereinander um. */
+.ausweis { display: flex; align-items: stretch; gap: 1rem; flex-wrap: wrap; }
+/* Der Stempel wird auf Bildhoehe gedehnt. Ohne zentrierten Inhalt sammelt
+   sich der Ueberschuss unten und der Kasten wirkt hohl; zentriert liest er
+   sich als Polster. */
+.ausweis .stempel { flex: 1 1 15rem; display: grid; align-content: center; }
+
+.lichtbild {
+  margin: 0;
+  width: 8.5rem;
+  flex: none;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 0.4rem;
+  justify-items: center;
+}
+.lichtbild img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  /* Der rote Fels im Hintergrund der Aufnahme schwingt gegen das Gruen.
+     Eine Spur weniger Saettigung nimmt das heraus, ohne dass das Bild
+     entfaerbt wirkt -- es soll ein Foto bleiben, kein Effekt. */
+  filter: saturate(0.92);
+}
+.lichtbild figcaption { color: rgba(255, 255, 255, 0.72); }
+
 .marken-paar { display: flex; gap: 0.5rem; margin-bottom: 0.35rem; }
 .marken-paar .marke-link { margin-bottom: 0; }
 
@@ -730,6 +769,8 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
      weiss und fehlte auf dem Ausdruck schlicht. */
   .kopf, .freigabe, .kopf *, .freigabe * { background: transparent !important; color: #000 !important; }
   .kopf .knopf, .freigabe .knopf { border: 1px solid #666 !important; }
+  /* Der Bildrahmen ist halbdurchsichtiges Weiss -- auf Papier unsichtbar. */
+  .lichtbild img { border-color: #666 !important; filter: none; }
   .kopf { border-bottom: 1px solid #000; }
   .freigabe { border-top: 1px solid #000; }
   .fliess, .kopf-innen p { color: #000; }
