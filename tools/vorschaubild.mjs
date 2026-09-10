@@ -23,7 +23,7 @@ if (!schrift) {
 
 const name = 'Bakir,<br>Abdil Karim';
 const rolle = 'Software Engineering · Backend, Web, Cloud, Hardware';
-const zeile = 'Informatikstudent an der FU Berlin';
+const zeile = 'Informatikstudent an der FU Berlin · Werkstudent in Teilzeit, ab sofort';
 const adresse = 'my-website.abdilkarimb.workers.dev';
 
 /* Drei Belege statt einer leeren Bildmitte. Jede Zahl steht so auch auf der

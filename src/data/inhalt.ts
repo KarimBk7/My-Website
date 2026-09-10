@@ -21,6 +21,8 @@ export const person = {
   email: 'abdilkarimb@gmail.com',
   github: 'KarimBk7',
   githubUrl: 'https://github.com/KarimBk7',
+  linkedin: 'abdil-karim-bakir',
+  linkedinUrl: 'https://www.linkedin.com/in/abdil-karim-bakir-03b7a9432',
   ort: 'Berlin',
   stand: '2026-09',
   protokollNr: 'AKB-2026-09',
@@ -630,6 +632,21 @@ export const ui: Record<string, S> = {
   },
 
   githubProfil: { de: 'GitHub-Profil öffnen', en: 'Open GitHub profile' },
+  linkedinProfil: { de: 'LinkedIn-Profil öffnen', en: 'Open LinkedIn profile' },
+  /* Links, die eine fremde Seite oeffnen, tun das in einem neuen Tab. Der
+     Zusatz gehoert in den Vorlesetext, sonst wechselt der Tab fuer
+     Screenreader-Nutzer unangekuendigt. */
+  neuerTab: { de: 'öffnet in neuem Tab', en: 'opens in a new tab' },
+  herunterladen: { de: 'herunterladen', en: 'download' },
+
+  /* Die Angabe, die vorher komplett fehlte. Ohne sie kann eine Recruiterin
+     nicht entscheiden, ob die Stelle ueberhaupt passt -- und schreibt nicht.
+     Sie steht deshalb im Kopf, nicht erst im Freigabeblock ganz unten. */
+  verfuegbarTitel: { de: 'Verfügbar', en: 'Availability' },
+  verfuegbarWert: {
+    de: 'Ab sofort · Werkstudent in Teilzeit',
+    en: 'Immediately · working student, part-time',
+  },
 
   /* Rückmeldung am Kontaktknopf. Ein mailto-Link bleibt stumm, wenn kein
      Mailprogramm eingerichtet ist — dann muss die Adresse trotzdem greifbar
@@ -722,12 +739,15 @@ export const ui: Record<string, S> = {
     de: 'Zitate aus den Originalzeugnissen. Die verlinkten PDFs sind geschwärzt: Unterschriften, Bankverbindung des Arbeitgebers und meine Anschrift sind entfernt. Ungeschwärzte Originale reiche ich auf Anfrage nach.',
     en: 'Quotations from the original references. The linked PDFs are redacted: signatures, the employer’s bank details and my postal address have been removed. Unredacted originals on request.',
   },
-  pdfOeffnen: { de: 'PDF öffnen', en: 'Open PDF' },
+  /* Hiess "PDF oeffnen". Mit dem download-Attribut speichert der Browser die
+     Datei, statt sie anzuzeigen -- dann darf die Beschriftung nicht "oeffnen"
+     versprechen. */
+  pdfOeffnen: { de: 'PDF herunterladen', en: 'Download PDF' },
 
   freigabeTitel: { de: 'Freigabe', en: 'Release' },
   freigabeText: {
-    de: 'Ich suche eine Position als Software Engineer — Backend als Kern, gern mit Web-, Cloud- oder Hardware-Anteil. In Berlin oder remote. Schreiben Sie mir — ich antworte innerhalb von zwei Werktagen.',
-    en: 'I am looking for a software engineering position — backend at the core, gladly with a web, cloud or hardware share. In Berlin or remote. Write to me — I reply within two working days.',
+    de: 'Ich suche eine Werkstudentenstelle in Teilzeit als Software Engineer — Backend als Kern, gern mit Web-, Cloud- oder Hardware-Anteil. Verfügbar ab sofort, in Berlin oder remote; Teilzeit deshalb, weil mein Informatikstudium an der FU noch läuft. Die Geschäftsführung bei Lesto Branto werde ich voraussichtlich nicht dauerhaft weiterführen: Mein Fach ist die Informatik, und dort will ich arbeiten. Schreiben Sie mir — ich antworte innerhalb von zwei Werktagen.',
+    en: 'I am looking for a part-time working-student position as a software engineer — backend at the core, gladly with a web, cloud or hardware share. Available immediately, in Berlin or remote; part-time because my computer science degree at FU Berlin is still running. I do not expect to continue as managing director of Lesto Branto in the long run: computer science is my field, and that is where I want to work. Write to me — I reply within two working days.',
   },
   lebenslaufPdf: { de: 'Lebenslauf als PDF', en: 'CV as PDF' },
   mailBetreff: { de: 'Anfrage über die Website', en: 'Enquiry via your website' },

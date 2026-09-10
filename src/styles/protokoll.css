@@ -222,6 +222,12 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
               transform var(--takt) var(--kurve);
 }
 .marke-link:hover { background: rgba(255, 255, 255, 0.14); border-color: #fff; transform: translateY(-2px); }
+.marken-paar { display: flex; gap: 0.5rem; margin-bottom: 0.35rem; }
+.marken-paar .marke-link { margin-bottom: 0; }
+
+/* Der Ladepfeil sitzt in der Schriftlinie leicht zu hoch, weil sein Kasten
+   den Ablagebogen unten mit einschliesst. */
+.lade-marke { flex: none; transform: translateY(1px); }
 
 /* Freigabestempel */
 .stempel {
@@ -234,6 +240,13 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
   font-variation-settings: 'wdth' 104, 'wght' 620;
   font-size: 1.0625rem;
   margin-top: 0.2rem;
+}
+/* Zweite Angabe im Stempel (Verfuegbarkeit), abgesetzt wie ein zweites Feld
+   auf einem Formular. */
+.stempel-trenner {
+  margin-top: 0.75rem !important;
+  padding-top: 0.7rem;
+  border-top: var(--spur) solid rgba(255, 255, 255, 0.35);
 }
 
 .knopf {

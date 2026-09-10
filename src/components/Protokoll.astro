@@ -45,6 +45,22 @@ const kennzahl = (s: string) => {
 const githubMarke =
   'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z';
 
+/* LinkedIn-Marke im selben 16er-Raster wie die GitHub-Marke, damit beide
+   Symbole nebeneinander gleich gross wirken. */
+const linkedinMarke =
+  'M13.63 13.63h-2.37V9.92c0-.89-.02-2.03-1.24-2.03-1.24 0-1.43.97-1.43 1.97v3.77H6.22V6h2.28v1.04h.03c.32-.6 1.09-1.24 2.25-1.24 2.4 0 2.85 1.58 2.85 3.64v4.19ZM3.55 4.96a1.38 1.38 0 1 1 0-2.76 1.38 1.38 0 0 1 0 2.76Zm1.19 8.67H2.36V6h2.38v7.63ZM14.82 0H1.18C.53 0 0 .52 0 1.16v13.68C0 15.48.53 16 1.18 16h13.64c.65 0 1.18-.52 1.18-1.16V1.16C16 .52 15.47 0 14.82 0Z';
+
+/* Ein Pfeil in eine Ablage -- das uebliche Zeichen fuer "wird gespeichert".
+   Steht an jedem Link, der eine Datei herunterlaedt, damit vor dem Klick
+   klar ist, dass etwas auf der Platte landet und sich nichts oeffnet. */
+const ladeMarke = 'M8 1v8m0 0 3.2-3.2M8 9 4.8 5.8M2 11.5v1.7c0 .44.36.8.8.8h10.4c.44 0 .8-.36.8-.8v-1.7';
+
+/* Aussenlinks oeffnen einen neuen Tab. Als eine Stelle statt an jedem Link
+   wiederholt -- so kann keiner davon den Zusatz verlieren. `noopener` haelt
+   die neue Seite von window.opener fern. */
+const aussen = { target: '_blank', rel: 'noopener' } as const;
+const aussenIch = { target: '_blank', rel: 'me noopener' } as const;
+
 const mailto = `mailto:${person.email}?subject=${encodeURIComponent(t(ui.mailBetreff))}`;
 const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto GmbH', 'LUM GmbH'];
 
@@ -71,9 +87,18 @@ const eintraege: Eintrag[] = [
     <div>
       <div class="name-zeile">
         <h1 class="titel-gross">{person.nachname},<br />{person.vorname}</h1>
-        <a class="marke-link" href={person.githubUrl} rel="me noopener" aria-label={`${t(ui.githubProfil)} — github.com/${person.github}`}>
-          <svg width="26" height="26" viewBox="0 0 16 16" aria-hidden="true"><path d={githubMarke} fill="currentColor" /></svg>
-        </a>
+        {/* Beide Profile in einer eigenen Gruppe: untereinander eng, zum Namen
+            hin der grosse Abstand der Namenszeile. */}
+        <div class="marken-paar">
+          <a class="marke-link" href={person.githubUrl} {...aussenIch}
+             aria-label={`${t(ui.githubProfil)} — github.com/${person.github} (${t(ui.neuerTab)})`}>
+            <svg width="26" height="26" viewBox="0 0 16 16" aria-hidden="true"><path d={githubMarke} fill="currentColor" /></svg>
+          </a>
+          <a class="marke-link" href={person.linkedinUrl} {...aussenIch}
+             aria-label={`${t(ui.linkedinProfil)} (${t(ui.neuerTab)})`}>
+            <svg width="24" height="24" viewBox="0 0 16 16" aria-hidden="true"><path d={linkedinMarke} fill="currentColor" /></svg>
+          </a>
+        </div>
       </div>
       <p class="kopf-zeile" style="margin:1.35rem 0 0;color:#d6e5dd;max-width:46ch">
         {t(ui.kopfText)}
@@ -84,6 +109,11 @@ const eintraege: Eintrag[] = [
       <div class="stempel">
         <p class="feld-name" style="margin:0">{t(ui.freigegebenFuer)}</p>
         <p class="wert" style="margin:0">{t(ui.rolle)}</p>
+        {/* Ohne Verfuegbarkeit kann niemand entscheiden, ob die eigene Stelle
+            ueberhaupt passt. Sie steht deshalb im Kopf und nicht erst im
+            Freigabeblock am Fuss der Seite. */}
+        <p class="feld-name stempel-trenner" style="margin:0">{t(ui.verfuegbarTitel)}</p>
+        <p class="wert" style="margin:0">{t(ui.verfuegbarWert)}</p>
       </div>
       <div class="kontakt">
         <div class="knopfreihe">
@@ -93,8 +123,12 @@ const eintraege: Eintrag[] = [
               <path d="M2 7.5h11M8.5 3l4.5 4.5L8.5 12" stroke="currentColor" stroke-width="1.8" />
             </svg>
           </a>
-          <a class="knopf knopf--rand" href="/dokumente/lebenslauf-abdil-karim-bakir.pdf">
+          <a class="knopf knopf--rand" href="/dokumente/lebenslauf-abdil-karim-bakir.pdf"
+             download aria-label={`${t(ui.lebenslaufPdf)} ${t(ui.herunterladen)}`}>
             {t(ui.lebenslaufPdf)}
+            <svg class="lade-marke" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d={ladeMarke} stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
           </a>
         </div>
         <p class="kontakt-hinweis" role="status" aria-live="polite"></p>
@@ -153,11 +187,21 @@ const eintraege: Eintrag[] = [
       </ul>
     </nav>
     <div class="register-fuss">
-      <a href="/dokumente/lebenslauf-abdil-karim-bakir.pdf">{t(ui.lebenslaufPdf)}</a>
+      <a href="/dokumente/lebenslauf-abdil-karim-bakir.pdf" download
+         aria-label={`${t(ui.lebenslaufPdf)} ${t(ui.herunterladen)}`}>
+        <svg class="lade-marke" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d={ladeMarke} stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        {t(ui.lebenslaufPdf)}
+      </a>
       <a href={mailto}>{t(ui.kontakt)}</a>
-      <a href={person.githubUrl} rel="me noopener">
+      <a href={person.githubUrl} {...aussenIch} aria-label={`github.com/${person.github} (${t(ui.neuerTab)})`}>
         <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d={githubMarke} fill="currentColor" /></svg>
         github.com/{person.github}
+      </a>
+      <a href={person.linkedinUrl} {...aussenIch} aria-label={`${t(ui.linkedinProfil)} (${t(ui.neuerTab)})`}>
+        <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d={linkedinMarke} fill="currentColor" /></svg>
+        LinkedIn
       </a>
     </div>
   </aside>
@@ -446,7 +490,8 @@ const eintraege: Eintrag[] = [
               <h4 class="feld-name">{t(ui.einordnung)}</h4>
               <p class="fliess" style="margin:0;font-size:.9375rem">{t(p.einordnung)}</p>
               {'repo' in p && p.repo && (
-                <p style="margin:0"><a class="messwert" style="font-size:.8125rem" href={p.repo} rel="noopener">{p.repo.replace('https://', '')}</a></p>
+                <p style="margin:0"><a class="messwert" style="font-size:.8125rem" href={p.repo} {...aussen}
+                  aria-label={`${p.repo.replace('https://', '')} (${t(ui.neuerTab)})`}>{p.repo.replace('https://', '')}</a></p>
               )}
             </div>
           </div>
@@ -477,8 +522,12 @@ const eintraege: Eintrag[] = [
                   <span style="color:var(--tinte-3)"> · {t(f.rolle)}</span>
                 </span>
               </div>
-              <a class="knopf knopf--rand" href={f.datei} style="color:var(--gruen-tief)">
+              <a class="knopf knopf--rand" href={f.datei} style="color:var(--gruen-tief)"
+                 download aria-label={`${f.quelle} — ${t(ui.pdfOeffnen)}`}>
                 {t(ui.pdfOeffnen)}
+                <svg class="lade-marke" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d={ladeMarke} stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
               </a>
             </div>
           ))}
@@ -498,7 +547,13 @@ const eintraege: Eintrag[] = [
         <div class="kontakt">
           <div style="display:flex;flex-wrap:wrap;gap:.75rem">
             <a class="knopf" href={mailto} data-kontakt={person.email}>{person.email}</a>
-            <a class="knopf knopf--rand" href="/dokumente/lebenslauf-abdil-karim-bakir.pdf">{t(ui.lebenslaufPdf)}</a>
+            <a class="knopf knopf--rand" href="/dokumente/lebenslauf-abdil-karim-bakir.pdf"
+               download aria-label={`${t(ui.lebenslaufPdf)} ${t(ui.herunterladen)}`}>
+              {t(ui.lebenslaufPdf)}
+              <svg class="lade-marke" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d={ladeMarke} stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
           </div>
           <p class="kontakt-hinweis" role="status" aria-live="polite"></p>
         </div>
@@ -506,7 +561,13 @@ const eintraege: Eintrag[] = [
       <div class="gitter" style="border-top-color:rgba(255,255,255,.3)">
         <div class="gitter-reihe" style="border-bottom-color:rgba(255,255,255,.25)">
           <span class="feld-name">GitHub</span>
-          <a href={person.githubUrl} rel="me noopener">github.com/{person.github}</a>
+          <a href={person.githubUrl} {...aussenIch}
+             aria-label={`github.com/${person.github} (${t(ui.neuerTab)})`}>github.com/{person.github}</a>
+        </div>
+        <div class="gitter-reihe" style="border-bottom-color:rgba(255,255,255,.25)">
+          <span class="feld-name">LinkedIn</span>
+          <a href={person.linkedinUrl} {...aussenIch}
+             aria-label={`${t(ui.linkedinProfil)} (${t(ui.neuerTab)})`}>{person.linkedinUrl.replace('https://www.', '')}</a>
         </div>
         <div class="gitter-reihe" style="border-bottom-color:rgba(255,255,255,.25)">
           <span class="feld-name">{t(ui.standort)}</span>
