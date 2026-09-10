@@ -5,7 +5,12 @@
    Überlagerung zu öffnen. Gehört zu protokoll.css, dort eingebunden.
    ========================================================================== */
 
-.rumpf { display: grid; grid-template-columns: minmax(0, 1fr); position: relative; }
+.rumpf {
+  --register-breite: 15.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  position: relative;
+}
 
 .register {
   background: var(--papier-tief);
@@ -144,9 +149,34 @@
 
 /* --- Desktop: feste Spalte, mitlaufend ----------------------------------- */
 @media (min-width: 64rem) {
-  .rumpf { grid-template-columns: 15.5rem minmax(0, 1fr); }
-  .register { position: sticky; top: 0; align-self: start; max-height: 100vh; overflow-y: auto; }
+  .rumpf { grid-template-columns: var(--register-breite) minmax(0, 1fr); }
+
+  /* Der hellere Grund gehört der SPALTE, nicht der Navigation. Die klebt oben
+     und ist nur so hoch wie ihre Liste -- läge der Grund auf ihr, endete er
+     mitten auf der Seite und hinterliesse eine Kante mit Leerraum darunter. */
+  .rumpf::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: var(--register-breite);
+    background: var(--papier-tief);
+    border-right: var(--spur) solid var(--haar);
+    pointer-events: none;
+  }
+  .register {
+    position: sticky; top: 0; align-self: start;
+    max-height: 100vh; overflow-y: auto;
+    background: transparent;
+    border-right: 0;
+  }
+
+  /* Genau eine durchgehende senkrechte Linie: solange das Register offen ist,
+     übernimmt dessen Spaltenkante diese Rolle. */
+  html[data-register='auf'] .faden::before { display: none; }
+
   html[data-register='zu'] .rumpf { grid-template-columns: minmax(0, 1fr); }
+  html[data-register='zu'] .rumpf::before { display: none; }
   html[data-register='zu'] .register { display: none; }
   html[data-register='zu'] .register-griff { display: inline-grid; }
 }
