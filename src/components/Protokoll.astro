@@ -85,12 +85,15 @@ const eintraege: Eintrag[] = [
         <p class="feld-name" style="margin:0">{t(ui.freigegebenFuer)}</p>
         <p class="wert" style="margin:0">{t(ui.rolle)}</p>
       </div>
-      <a class="knopf" href={mailto}>
-        {t(ui.kontakt)}
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-          <path d="M2 7.5h11M8.5 3l4.5 4.5L8.5 12" stroke="currentColor" stroke-width="1.8" />
-        </svg>
-      </a>
+      <div class="kontakt">
+        <a class="knopf" href={mailto} data-kontakt={person.email}>
+          {t(ui.kontakt)}
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+            <path d="M2 7.5h11M8.5 3l4.5 4.5L8.5 12" stroke="currentColor" stroke-width="1.8" />
+          </svg>
+        </a>
+        <p class="kontakt-hinweis" role="status" aria-live="polite"></p>
+      </div>
     </div>
   </div>
 </header>
@@ -453,9 +456,12 @@ const eintraege: Eintrag[] = [
       <div class="stapel">
         <h2 class="titel-abschnitt" id="h-freigabe">{t(ui.freigabeTitel)}</h2>
         <p class="fliess" style="color:#d6e5dd">{t(ui.freigabeText)}</p>
-        <div style="display:flex;flex-wrap:wrap;gap:.75rem">
-          <a class="knopf" href={mailto}>{person.email}</a>
-          <a class="knopf knopf--rand" href="/dokumente/lebenslauf-abdil-karim-bakir.pdf">{t(ui.lebenslaufPdf)}</a>
+        <div class="kontakt">
+          <div style="display:flex;flex-wrap:wrap;gap:.75rem">
+            <a class="knopf" href={mailto} data-kontakt={person.email}>{person.email}</a>
+            <a class="knopf knopf--rand" href="/dokumente/lebenslauf-abdil-karim-bakir.pdf">{t(ui.lebenslaufPdf)}</a>
+          </div>
+          <p class="kontakt-hinweis" role="status" aria-live="polite"></p>
         </div>
       </div>
       <div class="gitter" style="border-top-color:rgba(255,255,255,.3)">

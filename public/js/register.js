@@ -72,6 +72,42 @@ if (register) {
   aktualisiere();
 }
 
+/* --- Kontakt: sichtbare Rückmeldung -------------------------------------- */
+// Ein mailto-Link ist stumm, wenn kein Mailprogramm eingerichtet ist: man
+// klickt, und es passiert nichts Sichtbares. Deshalb wandert die Adresse beim
+// Klick zusätzlich in die Zwischenablage, und darunter erscheint eine Zeile,
+// die das bestätigt und die Adresse zeigt. Damit führt der Knopf in jedem Fall
+// zu etwas -- auch dort, wo das Betriebssystem nichts öffnet.
+const kontakte = document.querySelectorAll('a[data-kontakt]');
+for (const a of kontakte) {
+  const hinweis = a.closest('.kontakt')?.querySelector('.kontakt-hinweis');
+  if (!hinweis) continue;
+  const adresse = a.dataset.kontakt;
+  const englisch = html.lang === 'en';
+  const kopiert = englisch ? 'Address copied' : 'Adresse kopiert';
+  const nurAdresse = englisch ? 'Address' : 'Adresse';
+  let zeitgeber;
+
+  a.addEventListener('click', async () => {
+    // Kein preventDefault: wer ein Mailprogramm hat, soll es geöffnet bekommen.
+    let text = `${nurAdresse}: ${adresse}`;
+    try {
+      await navigator.clipboard.writeText(adresse);
+      text = `${kopiert}: ${adresse}`;
+    } catch {
+      // Zwischenablage verweigert (kein sicherer Kontext, kein Recht):
+      // dann bleibt die Adresse wenigstens sichtbar und markierbar.
+    }
+    hinweis.textContent = text;
+    hinweis.dataset.sichtbar = '';
+    clearTimeout(zeitgeber);
+    zeitgeber = setTimeout(() => {
+      delete hinweis.dataset.sichtbar;
+      hinweis.textContent = '';
+    }, 6000);
+  });
+}
+
 /* --- Aufbau beim Scrollen ------------------------------------------------ */
 // Zeilen, Bilder und Kennwerte erscheinen, wenn sie ins Bild kommen -- gestaffelt,
 // wie ein Protokoll, das Zeile für Zeile ausgefüllt wird. Nur unterhalb der

@@ -490,6 +490,12 @@ export const ui: Record<string, S> = {
 
   githubProfil: { de: 'GitHub-Profil öffnen', en: 'Open GitHub profile' },
 
+  /* Rückmeldung am Kontaktknopf. Ein mailto-Link bleibt stumm, wenn kein
+     Mailprogramm eingerichtet ist — dann muss die Adresse trotzdem greifbar
+     sein, sonst klickt jemand und gibt auf. */
+  kontaktKopiert: { de: 'Adresse kopiert', en: 'Address copied' },
+  kontaktAdresse: { de: 'Adresse', en: 'Address' },
+
   pruefling: { de: 'Prüfling', en: 'Item under test' },
   standort: { de: 'Standort', en: 'Location' },
   standortWert: { de: 'Berlin, Deutschland', en: 'Berlin, Germany' },
