@@ -15,7 +15,13 @@
 
 # Das Seitenverhalten liegt in einer eigenen Datei, weil die Richtlinie oben
 # eingebettete Skripte verbietet und Astro kleine Skripte von sich aus
-# einbettet. Der Dateiname traegt keinen Inhalts-Hash, deshalb kurz und mit
-# Rueckfrage -- sonst bleibt eine alte Fassung eine Stunde lang haengen.
+# einbettet.
+#
+# max-age=0 ist hier Absicht und darf nicht "optimiert" werden. Der Dateiname
+# traegt keinen Inhalts-Hash, die HTML wird dagegen bei jedem Aufruf neu geholt.
+# Mit einer laengeren Frist bekommt der Besucher neue HTML mit altem Skript --
+# die neuen Elemente sind da, aber niemand bedient sie, und nichts schlaegt
+# fehl. Genau das ist mit max-age=3600 passiert. Die Datei ist 6 KB; eine
+# Rueckfrage je Aufruf kostet nichts, ein stiller Versionsversatz alles.
 /js/*
-  Cache-Control: public, max-age=3600, must-revalidate
+  Cache-Control: public, max-age=0, must-revalidate
