@@ -274,7 +274,16 @@ const eintraege: Eintrag[] = [
       <section class="abschnitt huelle blatt" aria-labelledby={`h-${p.id}`}>
         <div class="stapel" style="--l:2rem">
           <div class="blatt-kopf">
-            <span class="blatt-nr">{p.nr}</span>
+            <div class="blatt-zeile">
+              <span class="blatt-nr">{p.nr}</span>
+              {'stempel' in p && p.stempel && (
+                <span class="abnahme-stempel" role="img"
+                      aria-label={`${t(ui.abnahme)}: ${t(p.stempel.wort)} ${p.stempel.zusatz}`}>
+                  <span class="abnahme-wort">{t(p.stempel.wort)}</span>
+                  <span class="abnahme-zusatz">{p.stempel.zusatz}</span>
+                </span>
+              )}
+            </div>
             <h3 class="titel-blatt" id={`h-${p.id}`}>{t(p.titel)}</h3>
             <p class="fliess" style="margin:0">{t(p.kurz)}</p>
           </div>
@@ -433,18 +442,34 @@ const eintraege: Eintrag[] = [
                   data-breit={'breit' in b && b.breit ? '' : undefined}
                   style={`--nativ:${bild(b.datei).breite}px`}
                 >
-                  <img
-                    src={bild(b.datei).gross}
-                    srcset={bild(b.datei).srcset}
-                    sizes={'breit' in b && b.breit
-                      ? '(max-width: 52rem) 92vw, 72rem'
-                      : '(max-width: 52rem) 92vw, 30vw'}
-                    width={bild(b.datei).breite}
-                    height={bild(b.datei).hoehe}
-                    alt={t(b.bu)}
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  {/* Ein <a> auf die Bilddatei, kein <button>: ohne Skript
+                      oeffnet der Link das Bild in voller Groesse in einem
+                      neuen Tab. Mit Skript faengt register.js den Klick ab
+                      und zeigt es in der Lupe. */}
+                  <a class="bild-lupe" href={bild(b.datei).gross} target="_blank" rel="noopener"
+                     data-lupe data-bu={t(b.bu)}
+                     data-w={bild(b.datei).breite} data-h={bild(b.datei).hoehe}
+                     aria-label={`${t(ui.bildVergroessern)}: ${t(b.bu)}`}>
+                    <img
+                      src={bild(b.datei).gross}
+                      srcset={bild(b.datei).srcset}
+                      sizes={'breit' in b && b.breit
+                        ? '(max-width: 52rem) 92vw, 72rem'
+                        : '(max-width: 52rem) 92vw, 30vw'}
+                      width={bild(b.datei).breite}
+                      height={bild(b.datei).hoehe}
+                      alt={t(b.bu)}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span class="lupe-marke" aria-hidden="true">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <circle cx="7" cy="7" r="4.7" stroke="currentColor" stroke-width="1.6" />
+                        <path d="M10.4 10.4 14 14M5.2 7h3.6M7 5.2v3.6" stroke="currentColor"
+                              stroke-width="1.6" stroke-linecap="round" />
+                      </svg>
+                    </span>
+                  </a>
                   <figcaption>{t(b.bu)}</figcaption>
                 </figure>
               ))}
@@ -536,6 +561,27 @@ const eintraege: Eintrag[] = [
     </section>
   </main>
 </div>
+
+{/* Bildlupe. Ein natives <dialog>: Fokusfalle, Escape und der abdunkelnde
+    Hintergrund kommen vom Browser, nicht aus nachgebautem JavaScript. Steht
+    leer im HTML und wird erst beim Klick befuellt -- so laedt die grosse
+    Fassung nur, wenn sie jemand sehen will. */}
+<dialog class="lupe" id="lupe" aria-label={t(ui.bildAnsicht)}>
+  <form method="dialog" class="lupe-schliessen-form">
+    <button class="lupe-schliessen" type="submit" aria-label={t(ui.bildSchliessen)}>
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+      </svg>
+    </button>
+  </form>
+  <figure class="lupe-figur">
+    <img alt="" />
+    <figcaption>
+      <span class="lupe-bu"></span>
+      <span class="lupe-mass feld-name"></span>
+    </figcaption>
+  </figure>
+</dialog>
 
 <!-- ---------------------------------------------------------- Freigabe -->
 <footer class="freigabe">

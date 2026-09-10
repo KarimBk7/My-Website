@@ -228,6 +228,11 @@ export const projekte = [
   {
     id: 'spesenkonfigurator',
     nr: 'M-1',
+    /* Abnahmevermerk auf dem Blatt. Jedes Wort ist durch einen Fakt auf
+       demselben Blatt gedeckt -- hier durch die Auslieferung als Installer im
+       Juli 2026. Ein erfundener Stempel waere genau die Deko, die dem
+       Protokoll seine Glaubwuerdigkeit nimmt. */
+    stempel: { wort: { de: 'Übergeben', en: 'Delivered' }, zusatz: '07/2026' },
     titel: {
       de: 'Spesenkonfigurator für Projektron BCS',
       en: 'Expense configurator for Projektron BCS',
@@ -365,6 +370,7 @@ public void markValidated() {
   {
     id: 'kaiju',
     nr: 'M-2',
+    stempel: { wort: { de: 'Abgegeben', en: 'Submitted' }, zusatz: '12/2022' },
     titel: { de: 'Kaiju Adventure', en: 'Kaiju Adventure' },
     kurz: {
       de: 'Vollständiges 2D-Action-Adventure in Java, bewusst ohne Spiel-Engine gebaut: eigene Spielschleife, eigene Kollisionserkennung, kachelbasierte Welt und Spielstände in einer MySQL-Datenbank.',
@@ -451,6 +457,7 @@ public void markValidated() {
   {
     id: 'lernrepo',
     nr: 'M-3',
+    stempel: { wort: { de: 'Abgenommen', en: 'Accepted' }, zusatz: '67/67' },
     titel: { de: 'Technisches Lern-Repository', en: 'Technical learning repository' },
     kurz: {
       de: 'Über 17 Monate gewachsenes Repository mit eigenen Notizen, Terminal-Protokollen und lauffähigem Beispielcode zu 30 Themengebieten — von Python und Go über SQL und Linux-Administration bis zu Webentwicklung und Testen.',
@@ -516,6 +523,7 @@ public void markValidated() {
   {
     id: 'website',
     nr: 'M-4',
+    stempel: { wort: { de: 'Veröffentlicht', en: 'Published' }, zusatz: '09/2026' },
     titel: { de: 'Diese Seite', en: 'This page' },
     kurz: {
       de: 'Die Bewerbungsseite, die Sie gerade lesen: statisch erzeugt, zweisprachig, ohne Tracker und ohne Cookies, ausgeliefert als Cloudflare Worker. Ein einziges JavaScript von 3,2 KB, kein Framework im Browser.',
@@ -638,6 +646,14 @@ export const ui: Record<string, S> = {
      Screenreader-Nutzer unangekuendigt. */
   neuerTab: { de: 'öffnet in neuem Tab', en: 'opens in a new tab' },
   herunterladen: { de: 'herunterladen', en: 'download' },
+
+  /* Bildlupe. Ohne Skript bleibt der Link ein Link auf die Bilddatei -- das
+     ist der Grund, warum hier ein <a> steht und kein <button>. */
+  bildVergroessern: { de: 'Bild vergrößern', en: 'Enlarge image' },
+  bildSchliessen: { de: 'Schließen', en: 'Close' },
+  bildAnsicht: { de: 'Bildansicht', en: 'Image view' },
+  bildVoll: { de: 'Volle Auflösung', en: 'Full resolution' },
+  abnahme: { de: 'Abnahme', en: 'Sign-off' },
 
   /* Die Angabe, die vorher komplett fehlte. Ohne sie kann eine Recruiterin
      nicht entscheiden, ob die Stelle ueberhaupt passt -- und schreibt nicht.

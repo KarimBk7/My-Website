@@ -395,6 +395,46 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
 /* --- Messreihen (Projektblätter) ---------------------------------------- */
 
 .blatt-kopf { display: grid; gap: 0.75rem; margin-bottom: 2rem; }
+.blatt-zeile { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+
+/* --- Abnahmestempel ----------------------------------------------------- */
+/* Der zweite Massstabswechsel, den die Seite braucht -- und der einzige
+   Zierrat, der die Protokoll-Metapher staerkt statt sie zu verwaessern.
+   Bewusst KEINE nachgemachte Gummi-Textur und keine Schraeglage jenseits
+   weniger Grad: sobald es "gemacht" aussieht, faerbt das auf die Zahlen ab.
+   Jeder Stempeltext ist durch einen Fakt auf demselben Blatt gedeckt. */
+.abnahme-stempel {
+  display: inline-grid;
+  justify-items: center;
+  gap: 0.1rem;
+  padding: 0.3rem 0.85rem 0.35rem;
+  border: 2px solid var(--gruen);
+  color: var(--gruen);
+  transform: rotate(-2.5deg);
+  opacity: 0.85;
+}
+.abnahme-wort {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  font-variation-settings: 'wght' 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+.abnahme-zusatz {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  padding-top: 0.15rem;
+  border-top: var(--spur) solid var(--gruen-linie);
+  align-self: stretch;
+  text-align: center;
+}
+/* Auf schmalen Fenstern steht der Stempel unter der Nummer statt daneben --
+   gedreht neben einer umbrechenden Ueberschrift wird er sonst zum Stolperer. */
+@media (max-width: 34rem) {
+  .abnahme-stempel { transform: none; justify-self: start; }
+}
 .blatt-nr {
   font-family: var(--mono);
   font-size: 0.8125rem;
@@ -451,6 +491,88 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
    width:100% legt die Breite unabhängig vom Inhalt fest; die auto-Ränder
    zentrieren weiterhin, sobald max-width (--nativ) kleiner ist als die Spur. */
 .bildreihe figure { width: 100%; }
+
+/* --- Bildlupe ----------------------------------------------------------- */
+/* Die Aufnahmen sind kleiner abgebildet als sie sind: das Projektron-Haupt-
+   fenster misst 1188 px und stand in 930, die drei kleinen 872 px in 294.
+   Die farbigen Pruefmarkierungen waren damit schlicht nicht lesbar. */
+.bild-lupe { display: block; position: relative; cursor: zoom-in; }
+.bild-lupe img { transition: filter var(--takt) var(--kurve); }
+.lupe-marke {
+  position: absolute;
+  right: 0.55rem;
+  bottom: 0.55rem;
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  background: var(--papier);
+  border: var(--spur) solid var(--haar-stark);
+  color: var(--gruen-tief);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--takt) var(--kurve), transform var(--takt) var(--kurve);
+}
+/* Auf Zeigergeräten erst beim Hinsehen, per Tastatur immer sichtbar. Auf
+   Tippgeräten dauerhaft -- dort gibt es kein Hover, das sie hervorholt. */
+.bild-lupe:hover .lupe-marke,
+.bild-lupe:focus-visible .lupe-marke { opacity: 1; transform: none; }
+@media (hover: none) { .lupe-marke { opacity: 1; transform: none; } }
+.bild-lupe:hover img { filter: brightness(0.96); }
+
+.lupe {
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  height: 100%;
+  margin: 0;
+  padding: clamp(1rem, 4vw, 2.5rem);
+  border: 0;
+  background: transparent;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.lupe::backdrop { background: rgba(17, 19, 24, 0.88); }
+.lupe-figur {
+  margin: 0;
+  max-width: none;
+  display: grid;
+  gap: 0.85rem;
+  place-content: center;
+  min-height: 100%;
+  justify-items: center;
+}
+.lupe-figur img {
+  display: block;
+  max-width: 100%;
+  /* Platz fuer die Bildunterschrift lassen, sonst schiebt sie das Bild raus. */
+  max-height: calc(100vh - 9rem);
+  width: auto;
+  height: auto;
+  background: #fff;
+  border: var(--spur) solid rgba(255, 255, 255, 0.3);
+}
+.lupe-figur figcaption {
+  color: #e9eae6;
+  max-width: 70ch;
+  text-align: center;
+  display: grid;
+  gap: 0.3rem;
+}
+.lupe-mass { color: rgba(255, 255, 255, 0.6); }
+.lupe-schliessen-form { position: sticky; top: 0; display: flex; justify-content: flex-end; z-index: 1; }
+.lupe-schliessen {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: transparent;
+  border: var(--spur) solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  cursor: pointer;
+  transition: background var(--takt) var(--kurve), border-color var(--takt) var(--kurve);
+}
+.lupe-schliessen:hover { background: rgba(255, 255, 255, 0.15); border-color: #fff; }
 
 /* Mängelliste: der einzige Ort, an dem Rot flächig auftritt. */
 /* --------------------------------------------------- Eingriff: Schichten */
@@ -620,7 +742,7 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 
   /* Bedienelemente haben auf Papier nichts zu suchen. */
   .sprachwahl, .sprung, .register, .register-griff, .register-schleier,
-  .klappe, .kontakt-hinweis { display: none !important; }
+  .klappe, .kontakt-hinweis, .lupe-marke, .lupe { display: none !important; }
   .rumpf { grid-template-columns: minmax(0, 1fr) !important; }
   .rumpf::before { display: none !important; }
 

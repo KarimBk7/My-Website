@@ -162,3 +162,45 @@ if (zaehler.length && !RUHIG.matches) {
   }, { threshold: 0.6 });
   zaehler.forEach((el) => io.observe(el));
 }
+
+/* --------------------------------------------------------------- Bildlupe */
+/* Klick auf ein Bild zeigt es gross im nativen <dialog>. Der Link darunter
+   bleibt ein echter Link: ohne dieses Skript oeffnet er die Bilddatei in
+   einem neuen Tab, weshalb hier preventDefault() nur laeuft, wenn der Dialog
+   auch wirklich verfuegbar ist. */
+const lupe = document.getElementById('lupe');
+if (lupe && typeof lupe.showModal === 'function') {
+  const bild = lupe.querySelector('img');
+  const bu = lupe.querySelector('.lupe-bu');
+  const mass = lupe.querySelector('.lupe-mass');
+  let ausloeser = null;
+
+  for (const a of document.querySelectorAll('a[data-lupe]')) {
+    a.addEventListener('click', (e) => {
+      // Modifizierte Klicks gehoeren dem Browser: neuer Tab, Speichern unter.
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      ausloeser = a;
+      bild.src = a.href;
+      bild.alt = a.dataset.bu ?? '';
+      bu.textContent = a.dataset.bu ?? '';
+      // Masse aus dem Bildmanifest, nicht vom Vorschaubild: dessen
+      // naturalWidth ist 0, solange es als lazy-Bild nicht geladen ist, und
+      // faellt dann auf die ANGEZEIGTE Breite zurueck -- 292 statt 872.
+      mass.textContent = a.dataset.w ? `${a.dataset.w} × ${a.dataset.h}` : '';
+      lupe.showModal();
+    });
+  }
+
+  // Klick auf den Hintergrund schliesst. Das <dialog> selbst fuellt das ganze
+  // Fenster, deshalb zaehlt nur ein Treffer ausserhalb der Bildflaeche.
+  lupe.addEventListener('click', (e) => {
+    if (!e.target.closest('.lupe-figur, .lupe-schliessen')) lupe.close();
+  });
+
+  // Fokus zurueck auf das Bild, von dem aus geoeffnet wurde.
+  lupe.addEventListener('close', () => {
+    bild.removeAttribute('src');
+    if (ausloeser) { ausloeser.focus(); ausloeser = null; }
+  });
+}
