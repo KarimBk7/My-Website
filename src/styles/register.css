@@ -261,6 +261,7 @@
 .kopf .marke-link  { animation: einfahren 0.6s var(--kurve) 0.22s both; }
 .kopf .stempel     { animation: stempeln 0.6s var(--kurve) 0.32s both; }
 .kopf .knopf       { animation: einfahren 0.6s var(--kurve) 0.5s both; }
+.kopf .knopfreihe .knopf:nth-child(2) { animation-delay: 0.58s; }
 
 .streifen { position: relative; }
 .streifen::after {

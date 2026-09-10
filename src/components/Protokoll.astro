@@ -86,12 +86,17 @@ const eintraege: Eintrag[] = [
         <p class="wert" style="margin:0">{t(ui.rolle)}</p>
       </div>
       <div class="kontakt">
-        <a class="knopf" href={mailto} data-kontakt={person.email}>
-          {t(ui.kontakt)}
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-            <path d="M2 7.5h11M8.5 3l4.5 4.5L8.5 12" stroke="currentColor" stroke-width="1.8" />
-          </svg>
-        </a>
+        <div class="knopfreihe">
+          <a class="knopf" href={mailto} data-kontakt={person.email}>
+            {t(ui.kontakt)}
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+              <path d="M2 7.5h11M8.5 3l4.5 4.5L8.5 12" stroke="currentColor" stroke-width="1.8" />
+            </svg>
+          </a>
+          <a class="knopf knopf--rand" href="/dokumente/lebenslauf-abdil-karim-bakir.pdf">
+            {t(ui.lebenslaufPdf)}
+          </a>
+        </div>
         <p class="kontakt-hinweis" role="status" aria-live="polite"></p>
       </div>
     </div>
