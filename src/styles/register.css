@@ -143,6 +143,9 @@
   background: var(--gruen);
   border-color: var(--gruen-tief);
   color: #fff;
+  /* Der Knopf schwebt ueber dem Fliesstext und lag ohne Schatten flach darauf
+     -- das las sich wie eine Kollision, nicht wie eine Schaltflaeche. */
+  box-shadow: 0 2px 12px rgba(17, 19, 24, 0.28);
 }
 .register-griff:hover { background: var(--gruen-tief); border-color: var(--gruen-tief); color: #fff; }
 .register-schleier { display: none; }

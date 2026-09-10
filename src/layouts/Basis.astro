@@ -28,7 +28,17 @@ const beschreibung = ui.seiteBeschreibung[lang];
     <meta property="og:description" content={beschreibung} />
     <meta property="og:url" content={kanonisch} />
     <meta property="og:locale" content={lang === 'de' ? 'de_DE' : 'en_GB'} />
-    <meta name="twitter:card" content="summary" />
+
+    {/* Ohne Bild zeigen LinkedIn, Slack und Teams beim Weiterleiten nur eine
+        graue Textkachel -- und weitergereicht wird dieser Link genau dann,
+        wenn es zaehlt. Erzeugt von tools/vorschaubild.mjs; laeuft nicht im
+        Build mit, weil das Bild sich nur bei Textaenderungen aendert. */}
+    <meta property="og:image" content={new URL('/media/vorschau.png', Astro.site).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${titel} — ${beschreibung}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={new URL('/media/vorschau.png', Astro.site).href} />
     <meta name="theme-color" content="#1d5c44" />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

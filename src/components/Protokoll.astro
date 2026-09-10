@@ -221,11 +221,9 @@ const eintraege: Eintrag[] = [
     </section>
 
     <!-- -------------------------------------------------------- Projekte -->
-    <section class="abschnitt huelle" aria-labelledby="h-projekte">
-      <div class="stapel" style="--l:.75rem">
-        <h2 class="titel-abschnitt" id="h-projekte">{t(ui.projekteTitel)}</h2>
-        <p class="fliess">{t(ui.projekteText)}</p>
-      </div>
+    <section class="abschnitt huelle vorspann" aria-labelledby="h-projekte">
+      <h2 class="titel-abschnitt" id="h-projekte" style="margin:0">{t(ui.projekteTitel)}</h2>
+      <p class="fliess" style="margin:0">{t(ui.projekteText)}</p>
     </section>
 
     {projekte.map((p) => (
@@ -344,6 +342,42 @@ const eintraege: Eintrag[] = [
                   ))}
                 </tbody>
               </table>
+              <p class="mess-quelle" style="margin:.25rem 0 0" set:html={t(ui.messmethode)} />
+            </div>
+          )}
+
+          {/* Der Beleg zum groessten Messwert: erst die Schichtmessung, die
+              zeigt WO die Zeit lag, dann der Quelltext davor und danach. Ohne
+              den Code bleibt der Faktor 34 eine Behauptung. */}
+          {'eingriff' in p && p.eingriff && (
+            <div class="stapel" style="--l:.75rem">
+              <h4 class="feld-name">{t(p.eingriff.titel)}</h4>
+              <p class="fliess" style="margin:0">{t(p.eingriff.text)}</p>
+
+              <div class="schichten" aria-hidden="true">
+                {p.eingriff.schichten.map((s) => (
+                  <div class="schicht aufbau" style={`--f:${s.ms / 5051}`}>
+                    <span class="schicht-l">{t(s.l)}</span>
+                    <span class="schicht-balken"><span></span></span>
+                    <span class="schicht-w">{zahl(s.ms)} ms</span>
+                  </div>
+                ))}
+              </div>
+              <p class="mess-quelle" style="margin:0">{t(p.eingriff.schichtHinweis)}</p>
+
+              <div class="codepaar">
+                <figure class="aufbau">
+                  <figcaption><span class="marke-vorher">{t(ui.eingriffVorher)}</span></figcaption>
+                  <pre><code>{p.eingriff.vorher}</code></pre>
+                </figure>
+                <figure class="aufbau">
+                  <figcaption><span class="marke-nachher">{t(ui.eingriffNachher)}</span></figcaption>
+                  <pre><code>{p.eingriff.nachher}</code></pre>
+                </figure>
+              </div>
+              <p class="mess-quelle" style="margin:0">
+                {p.eingriff.datei} · {t(ui.eingriffCommit)} <span class="messwert">{p.eingriff.commit}</span>
+              </p>
             </div>
           )}
 
@@ -376,7 +410,7 @@ const eintraege: Eintrag[] = [
           {'maengel' in p && p.maengel && (
             <div class="maengel">
               <h4 class="titel-blatt" style="font-size:1.125rem">{t(p.maengel.titel)}</h4>
-              <p class="fliess" style="margin:.5rem 0 1rem;color:var(--rot)">{t(p.maengel.hinweis)}</p>
+              <p class="fliess" style="margin:.5rem 0 1rem;color:var(--tinte-2)">{t(p.maengel.hinweis)}</p>
               <ul class="liste">
                 {p.maengel.punkte[lang].map((m) => <li class="aufbau"><span></span><span>{m}</span></li>)}
               </ul>

@@ -114,6 +114,24 @@ a:hover { text-decoration-color: var(--gruen); }
 
 .abschnitt { padding-block: clamp(3rem, 7vw, 5.5rem); position: relative; }
 .abschnitt + .abschnitt { border-top: var(--spur) solid var(--haar); }
+
+/* Der Vorspann vor den Projektblaettern war ein eigenes Band mit drei Zeilen
+   Text und einem halben Bildschirm Leerraum darunter -- und die rechte
+   Seitenhaelfte blieb ungenutzt. Jetzt stehen Ueberschrift und Einleitung
+   nebeneinander, und der Block gehoert optisch zum ersten Blatt statt fuer
+   sich zu stehen: unten keine Polsterung, und die Trennlinie zum Blatt
+   darunter faellt weg. */
+.vorspann {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+  gap: clamp(1rem, 4vw, 3rem);
+  align-items: baseline;
+  padding-bottom: clamp(1.5rem, 3vw, 2.25rem);
+}
+.vorspann + .abschnitt { border-top: 0; padding-top: clamp(1.5rem, 3vw, 2.25rem); }
+@media (max-width: 46rem) {
+  .vorspann { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
+}
 /* Der erste Abschnitt rueckt naeher an den Kopf: der Metadatenstreifen
    trennt bereits, eine zweite grosse Luft darunter waere doppelt. */
 main > .abschnitt:first-child { padding-top: clamp(1.75rem, 3.2vw, 2.5rem); }
@@ -241,6 +259,9 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
    leer ist, damit der Kopf beim Klick nicht springt. */
 .kontakt { display: grid; gap: 0.6rem; justify-items: start; }
 .knopfreihe { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+/* Sobald die beiden Knoepfe untereinander stehen, sollen ihre Kanten bündig
+   sein -- unterschiedlich breite gestapelte Knoepfe sehen nach Versehen aus. */
+@media (max-width: 30rem) { .knopfreihe { display: grid; } }
 
 /* Im Kopf steht der Lebenslauf als zweite, ruhigere Wahl neben der
    Kontaktaufnahme: heller Rahmen statt gefuellter Flaeche, damit klar
@@ -300,6 +321,14 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
   align-items: baseline;
 }
 @media (max-width: 40rem) { .gitter-reihe { grid-template-columns: 1fr; gap: 0.15rem; } }
+
+/* In der zweispaltigen Anordnung (Stammdaten neben Stationen) steht nur die
+   halbe Seitenbreite zur Verfuegung. Mit der breiten Feldspalte blieben fuer
+   den Wert keine 300 px -- "B.Sc. Informatik, Freie Universitaet Berlin, seit
+   10/2023" brach auf drei Zeilen um, obwohl daneben Platz war. */
+@media (min-width: 40.0625rem) {
+  .spalten-2 .gitter-reihe { grid-template-columns: minmax(6.5rem, 8.5rem) minmax(0, 1fr); column-gap: 1.1rem; }
+}
 
 /* --- Messtabelle ------------------------------------------------------- */
 
@@ -400,10 +429,70 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 /* Führende und sehr breite Aufnahmen über die volle Spur, dort zentriert. */
 .bildreihe figure[data-breit] { grid-column: 1 / -1; }
 
+/* Ein Rasterelement mit automatischen Seitenrändern wird NICHT gedehnt --
+   die auto-Ränder schalten "stretch" ab, und die Breite richtet sich dann
+   nach dem Inhalt. Solange das Bild noch nicht geladen ist, trägt es nichts
+   bei, die figure blieb schmal (447 statt 930 px) und wuchs erst beim Laden
+   auf. Ein Sprung ins Inhaltsverzeichnis landete deshalb zu hoch: die Seite
+   wurde unter dem bereits gescrollten Ziel noch länger.
+   width:100% legt die Breite unabhängig vom Inhalt fest; die auto-Ränder
+   zentrieren weiterhin, sobald max-width (--nativ) kleiner ist als die Spur. */
+.bildreihe figure { width: 100%; }
+
 /* Mängelliste: der einzige Ort, an dem Rot flächig auftritt. */
-.maengel { border: var(--spur) solid var(--rot); background: var(--rot-band); padding: clamp(1.1rem, 3vw, 1.75rem); }
-.maengel .liste li { border-bottom-color: rgba(163, 35, 28, 0.25); }
-.maengel .liste li::before { background: var(--rot); }
+/* --------------------------------------------------- Eingriff: Schichten */
+/* Vier Balken auf gemeinsamer Grundlinie. Der letzte ist zwanzigmal so lang
+   wie der erste -- genau das ist die Aussage, also skaliert linear und nicht
+   logarithmisch. Die Balken wachsen ueber transform, nicht ueber width. */
+.schichten { display: grid; gap: 0.35rem; }
+.schicht { display: grid; grid-template-columns: minmax(6.5rem, auto) minmax(0, 1fr) auto; gap: 0.75rem; align-items: center; }
+.schicht-l { font-family: var(--mono); font-size: 0.75rem; color: var(--tinte-2); }
+.schicht-balken { height: 0.6rem; background: var(--papier-tief); border: var(--spur) solid var(--haar); }
+.schicht-balken > span {
+  display: block; height: 100%; background: var(--gruen);
+  transform: scaleX(var(--f)); transform-origin: left center;
+}
+.schicht:last-child .schicht-balken > span { background: var(--rot); }
+.schicht-w { font-family: var(--mono); font-size: 0.75rem; font-variant-numeric: tabular-nums; }
+.schicht:last-child .schicht-w { color: var(--rot); font-variation-settings: 'wght' 620; }
+
+/* ------------------------------------------------- Eingriff: Quelltext */
+.codepaar { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr)); }
+.codepaar figure { margin: 0; min-width: 0; }
+.codepaar figcaption { margin-bottom: 0.35rem; }
+.marke-vorher, .marke-nachher {
+  font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 0.1rem 0.4rem; border: var(--spur) solid currentColor;
+}
+.marke-vorher { color: var(--rot); }
+.marke-nachher { color: var(--gruen); }
+.codepaar pre {
+  margin: 0; overflow-x: auto; background: var(--papier-tief);
+  border: var(--spur) solid var(--haar); padding: 0.85rem 1rem;
+}
+.codepaar code {
+  font-family: var(--mono); font-size: 0.75rem; line-height: 1.55;
+  color: var(--tinte); white-space: pre; tab-size: 4;
+}
+/* Die laengste Zeile misst 49 Zeichen. Auf 390 px bleiben nach den Polstern
+   rund 326 px -- bei 12 px braucht sie 353 px und wird abgeschnitten. Der
+   Block scrollt zwar, aber Quelltext, den man erst schieben muss, liest
+   niemand. Eine Stufe kleiner passt er ohne Schieben. */
+@media (max-width: 30rem) { .codepaar code { font-size: 0.6875rem; } }
+/* Der Methodensatz unter der Messtabelle traegt <code> im Fliesstext. */
+.mess-quelle code { font-family: var(--mono); background: var(--papier-tief); padding: 0.05rem 0.3rem; }
+
+/* Selbstkritik ist eine Staerke, kein Alarm. Rot war hier die auffaelligste
+   Flaeche der Seite und zog das Auge ausgerechnet auf die Schwaechen. Jetzt
+   traegt der Block dieselbe Ruhe wie der Rest; nur die Kante links markiert
+   ihn. */
+.maengel {
+  border: var(--spur) solid var(--haar);
+  border-left: 3px solid var(--tinte-3);
+  background: var(--papier-tief);
+  padding: clamp(1.1rem, 3vw, 1.75rem);
+}
+.maengel .liste li::before { background: var(--tinte-3); }
 
 /* --- Themenlandkarte ----------------------------------------------------- */
 
@@ -495,8 +584,51 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 .kennwerte .l { font-size: 0.875rem; color: var(--tinte-2); }
 .kennwerte .s { flex-basis: 100%; font-size: 0.8125rem; color: var(--tinte-3); overflow-wrap: anywhere; }
 
+/* Recruiter drucken Bewerbungsunterlagen und speichern sie als PDF. Vorher
+   wanderte dabei das Inhaltsverzeichnis mit aufs Blatt, die Kennzahlen konnten
+   auf 0 stehenbleiben (das Zaehlwerk laeuft erst, wenn ein Wert ins Bild
+   scrollt -- beim Drucken passiert das nie), und Links verloren ihr Ziel. */
 @media print {
-  .kopf, .freigabe { background: #fff; color: #000; }
-  .sprachwahl, .sprung { display: none; }
+  /* Kopf und Fussband sind auf dem Bildschirm weiss auf gruen. Auf Papier
+     faellt der Grund weg -- ohne die Sammelregel blieb der Name weiss auf
+     weiss und fehlte auf dem Ausdruck schlicht. */
+  .kopf, .freigabe, .kopf *, .freigabe * { background: transparent !important; color: #000 !important; }
+  .kopf .knopf, .freigabe .knopf { border: 1px solid #666 !important; }
+  .kopf { border-bottom: 1px solid #000; }
+  .freigabe { border-top: 1px solid #000; }
+  .fliess, .kopf-innen p { color: #000; }
+
+  /* Die Hauchlinien zwischen den Arbeitsfeldern entstehen aus 1px Rasterluecke
+     ueber einem gefaerbten Grund. Auf dem schmaleren Blatt bleibt eine Zelle
+     leer -- und die zeigte dann den Grund als grauen Block. */
+  .felder { background: transparent !important; gap: 0; border: 0; }
+  .felder > div { border: 1px solid #999; margin: -0.5px; }
+
+  /* Bedienelemente haben auf Papier nichts zu suchen. */
+  .sprachwahl, .sprung, .register, .register-griff, .register-schleier,
+  .klappe, .kontakt-hinweis { display: none !important; }
+  .rumpf { grid-template-columns: minmax(0, 1fr) !important; }
+  .rumpf::before { display: none !important; }
+
+  /* Das Zaehlwerk startet erst beim Hineinscrollen. Auf Papier gibt es kein
+     Scrollen, also muss der Endwert ohne Skript sichtbar sein -- er steht im
+     HTML, nur die Einblendung haelt ihn zurueck. */
+  .aufbau { opacity: 1 !important; transform: none !important; }
+
   .abschnitt { padding-block: 1.5rem; break-inside: avoid; }
+  .blatt { break-before: page; }
+  h2, h3, h4 { break-after: avoid; }
+  figure, .codepaar, .maengel, .messtabelle { break-inside: avoid; }
+  .codepaar pre { white-space: pre-wrap; }
+
+  /* Ein gedrucktes "PDF oeffnen" ohne Adresse ist eine Sackgasse -- aber nur
+     im Inhalt. Im Kopf steht die GitHub-Marke in einer schmalen Spalte; dort
+     zerfiel die angehaengte Adresse in Einzelzeichen ("(http s://g ithu b.co").
+     Deshalb nur innerhalb von main, und nicht an Links ohne Beschriftung. */
+  main a[href^='/dokumente']::after,
+  main a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-family: var(--mono); font-size: 0.7rem; overflow-wrap: anywhere;
+  }
+  img { max-width: 100% !important; }
 }

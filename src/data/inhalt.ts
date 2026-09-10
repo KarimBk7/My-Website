@@ -276,6 +276,74 @@ export const projekte = [
       { wert: '19', l: { de: 'Testklassen', en: 'test classes' }, s: { de: 'plus Prüftreiber für Last und Oberfläche', en: 'plus drivers for load and UI' } },
       { wert: '90+', l: { de: 'Klassen', en: 'classes' }, s: { de: 'im übergebenen Quelltext', en: 'in the delivered source' } },
     ],
+    /**
+     * Der eine Eingriff, der den Faktor 34 gebracht hat -- als Quelltext, nicht
+     * als Behauptung. Beide Ausschnitte stehen woertlich so im Repository
+     * (Commit f4e8223, docs/PERFORMANCE.md §2.2); nur die Zeilenumbrueche sind
+     * fuer die schmale Spalte gesetzt. Die Kommentare bleiben englisch, weil
+     * sie im Quelltext englisch sind -- uebersetzt waere es nicht mehr der Code.
+     */
+    eingriff: {
+      titel: { de: 'Der Eingriff', en: 'The change' },
+      text: {
+        de: 'Vier Zeilen weniger, ein Signal mehr. Bevor das feststand, habe ich Schicht für Schicht gemessen, wo die Zeit blieb — die Prüflogik war es nicht.',
+        en: 'Four lines fewer, one signal more. Before that was clear I measured layer by layer where the time went — it was not the validation logic.',
+      },
+      schichten: [
+        { l: { de: 'nur die Liste', en: 'plain list' }, ms: 142 },
+        { l: { de: '+ Extractor', en: '+ extractor' }, ms: 250 },
+        { l: { de: '+ Filtered/Sorted', en: '+ filtered/sorted' }, ms: 260 },
+        { l: { de: '+ TableView', en: '+ TableView' }, ms: 5051 },
+      ],
+      schichtHinweis: {
+        de: '95 % der Kosten lagen darin, dass die Tabelle auf rund 9.600 einzelne Ereignisse reagierte — nicht im Prüfen selbst.',
+        en: '95 % of the cost was the table reacting to some 9,600 individual events — not the validation itself.',
+      },
+      vorher: `// Extractor tells JavaFX to fire list-change
+// events when hasRowError/hasRowWarning change
+private final ObservableList<ExpenseEntry> data =
+    FXCollections.observableArrayList(
+        entry -> new Observable[] {
+            entry.hasRowError,
+            entry.hasRowWarning});`,
+      nachher: `private final ObservableList<ExpenseEntry> data =
+    FXCollections.observableArrayList();
+
+// Bumped once after each full validation pass
+private final IntegerProperty validationEpoch =
+    new SimpleIntegerProperty(0);
+
+public void markValidated() {
+    validationEpoch.set(validationEpoch.get() + 1);
+}`,
+      commit: 'f4e8223',
+      datei: 'ExpenseManager.java',
+    },
+    /**
+     * Selbstkritik am Projekt, das zaehlt -- nicht nur am alten Schulprojekt.
+     * Alle drei Punkte stehen so im Entscheidungsprotokoll des Repositorys
+     * (docs/decisions.md D3, D5/D22, D10), also aus der Projektzeit, nicht
+     * im Nachhinein zurechtgelegt.
+     */
+    maengel: {
+      titel: { de: 'Was ich heute anders bauen würde', en: 'What I would build differently today' },
+      hinweis: {
+        de: 'Drei Stellen aus meinem eigenen Entscheidungsprotokoll. Sie stehen dort seit der Projektzeit als bewusst eingegangene Kompromisse — nicht im Nachhinein zurechtgelegt.',
+        en: 'Three entries from my own decision log. They were recorded during the project as deliberate trade-offs — not arranged after the fact.',
+      },
+      punkte: {
+        de: [
+          'Die fixierte Spalte hängt an fixedCellSize. Das ist schnell, aber empfindlich: nach Struktur- und Spaltenänderungen bleiben Zellen unpositioniert, bis ein Ein-Pixel-Scroll die Ansicht anstößt. Ein bewusster Behelf, kein Entwurf. (D3)',
+          'Undo kopiert bei jeder Aktion die gesamte Zeilenliste, rund 2,7 KB je Zeile. Ein delta-basiertes Undo hatte ich geprüft und als zu aufwendig verworfen — die Speichergrenze musste ich später doch nachziehen. (D5, korrigiert in D22)',
+          'Die Dialog-Helfer in util importieren ihre Controller direkt. Sauber wäre je eine Schnittstelle; ich habe das für FXML-Dialoge als Überbau eingestuft. (D10)',
+        ],
+        en: [
+          'The frozen column depends on fixedCellSize. That is fast but brittle: after structural and column changes cells stay unpositioned until a one-pixel scroll nudges the view. A deliberate workaround, not a design. (D3)',
+          'Undo deep-copies the entire row list on every action, about 2.7 KB per row. I assessed a delta-based undo and rejected it as too costly — then had to retrofit the memory bound after all. (D5, corrected in D22)',
+          'The dialog helpers in util import their controllers directly. An interface each would be cleaner; I judged that over-engineering for FXML dialogs. (D10)',
+        ],
+      },
+    },
     stack: ['Java 21', 'JavaFX 21', 'FXML', 'Maven', 'JUnit 5', 'TestFX', 'CSS', 'jpackage', 'GitHub Actions', 'Spotless'],
     auslieferung: {
       de: 'Übergeben als nativer Windows-Installer mit gebündelter Java-Laufzeitumgebung, installierbar ohne separate Java-Installation und ohne Administratorrechte. Mitgeliefert wurden Entscheidungsprotokoll, Validierungsregel-Katalog und acht How-to-Anleitungen.',
@@ -288,8 +356,8 @@ export const projekte = [
       { datei: 'projektron-einstellungen', bu: { de: 'Einstellungen: Vorgabewerte je Land, speicherbar als benannte Profile.', en: 'Settings: default values per country, storable as named profiles.' } },
     ],
     einordnung: {
-      de: 'Die genannten Funktionen stammen aus meinem Verantwortungsbereich im sechsköpfigen Team. Oberfläche, Prototyping und Anforderungsmanagement lagen bei den übrigen Teammitgliedern, die fachliche Validierungslogik entstand gemeinsam.',
-      en: 'The functions listed come from my area of responsibility within the six-person team. UI, prototyping and requirements were handled by the other members; the domain validation logic was developed jointly.',
+      de: 'Die genannten Funktionen stammen aus meinem Verantwortungsbereich im sechsköpfigen Team. Oberfläche, Prototyping und Anforderungsmanagement lagen bei den übrigen Teammitgliedern, die fachliche Validierungslogik entstand gemeinsam. Der Quelltext gehört dem Auftraggeber und ist deshalb als einziges der hier gezeigten Projekte nicht öffentlich einsehbar.',
+      en: 'The functions listed come from my area of responsibility within the six-person team. UI, prototyping and requirements were handled by the other members; the domain validation logic was developed jointly. The source code belongs to the client and is therefore the only project shown here that is not publicly viewable.',
     },
   },
   {
@@ -434,6 +502,72 @@ export const projekte = [
     },
     repo: 'https://github.com/KarimBk7/-propra-Lern-Repository',
   },
+  /**
+   * Das Projekt, das der Betrachter gerade benutzt. Es stand bis zuletzt nicht
+   * in der Liste -- drei Projekte gezeigt und das vierte ausgelassen, obwohl es
+   * offen im Netz liegt und den Web- und Betriebsteil belegt.
+   *
+   * Die Kennzahlen sind gemessen, nicht geschaetzt: Antwortzeit als Median aus
+   * fuenf Abrufen gegen die veroeffentlichte Adresse, JavaScript als gzip-Groesse
+   * der ausgelieferten Datei.
+   */
+  {
+    id: 'website',
+    nr: 'M-4',
+    titel: { de: 'Diese Seite', en: 'This page' },
+    kurz: {
+      de: 'Die Bewerbungsseite, die Sie gerade lesen: statisch erzeugt, zweisprachig, ohne Tracker und ohne Cookies, ausgeliefert als Cloudflare Worker. Ein einziges JavaScript von 3,2 KB, kein Framework im Browser.',
+      en: 'The application site you are reading: statically generated, bilingual, no trackers and no cookies, served as a Cloudflare Worker. A single 3.2 KB JavaScript file, no framework in the browser.',
+    },
+    kopf: [
+      { l: { de: 'Rahmen', en: 'Context' }, w: { de: 'Eigenarbeit', en: 'Own work' } },
+      { l: { de: 'Zeitraum', en: 'Period' }, w: { de: 'September 2026', en: 'September 2026' } },
+      { l: { de: 'Meine Rolle', en: 'My role' }, w: { de: 'Entwurf, Umsetzung, Betrieb', en: 'Design, build, operations' } },
+      { l: { de: 'Betrieb', en: 'Operations' }, w: { de: 'Cloudflare Worker', en: 'Cloudflare Worker' } },
+      { l: { de: 'Umfang', en: 'Scope' }, w: { de: 'Zwei Sprachen, eine Quelle', en: 'Two languages, one source' } },
+    ],
+    aufgabe: {
+      de: 'Eine Bewerbungsseite, die das belegt, was sie behauptet: schnell, ohne fremde Dienste, ohne Datensammlung, mit Inhalten aus einer einzigen geprüften Quelldatei statt handgepflegtem HTML. Bilder werden beim Bauen einmal in mehreren Größen erzeugt, nicht zur Laufzeit umgerechnet.',
+      en: 'An application site that demonstrates what it claims: fast, no third-party services, no data collection, with content from a single verified source file instead of hand-maintained HTML. Images are generated once at build time in several sizes rather than converted at runtime.',
+    },
+    herausforderung: {
+      titel: { de: 'Was lokal grün ist, ist online noch lange nicht grün', en: 'Green locally is not green in production' },
+      text: {
+        de: 'Drei Fehler haben es trotz vollständig grüner lokaler Prüfung bis auf den Server geschafft: die Sicherheitsrichtlinie verbot eingebettete Skripte, weshalb das Seitenverhalten stumm ausfiel; die Bilder wurden zur Laufzeit angefordert und liefen ins Leere; und eine zu lange Cache-Frist lieferte neues HTML mit altem JavaScript aus. Alle drei schlugen nirgends fehl — sie taten einfach nichts. Daraus wurde ein zweiter Prüflauf, der nicht die gebaute Seite testet, sondern die veröffentlichte: ob die Kopfzeilen wirklich ankommen, ob jedes Bild lädt und ob das Skript tatsächlich gelaufen ist.',
+        en: 'Three faults reached the server despite an all-green local check: the security policy forbade inline scripts, so the page behaviour silently died; the images were requested at runtime and went nowhere; and an over-long cache lifetime served new HTML with old JavaScript. None of the three failed loudly — they simply did nothing. The answer was a second check that does not test the built site but the published one: whether the headers actually arrive, whether every image loads, and whether the script really ran.',
+      },
+    },
+    beitrag: {
+      de: [
+        'Inhalte in einer einzigen typisierten Quelldatei, beide Sprachen daneben statt in getrennten Dateien',
+        'Sicherheitsrichtlinie ohne eingebettete Skripte, dazu nosniff, Referrer-Regel und gesperrte Einbettung',
+        'Eigene Bild-Pipeline: WebP in zwei Breiten beim Bauen, ohne je hochzurechnen',
+        'Prüflauf gegen die veröffentlichte Adresse, nicht nur gegen den lokalen Bau',
+        'Prüfung auf Querüberlauf bei 1440 und 390 Pixeln, auch während der Einblendbewegung',
+        'Bewegung vollständig abschaltbar über prefers-reduced-motion',
+      ],
+      en: [
+        'Content in a single typed source file, both languages side by side rather than in separate files',
+        'Security policy without inline scripts, plus nosniff, referrer rule and blocked embedding',
+        'Own image pipeline: WebP at two widths at build time, never upscaled',
+        'A check against the published address, not only against the local build',
+        'Horizontal-overflow checks at 1440 and 390 pixels, including during the reveal animation',
+        'Motion fully disabled via prefers-reduced-motion',
+      ],
+    },
+    kennzahlen: [
+      { wert: '145', l: { de: 'ms Antwortzeit', en: 'ms response time' }, s: { de: 'Median aus fünf Abrufen', en: 'median of five requests' } },
+      { wert: '3,2', l: { de: 'KB JavaScript', en: 'KB of JavaScript' }, s: { de: 'eine Datei, gzip, kein Framework', en: 'one file, gzipped, no framework' } },
+      { wert: '0', l: { de: 'Tracker und Cookies', en: 'trackers and cookies' }, s: { de: 'keine fremden Server', en: 'no third-party servers' } },
+      { wert: '2', l: { de: 'Sprachen', en: 'languages' }, s: { de: 'vollständig, aus einer Quelle', en: 'complete, from one source' } },
+    ],
+    stack: ['Astro', 'TypeScript', 'CSS', 'Cloudflare Workers', 'sharp', 'Playwright', 'GitHub Actions'],
+    einordnung: {
+      de: 'Entwurf, Inhalte und Abnahme liegen bei mir; die Umsetzung ist im Dialog mit einem KI-Agenten entstanden. Das Repository ist offen — Quelltext, Prüfskripte und die Historie samt der oben genannten Fehler sind einsehbar.',
+      en: 'Design, content and sign-off are mine; the implementation was produced in dialogue with an AI agent. The repository is open — source, check scripts and the history including the faults named above are all visible.',
+    },
+    repo: 'https://github.com/KarimBk7/My-Website',
+  },
 ] as const;
 
 /* ----------------------------------------------------------- Fremdbefunde */
@@ -441,7 +575,14 @@ export const projekte = [
 export const fremdbefunde = [
   {
     quelle: 'Lesto Branto GmbH',
-    rolle: { de: 'Arbeitszeugnis, 27.07.2026', en: 'Employment reference, 27 July 2026' },
+    /* Das Dokument nennt sich selbst "Arbeitszeugnis", beschreibt aber eine
+       laufende Taetigkeit ("ist seit dem 01.10.2025 ... taetig"). Der Zusatz
+       verhindert, dass es als Endzeugnis gelesen wird -- ohne den Titel des
+       Dokuments zu aendern, den ich nicht aendern darf. */
+    rolle: {
+      de: 'Arbeitszeugnis, 27.07.2026 · Tätigkeit dauert an',
+      en: 'Employment reference, 27 July 2026 · position ongoing',
+    },
     zitate: {
       de: [
         'Herr Abdil Karim Bakir erfüllte die ihm übertragenen Aufgaben stets zu unserer vollsten Zufriedenheit.',
@@ -505,8 +646,8 @@ export const ui: Record<string, S> = {
      nirgendwohin führt, wäre dort der einzige tote Punkt. */
   projekteTitel: { de: 'Projekte', en: 'Projects' },
   projekteText: {
-    de: 'Drei Arbeiten, je ein Blatt: eine Auftragsentwicklung für ein Softwareunternehmen, ein von Grund auf selbst gebautes Spiel ohne fertige Engine und ein über anderthalb Jahre gepflegtes Lernrepository.',
-    en: 'Three pieces of work, one sheet each: a contract development for a software company, a game built from scratch without an engine, and a learning repository maintained over eighteen months.',
+    de: 'Vier Arbeiten, je ein Blatt: eine Auftragsentwicklung für ein Softwareunternehmen, ein von Grund auf selbst gebautes Spiel ohne fertige Engine, ein über anderthalb Jahre gepflegtes Lernrepository — und diese Seite selbst.',
+    en: 'Four pieces of work, one sheet each: a contract development for a software company, a game built from scratch without an engine, a learning repository maintained over eighteen months — and this page itself.',
   },
 
   /* Inhaltsverzeichnis in der linken Spalte */
@@ -531,6 +672,15 @@ export const ui: Record<string, S> = {
     de: 'Ein großer Teil meiner Arbeit ging in die Performance. Nach dem Stresstest mit 10.000 Zeilen habe ich jede Optimierung einzeln vorher und nachher gemessen; die vier wichtigsten Werte stehen hier. Sie stammen aus der Projektdokumentation, nicht aus der Erinnerung.',
     en: 'A large part of my work went into performance. After the 10,000-row stress test I measured every optimisation individually, before and after; the four most important values are here. They come from the project documentation, not from memory.',
   },
+  /* Ohne diesen Satz ist die Tabelle darueber keine Messung, sondern eine Zahl.
+     Der Treiber startet die echte Oberflaeche -- das ist der Punkt. */
+  messmethode: {
+    de: 'Gemessen mit einem TestFX-Treiber, der die echte Oberfläche startet und 10.000 Zeilen in die reale Tabelle einspeist — kein synthetischer Aufbau. Reproduzierbar über <code>mvn test -Dtest=PerfVerifyDriver</code>.',
+    en: 'Measured with a TestFX driver that boots the real UI and injects 10,000 rows into the live table — not a synthetic setup. Reproducible via <code>mvn test -Dtest=PerfVerifyDriver</code>.',
+  },
+  eingriffVorher: { de: 'vorher', en: 'before' },
+  eingriffNachher: { de: 'nachher', en: 'after' },
+  eingriffCommit: { de: 'Commit', en: 'Commit' },
   pruefstandTitel: { de: 'Prüfstand', en: 'Test bench' },
   pruefstandText: {
     de: 'Vier Messungen aus Messreihe M-1, jeweils bei 10.000 Zeilen.',
@@ -564,7 +714,10 @@ export const ui: Record<string, S> = {
   themenlandkarte: { de: 'Themenlandkarte', en: 'Topic map' },
   werkzeuge: { de: 'Werkzeuge', en: 'Stack' },
 
-  fremdbefundeTitel: { de: 'Fremdbefunde', en: 'External findings' },
+  /* Frueher "Fremdbefunde". Die Messprotokoll-Sprache traegt die ganze Seite,
+     aber hier stand sie einer nicht-technischen Leserin im Weg: sie muss auf
+     einen Blick erkennen, dass es Zeugnisse sind. */
+  fremdbefundeTitel: { de: 'Zeugnisse & Referenzen', en: 'References' },
   fremdbefundeText: {
     de: 'Zitate aus den Originalzeugnissen. Die verlinkten PDFs sind geschwärzt: Unterschriften, Bankverbindung des Arbeitgebers und meine Anschrift sind entfernt. Ungeschwärzte Originale reiche ich auf Anfrage nach.',
     en: 'Quotations from the original references. The linked PDFs are redacted: signatures, the employer’s bank details and my postal address have been removed. Unredacted originals on request.',
@@ -584,8 +737,8 @@ export const ui: Record<string, S> = {
     en: 'Abdil Karim Bakir — Software Engineer',
   },
   seiteBeschreibung: {
-    de: 'Informatikstudent an der FU Berlin. Backend als Kern, dazu Web, Cloud-Infrastruktur und Hardware. Drei belegte Projekte, gemessene Ergebnisse, zwei Arbeitszeugnisse.',
-    en: 'Computer science student at FU Berlin. Backend at the core, plus web, cloud infrastructure and hardware. Three documented projects, measured results, two employment references.',
+    de: 'Informatikstudent an der FU Berlin. Backend als Kern, dazu Web, Cloud-Infrastruktur und Hardware. Vier belegte Projekte, gemessene Ergebnisse, zwei Arbeitszeugnisse.',
+    en: 'Computer science student at FU Berlin. Backend at the core, plus web, cloud infrastructure and hardware. Four documented projects, measured results, two employment references.',
   },
   skipLink: { de: 'Zum Inhalt springen', en: 'Skip to content' },
   fussnote: {
