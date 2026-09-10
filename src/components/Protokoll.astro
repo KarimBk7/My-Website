@@ -61,6 +61,16 @@ const ladeMarke = 'M8 1v8m0 0 3.2-3.2M8 9 4.8 5.8M2 11.5v1.7c0 .44.36.8.8.8h10.4
 const aussen = { target: '_blank', rel: 'noopener' } as const;
 const aussenIch = { target: '_blank', rel: 'me noopener' } as const;
 
+/* Den Lebenslauf gibt es in beiden Sprachen. Ausgeliefert wird der zur Seite
+   passende: wer auf der englischen Fassung landet, bekommt das englische PDF.
+   Beide Dateien sind in ihrer eigenen Sprache benannt -- der Dateiname landet
+   im Download-Ordner des Lesenden, nicht bei uns. An einer Stelle definiert,
+   damit die drei Knoepfe nicht auseinanderlaufen koennen. */
+const lebenslaufPfad =
+  lang === 'de'
+    ? '/dokumente/lebenslauf-abdil-karim-bakir.pdf'
+    : '/dokumente/cv-abdil-karim-bakir.pdf';
+
 const mailto = `mailto:${person.email}?subject=${encodeURIComponent(t(ui.mailBetreff))}`;
 const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto GmbH', 'LUM GmbH'];
 
@@ -146,7 +156,7 @@ const eintraege: Eintrag[] = [
               <path d="M2 7.5h11M8.5 3l4.5 4.5L8.5 12" stroke="currentColor" stroke-width="1.8" />
             </svg>
           </a>
-          <a class="knopf knopf--rand" href="/dokumente/lebenslauf-abdil-karim-bakir.pdf"
+          <a class="knopf knopf--rand" href={lebenslaufPfad}
              download aria-label={`${t(ui.lebenslaufPdf)} ${t(ui.herunterladen)}`}>
             {t(ui.lebenslaufPdf)}
             <svg class="lade-marke" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -210,7 +220,7 @@ const eintraege: Eintrag[] = [
       </ul>
     </nav>
     <div class="register-fuss">
-      <a href="/dokumente/lebenslauf-abdil-karim-bakir.pdf" download
+      <a href={lebenslaufPfad} download
          aria-label={`${t(ui.lebenslaufPdf)} ${t(ui.herunterladen)}`}>
         <svg class="lade-marke" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
           <path d={ladeMarke} stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
@@ -620,7 +630,7 @@ const eintraege: Eintrag[] = [
         <div class="kontakt">
           <div style="display:flex;flex-wrap:wrap;gap:.75rem">
             <a class="knopf" href={mailto} data-kontakt={person.email}>{person.email}</a>
-            <a class="knopf knopf--rand" href="/dokumente/lebenslauf-abdil-karim-bakir.pdf"
+            <a class="knopf knopf--rand" href={lebenslaufPfad}
                download aria-label={`${t(ui.lebenslaufPdf)} ${t(ui.herunterladen)}`}>
               {t(ui.lebenslaufPdf)}
               <svg class="lade-marke" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
