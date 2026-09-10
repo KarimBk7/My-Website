@@ -484,11 +484,12 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 
 /* Selbstkritik ist eine Staerke, kein Alarm. Rot war hier die auffaelligste
    Flaeche der Seite und zog das Auge ausgerechnet auf die Schwaechen. Jetzt
-   traegt der Block dieselbe Ruhe wie der Rest; nur die Kante links markiert
-   ihn. */
+   traegt der Block dieselbe Ruhe wie der Rest.
+   Eine dicke Kante links waere das einzige 3-px-Element der Seite gewesen --
+   ueberall sonst trennt hier eine Haarlinie. Grund und Haarlinie setzen den
+   Block schon ausreichend ab. */
 .maengel {
   border: var(--spur) solid var(--haar);
-  border-left: 3px solid var(--tinte-3);
   background: var(--papier-tief);
   padding: clamp(1.1rem, 3vw, 1.75rem);
 }
