@@ -98,8 +98,14 @@
   background: var(--gruen); border-color: var(--gruen); color: #fff;
 }
 .register-fuss { margin-top: auto; display: grid; gap: 0.35rem; padding-top: 1rem; border-top: var(--spur) solid var(--haar); }
-.register-fuss a { font-size: 0.875rem; padding: 0.3rem 0.65rem; text-decoration: none; color: var(--tinte-2); }
+.register-fuss a {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.875rem; padding: 0.3rem 0.65rem;
+  text-decoration: none; color: var(--tinte-2);
+  transition: color var(--takt) var(--kurve);
+}
 .register-fuss a:hover { color: var(--gruen-tief); }
+.register-fuss svg { flex: none; }
 
 /* Der Knopf mit den drei Strichen. Offen werden die Striche zum Kreuz. */
 .klappe {
@@ -222,6 +228,7 @@
    das Aufsetzen und Nachfedern eines Gummistempels. Die Kurve selbst federt
    deshalb NICHT mit: zwei Ueberschwuenge uebereinander wirken gummiartig.
    Gleichmaessiges Auslaufen wie ueberall sonst auf der Seite. */
+.kopf .marke-link  { animation: einfahren 0.6s var(--kurve) 0.22s both; }
 .kopf .stempel     { animation: stempeln 0.6s var(--kurve) 0.32s both; }
 .kopf .knopf       { animation: einfahren 0.6s var(--kurve) 0.5s both; }
 

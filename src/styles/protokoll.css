@@ -188,6 +188,23 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
 
 .kopf-zeile { display: flex; align-items: baseline; gap: 0.9rem; flex-wrap: wrap; }
 
+/* Name und Marke nebeneinander. Unten ausgerichtet, damit das Zeichen auf
+   der Grundlinie der zweiten Namenszeile sitzt und nicht daneben schwebt. */
+.name-zeile { display: flex; align-items: flex-end; gap: clamp(0.9rem, 2vw, 1.4rem); flex-wrap: wrap; }
+.marke-link {
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  margin-bottom: 0.35rem;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  color: #fff;
+  transition: background var(--takt) var(--kurve), border-color var(--takt) var(--kurve),
+              transform var(--takt) var(--kurve);
+}
+.marke-link:hover { background: rgba(255, 255, 255, 0.14); border-color: #fff; transform: translateY(-2px); }
+
 /* Freigabestempel */
 .stempel {
   border: 2px solid rgba(255, 255, 255, 0.55);

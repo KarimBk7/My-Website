@@ -488,6 +488,8 @@ export const ui: Record<string, S> = {
     en: 'Computer science student at FU Berlin. My core is the backend — Java, data processing, performance under load. Beyond that: web, cloud infrastructure and hardware, from my own Raspberry Pi server behind Cloudflare to this very page.',
   },
 
+  githubProfil: { de: 'GitHub-Profil öffnen', en: 'Open GitHub profile' },
+
   pruefling: { de: 'Prüfling', en: 'Item under test' },
   standort: { de: 'Standort', en: 'Location' },
   standortWert: { de: 'Berlin, Deutschland', en: 'Berlin, Germany' },
