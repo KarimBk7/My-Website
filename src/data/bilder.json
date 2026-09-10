@@ -80,53 +80,48 @@
     ]
   },
   "projektron-einstellungen": {
-    "breite": 815,
-    "hoehe": 480,
-    "seitenverhaeltnis": 1.6979,
+    "breite": 787,
+    "hoehe": 1072,
+    "seitenverhaeltnis": 0.7341,
     "varianten": [
       {
-        "datei": "/media/projektron-einstellungen-800.webp",
-        "breite": 800,
-        "kb": 14
-      },
-      {
-        "datei": "/media/projektron-einstellungen-815.webp",
-        "breite": 815,
-        "kb": 14
+        "datei": "/media/projektron-einstellungen-787.webp",
+        "breite": 787,
+        "kb": 39
       }
     ]
   },
   "projektron-hauptfenster": {
-    "breite": 1101,
-    "hoehe": 524,
-    "seitenverhaeltnis": 2.1011,
+    "breite": 1188,
+    "hoehe": 690,
+    "seitenverhaeltnis": 1.7217,
     "varianten": [
       {
         "datei": "/media/projektron-hauptfenster-800.webp",
         "breite": 800,
-        "kb": 19
+        "kb": 24
       },
       {
-        "datei": "/media/projektron-hauptfenster-1101.webp",
-        "breite": 1101,
-        "kb": 35
+        "datei": "/media/projektron-hauptfenster-1188.webp",
+        "breite": 1188,
+        "kb": 42
       }
     ]
   },
   "projektron-pruefbericht": {
-    "breite": 815,
-    "hoehe": 480,
-    "seitenverhaeltnis": 1.6979,
+    "breite": 822,
+    "hoehe": 686,
+    "seitenverhaeltnis": 1.1983,
     "varianten": [
       {
         "datei": "/media/projektron-pruefbericht-800.webp",
         "breite": 800,
-        "kb": 14
+        "kb": 20
       },
       {
-        "datei": "/media/projektron-pruefbericht-815.webp",
-        "breite": 815,
-        "kb": 15
+        "datei": "/media/projektron-pruefbericht-822.webp",
+        "breite": 822,
+        "kb": 20
       }
     ]
   },
@@ -148,19 +143,19 @@
     ]
   },
   "projektron-zeilenassistent": {
-    "breite": 810,
-    "hoehe": 480,
-    "seitenverhaeltnis": 1.6875,
+    "breite": 872,
+    "hoehe": 582,
+    "seitenverhaeltnis": 1.4983,
     "varianten": [
       {
         "datei": "/media/projektron-zeilenassistent-800.webp",
         "breite": 800,
-        "kb": 13
+        "kb": 17
       },
       {
-        "datei": "/media/projektron-zeilenassistent-810.webp",
-        "breite": 810,
-        "kb": 13
+        "datei": "/media/projektron-zeilenassistent-872.webp",
+        "breite": 872,
+        "kb": 19
       }
     ]
   }
