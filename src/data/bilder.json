@@ -1,4 +1,38 @@
 {
+  "kaiju-ingame": {
+    "breite": 957,
+    "hoehe": 750,
+    "seitenverhaeltnis": 1.276,
+    "varianten": [
+      {
+        "datei": "/media/kaiju-ingame-800.webp",
+        "breite": 800,
+        "kb": 123
+      },
+      {
+        "datei": "/media/kaiju-ingame-957.webp",
+        "breite": 957,
+        "kb": 142
+      }
+    ]
+  },
+  "kaiju-pausemenu": {
+    "breite": 956,
+    "hoehe": 751,
+    "seitenverhaeltnis": 1.273,
+    "varianten": [
+      {
+        "datei": "/media/kaiju-pausemenu-800.webp",
+        "breite": 800,
+        "kb": 45
+      },
+      {
+        "datei": "/media/kaiju-pausemenu-956.webp",
+        "breite": 956,
+        "kb": 58
+      }
+    ]
+  },
   "kaiju-sprites": {
     "breite": 2570,
     "hoehe": 200,
@@ -63,19 +97,19 @@
     ]
   },
   "projektron-hauptfenster": {
-    "breite": 1410,
-    "hoehe": 665,
-    "seitenverhaeltnis": 2.1203,
+    "breite": 1101,
+    "hoehe": 524,
+    "seitenverhaeltnis": 2.1011,
     "varianten": [
       {
         "datei": "/media/projektron-hauptfenster-800.webp",
         "breite": 800,
-        "kb": 17
+        "kb": 19
       },
       {
-        "datei": "/media/projektron-hauptfenster-1410.webp",
-        "breite": 1410,
-        "kb": 37
+        "datei": "/media/projektron-hauptfenster-1101.webp",
+        "breite": 1101,
+        "kb": 35
       }
     ]
   },

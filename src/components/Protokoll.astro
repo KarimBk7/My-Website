@@ -327,7 +327,11 @@ const eintraege: Eintrag[] = [
           {'bilder' in p && p.bilder && (
             <div class="bildreihe">
               {p.bilder.map((b) => (
-                <figure class="aufbau" data-breit={'breit' in b && b.breit ? '' : undefined}>
+                <figure
+                  class="aufbau"
+                  data-breit={'breit' in b && b.breit ? '' : undefined}
+                  style={`--nativ:${bild(b.datei).breite}px`}
+                >
                   <img
                     src={bild(b.datei).gross}
                     srcset={bild(b.datei).srcset}

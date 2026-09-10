@@ -366,8 +366,10 @@ export const projekte = [
       },
     },
     bilder: [
+      { datei: 'kaiju-ingame', breit: true, bu: { de: 'Spielansicht von oben: die Spielfigur am Strand, eine Nichtspielerfigur davor, links ein Höhleneingang. Oben links der Hinweis auf das Pausemenü, an den Rändern die Zähler für Schlüssel, Geld und Tränke.', en: 'Top-down gameplay: the player on the beach, a non-player character ahead, a cave entrance to the left. Top left the hint for the pause menu, around the edges the counters for keys, money and potions.' } },
       { datei: 'kaiju-titelbild', bu: { de: 'Titelbildschirm mit Menüführung über die Zustände Starten, Neues Spiel, Laden und Beenden. Die Auswahl läuft vollständig über den selbst geschriebenen Zustandsautomaten.', en: 'Title screen with menu navigation across the start, new game, load and quit states. Selection runs entirely through the hand-written state machine.' } },
       { datei: 'kaiju-weltkarte', bu: { de: 'Entwurf der Welt mit Dorf, See, Höhle und Bossarena. Das Raster liegt als Textdatei im Projekt und wird beim Start in Kacheln übersetzt.', en: 'World design with village, lake, cave and boss arena. The grid lives as a text file in the project and is translated into tiles at startup.' } },
+      { datei: 'kaiju-pausemenu', bu: { de: 'Pausemenü über der abgedunkelten Spielwelt — einer der elf Spielzustände. Weiterspielen, Speichern und Hauptmenü stehen zur Wahl, darunter die Tastenbelegung für Bewegen, Heilen und Angreifen.', en: 'Pause menu over the dimmed game world — one of the eleven game states. Resume, save and main menu, with the key bindings for moving, healing and attacking below.' } },
       { datei: 'kaiju-sprites', breit: true, bu: { de: 'Spielfigur mit Lauf- und Angriffsbildern, Gegner, vier Nichtspielerfiguren und Tränke. Die Grafiken stammen vom Team, Animation, Kollision und Spiellogik dahinter von mir.', en: 'Player with walk and attack frames, enemies, four non-player characters and potions. The artwork is by the team; the animation, collision and game logic behind it are mine.' } },
     ],
     einordnung: {

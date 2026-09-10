@@ -342,12 +342,20 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
   color: var(--tinte-2);
 }
 
-figure { margin: 0; }
+/* Kein Bild wird je über seine native Auflösung hinaus gezogen. Ein 575 px
+   breiter Screenshot auf 1080 px gestreckt wird nicht größer, sondern matschig.
+   --nativ setzt die Komponente aus dem Bildmanifest; die Begrenzung sitzt auf
+   der figure, damit die Bildunterschrift mitzentriert und bündig bleibt. */
+figure { margin: 0; max-width: min(100%, var(--nativ, 100%)); margin-inline: auto; }
 figure img { display: block; width: 100%; height: auto; border: var(--spur) solid var(--haar-stark); background: #fff; }
 figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); max-width: 60ch; }
 
 .bildreihe { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)); gap: 1.5rem; }
-/* Sehr breite Aufnahmen (Hauptfenster, Sprite-Reihe) über die volle Spur. */
+/* Feste Dreierteilung, sobald Platz ist. Mit auto-fit passten hier vier
+   Spalten hinein, die drei kleinen Aufnahmen belegten davon nur die ersten
+   drei -- und standen dadurch linksbündig unter dem breiten Bild. */
+@media (min-width: 52rem) { .bildreihe { grid-template-columns: repeat(3, 1fr); } }
+/* Führende und sehr breite Aufnahmen über die volle Spur, dort zentriert. */
 .bildreihe figure[data-breit] { grid-column: 1 / -1; }
 
 /* Mängelliste: der einzige Ort, an dem Rot flächig auftritt. */
