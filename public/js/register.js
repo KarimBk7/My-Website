@@ -231,10 +231,10 @@ for (const v of document.querySelectorAll('video[data-video]')) {
 
   /* Wenn das Video nicht spielen kann, faellt es auf das Standbild zurueck,
      statt einen Pausenknopf ueber einem stehenden Bild zu zeigen. Drei Faelle:
-     - NotSupportedError / Fehler an der <source>: die Datei ist hier nicht
-       abspielbar. Der bekannte Fall: Safari verlangt fuer Videos Teil-
-       anfragen (206), und Cloudflare liefert statische Dateien nur ganz aus.
-       Dann bleibt das Standbild stehen, ohne Bedienelement.
+     - NotSupportedError / Fehler an der <source>: nicht abspielbar (Netz-
+       fehler, fehlender Decoder). Standbild bleibt, ohne Bedienelement.
+       Safari ist KEIN solcher Fall -- kein Range-Worker noetig, siehe
+       tools/video-test.mjs.
      - NotAllowedError: Autoplay ist gesperrt (etwa im iOS-Stromsparmodus).
        Die Bedienleiste kommt zurueck, damit man selbst starten kann.
      - AbortError: ein play() wurde durch pause() unterbrochen, weil jemand

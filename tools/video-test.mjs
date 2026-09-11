@@ -60,8 +60,17 @@ const weg = (p) => p.evaluate(() => window.scrollTo(0, 0));
   erg.bewegungReduziert = await zustand(p);          // steht, mit Bedienleiste
   await ctx.close();
 }
-// 3. Datei nicht abspielbar -- so erlebt es Safari, weil Cloudflare keine
-//    Teilanfragen (206) beantwortet. Erwartet: Standbild bleibt, kein Knopf.
+// 3. Datei nicht abspielbar (Netzfehler, fehlender Decoder).
+//    Erwartet: Standbild bleibt, kein Knopf.
+//
+//    Safari gehoert NICHT dazu, und das ist hier festgehalten, damit niemand
+//    einen Worker nachruestet: Cloudflare beantwortet Teilanfragen (Range) auf
+//    statische Dateien mit 200 und der ganzen Datei statt mit 206 -- auch bei
+//    Safari-typischen Anfragen (bytes=0-1, identity, iPhone-Kennung). Aeltere
+//    Berichte (cloudflare/kv-asset-handler#63) sagen, iOS spiele Videos dann
+//    nicht ab. Am 11.09.2026 auf einem iPhone in Safari geprueft: das Video
+//    laeuft. Ein Range-Worker haette die Deploy-Konfiguration geaendert, fuer
+//    ein Problem, das nicht auftritt.
 {
   const { ctx, p, fehler } = await seite();
   await p.route('**/kaiju-spiel.mp4', (r) => r.abort());
