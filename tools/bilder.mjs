@@ -10,7 +10,7 @@
 //
 // Aufruf: node tools/bilder.mjs
 import sharp from 'sharp';
-import { readdir, mkdir, writeFile } from 'node:fs/promises';
+import { readdir, mkdir, writeFile, unlink } from 'node:fs/promises';
 import { join, parse } from 'node:path';
 
 const QUELLE = 'src/assets/media';
@@ -51,6 +51,25 @@ for (const datei of dateien) {
 }
 
 await writeFile('src/data/bilder.json', JSON.stringify(manifest, null, 2) + '\n', 'utf8');
+
+// Verwaiste Varianten entfernen. Ohne diesen Schritt blieb nach jedem
+// Bildertausch die alte Fassung liegen und wurde weiter oeffentlich
+// ausgeliefert -- sechs alte Projektron-Aufnahmen standen so monatelang
+// unverlinkt auf dem Server. Geloescht wird nur .webp: das ist die einzige
+// Endung, die dieses Skript erzeugt. vorschau.png und die Videos in
+// public/media stammen aus anderen Werkzeugen und bleiben unberuehrt.
+const erzeugt = new Set(Object.values(manifest).flatMap((m) => m.varianten.map((v) => v.datei.split('/').pop())));
+const verwaist = (await readdir(ZIEL)).filter((f) => f.endsWith('.webp') && !erzeugt.has(f));
+for (const f of verwaist) await unlink(join(ZIEL, f));
+if (verwaist.length) console.log(`entfernt (keine Quelle mehr): ${verwaist.join(', ')}`);
+
+// Symbol fuer den iPhone-Home-Bildschirm und Safari-Lesezeichen. iOS nutzt
+// kein SVG-Favicon und zeigt ohne dieses Bild ein Bildschirmfoto der Seite.
+// Aus favicon.svg gerendert, damit beide nie auseinanderlaufen. Die Dichte
+// rastert das 32er-SVG direkt in Zielgroesse -- mit der Standarddichte
+// entstuenden 32 px, die dann unscharf auf 180 hochgerechnet wuerden.
+await sharp('public/favicon.svg', { density: Math.ceil((180 / 32) * 72) })
+  .resize(180, 180).flatten({ background: '#1d5c44' }).png().toFile('public/apple-touch-icon.png');
 
 let summe = 0;
 for (const [name, m] of Object.entries(manifest)) {

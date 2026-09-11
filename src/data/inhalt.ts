@@ -660,7 +660,6 @@ export const ui: Record<string, S> = {
   videoAnhalten: { de: 'Video anhalten', en: 'Pause video' },
   bildSchliessen: { de: 'Schließen', en: 'Close' },
   bildAnsicht: { de: 'Bildansicht', en: 'Image view' },
-  bildVoll: { de: 'Volle Auflösung', en: 'Full resolution' },
   abnahme: { de: 'Abnahme', en: 'Sign-off' },
 
   /* "Lichtbild" ist das Wort, das auf amtlichen Formularen ueber dem Foto
@@ -730,32 +729,13 @@ export const ui: Record<string, S> = {
   eingriffVorher: { de: 'vorher', en: 'before' },
   eingriffNachher: { de: 'nachher', en: 'after' },
   eingriffCommit: { de: 'Commit', en: 'Commit' },
-  pruefstandTitel: { de: 'Prüfstand', en: 'Test bench' },
-  pruefstandText: {
-    de: 'Vier Messungen aus Messreihe M-1, jeweils bei 10.000 Zeilen.',
-    en: 'Four measurements from test series M-1, each at 10,000 rows.',
-  },
-  spurTitel: { de: 'Beide Stände im Vergleich', en: 'Both states compared' },
-  schalterGrund: {
-    de: 'Zwei Stellungen, kein Regler: gemessen wurden ausschließlich diese beiden Stände. Jede Zwischenstellung wäre eine erfundene Zahl.',
-    en: 'Two positions, not a slider: only these two states were ever measured. Any position between them would be a fabricated number.',
-  },
-  spurHinweis: {
-    de: 'Logarithmische Skala. Offener Kreis: vorher. Gefüllter Kreis: nachher. Die gestrichelte Linie bei P-03 läuft aus dem Bild, weil für den Vorher-Zustand nur „mehrere Minuten“ überliefert ist.',
-    en: 'Logarithmic scale. Hollow circle: before. Filled circle: after. The dashed line at P-03 runs off the chart because the before state is recorded only as “several minutes”.',
-  },
   kennwerte: { de: 'Kennwerte', en: 'Key figures' },
   pruefpunkt: { de: 'Prüfpunkt', en: 'Test point' },
-  istwert: { de: 'Istwert', en: 'Measured value' },
   quelle: { de: 'Quelle', en: 'Source' },
-  gemessen: { de: 'gemessen', en: 'measured' },
-  schematisch: { de: 'schematisch, nicht gemessen', en: 'schematic, not measured' },
   faktor: { de: 'Faktor', en: 'Factor' },
-  standCommit: { de: 'Stand', en: 'Commit' },
 
   stammdatenTitel: { de: 'Stammdaten', en: 'Master data' },
   stationenTitel: { de: 'Stationen', en: 'Positions' },
-  messreihenTitel: { de: 'Messreihen', en: 'Test series' },
   aufgabe: { de: 'Aufgabe', en: 'Task' },
   meinBeitrag: { de: 'Mein Beitrag', en: 'My contribution' },
   auslieferung: { de: 'Auslieferung', en: 'Delivery' },

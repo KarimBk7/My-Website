@@ -83,9 +83,8 @@ for (const a of kontakte) {
   const hinweis = a.closest('.kontakt')?.querySelector('.kontakt-hinweis');
   if (!hinweis) continue;
   const adresse = a.dataset.kontakt;
-  const englisch = html.lang === 'en';
-  const kopiert = englisch ? 'Address copied' : 'Adresse kopiert';
-  const nurAdresse = englisch ? 'Address' : 'Adresse';
+  // Die Texte kommen aus inhalt.ts, wie jeder andere Text der Seite.
+  const { kopiert, adresse: nurAdresse } = hinweis.dataset;
   let zeitgeber;
 
   a.addEventListener('click', async () => {

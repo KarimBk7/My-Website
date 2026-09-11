@@ -562,6 +562,21 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
    zentrieren weiterhin, sobald max-width (--nativ) kleiner ist als die Spur. */
 .bildreihe figure { width: 100%; }
 
+/* Die drei kleinen Aufnahmen einer Reihe haben verschiedene Seiten-
+   verhaeltnisse (bei Projektron 1,50 / 1,20 / 0,73). Jede Unterschrift stand
+   deshalb auf einer anderen Hoehe. Jetzt teilen sich die drei ueber subgrid
+   eine Bildzeile und eine Unterschriftzeile -- dasselbe Prinzip wie bei den
+   Zeugniskarten. Die Bilder stehen unten buendig auf einer gemeinsamen
+   Grundlinie, so bleibt jede Unterschrift direkt unter ihrem Bild; oben
+   buendig haette das kurze Bild eine Luecke von ueber 200 px bis zu seiner
+   Unterschrift bekommen. */
+@media (min-width: 52rem) {
+  @supports (grid-template-rows: subgrid) {
+    .bildreihe figure:not([data-breit]) { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; }
+    .bildreihe figure:not([data-breit]) > :first-child { align-self: end; }
+  }
+}
+
 /* --- Bildlupe ----------------------------------------------------------- */
 /* Die Aufnahmen sind kleiner abgebildet als sie sind: das Projektron-Haupt-
    fenster misst 1188 px und stand in 930, die drei kleinen 872 px in 294.
