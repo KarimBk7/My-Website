@@ -60,7 +60,30 @@ const weg = (p) => p.evaluate(() => window.scrollTo(0, 0));
   erg.bewegungReduziert = await zustand(p);          // steht, mit Bedienleiste
   await ctx.close();
 }
-// 3. Ohne Skript
+// 3. Datei nicht abspielbar -- so erlebt es Safari, weil Cloudflare keine
+//    Teilanfragen (206) beantwortet. Erwartet: Standbild bleibt, kein Knopf.
+{
+  const { ctx, p, fehler } = await seite();
+  await p.route('**/kaiju-spiel.mp4', (r) => r.abort());
+  await hin(p); await p.waitForTimeout(1500);
+  erg.dateiFehlt = { ...(await zustand(p)), poster: await p.evaluate(() => !!document.querySelector('video[data-video]').poster), fehler };
+  await ctx.close();
+}
+// 4. Autoplay gesperrt (etwa iOS-Stromsparmodus). Erwartet: Bedienleiste
+//    zurueck, damit man selbst starten kann.
+{
+  const ctx = await b.newContext({ viewport: { width: 1280, height: 900 } });
+  await ctx.addInitScript(() => {
+    HTMLMediaElement.prototype.play = function () { return Promise.reject(new DOMException('gesperrt', 'NotAllowedError')); };
+  });
+  const p = await ctx.newPage();
+  await p.goto(BASIS + '/', { waitUntil: 'networkidle' });
+  await p.addStyleTag({ content: 'html{scroll-behavior:auto !important}' });
+  await hin(p); await p.waitForTimeout(800);
+  erg.autoplayGesperrt = await zustand(p);
+  await ctx.close();
+}
+// 5. Ohne Skript
 {
   const ctx = await b.newContext({ viewport: { width: 1280, height: 900 }, javaScriptEnabled: false });
   const p = await ctx.newPage();

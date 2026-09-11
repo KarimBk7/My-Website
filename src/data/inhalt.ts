@@ -530,8 +530,8 @@ public void markValidated() {
     stempel: { wort: { de: 'Veröffentlicht', en: 'Published' }, zusatz: '09/2026' },
     titel: { de: 'Diese Seite', en: 'This page' },
     kurz: {
-      de: 'Die Bewerbungsseite, die Sie gerade lesen: statisch erzeugt, zweisprachig, ohne Tracker und ohne Cookies, ausgeliefert als Cloudflare Worker. Ein einziges JavaScript von 4,5 KB, kein Framework im Browser.',
-      en: 'The application site you are reading: statically generated, bilingual, no trackers and no cookies, served as a Cloudflare Worker. A single 4.5 KB JavaScript file, no framework in the browser.',
+      de: 'Die Bewerbungsseite, die Sie gerade lesen: statisch erzeugt, zweisprachig, ohne Tracker und ohne Cookies, ausgeliefert als Cloudflare Worker. Ein einziges JavaScript von 5,0 KB, kein Framework im Browser.',
+      en: 'The application site you are reading: statically generated, bilingual, no trackers and no cookies, served as a Cloudflare Worker. A single 5.0 KB JavaScript file, no framework in the browser.',
     },
     kopf: [
       { l: { de: 'Rahmen', en: 'Context' }, w: { de: 'Eigenarbeit', en: 'Own work' } },
@@ -571,7 +571,7 @@ public void markValidated() {
     },
     kennzahlen: [
       { wert: '145', l: { de: 'ms Antwortzeit', en: 'ms response time' }, s: { de: 'Median aus fünf Abrufen', en: 'median of five requests' } },
-      { wert: '4,5', l: { de: 'KB JavaScript', en: 'KB of JavaScript' }, s: { de: 'eine Datei, gzip, kein Framework', en: 'one file, gzipped, no framework' } },
+      { wert: '5,0', l: { de: 'KB JavaScript', en: 'KB of JavaScript' }, s: { de: 'eine Datei, gzip, kein Framework', en: 'one file, gzipped, no framework' } },
       { wert: '0', l: { de: 'Tracker und Cookies', en: 'trackers and cookies' }, s: { de: 'keine fremden Server', en: 'no third-party servers' } },
       { wert: '2', l: { de: 'Sprachen', en: 'languages' }, s: { de: 'vollständig, aus einer Quelle', en: 'complete, from one source' } },
     ],

@@ -228,9 +228,35 @@ for (const v of document.querySelectorAll('video[data-video]')) {
   knopf.hidden = false;
   let angehalten = false;
   let sichtbar = false;
-  const abspielen = () => { if (sichtbar && !angehalten) v.play().catch(() => {}); else v.pause(); };
 
-  new IntersectionObserver(([e]) => { sichtbar = e.isIntersecting; abspielen(); }, { threshold: 0.25 }).observe(v);
+  /* Wenn das Video nicht spielen kann, faellt es auf das Standbild zurueck,
+     statt einen Pausenknopf ueber einem stehenden Bild zu zeigen. Drei Faelle:
+     - NotSupportedError / Fehler an der <source>: die Datei ist hier nicht
+       abspielbar. Der bekannte Fall: Safari verlangt fuer Videos Teil-
+       anfragen (206), und Cloudflare liefert statische Dateien nur ganz aus.
+       Dann bleibt das Standbild stehen, ohne Bedienelement.
+     - NotAllowedError: Autoplay ist gesperrt (etwa im iOS-Stromsparmodus).
+       Die Bedienleiste kommt zurueck, damit man selbst starten kann.
+     - AbortError: ein play() wurde durch pause() unterbrochen, weil jemand
+       weggescrollt hat. Normalbetrieb, kein Fehler.
+     Fehler an <source> steigen nicht zum <video> auf, deshalb der eigene
+     Lauscher an der Quelle. */
+  const io = new IntersectionObserver(([e]) => { sichtbar = e.isIntersecting; abspielen(); }, { threshold: 0.25 });
+  const aufgeben = (bedienleiste) => {
+    io.disconnect();
+    v.pause(); // sonst "versucht" das Element weiter zu spielen, obwohl nichts kommt
+    knopf.hidden = true;
+    if (bedienleiste) v.setAttribute('controls', '');
+  };
+  const abspielen = () => {
+    if (!sichtbar || angehalten) { v.pause(); return; }
+    v.play().catch((f) => {
+      if (f.name === 'NotAllowedError') aufgeben(true);
+      else if (f.name === 'NotSupportedError') aufgeben(false);
+    });
+  };
+  v.querySelector('source')?.addEventListener('error', () => aufgeben(false));
+  io.observe(v);
   knopf.addEventListener('click', () => {
     angehalten = !angehalten;
     knopf.setAttribute('aria-pressed', String(angehalten));
