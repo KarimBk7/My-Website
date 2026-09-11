@@ -537,6 +537,12 @@ figure img, figure video { display: block; width: 100%; height: auto; border: va
 .video-knopf[aria-pressed='true'] .symbol-pause { display: none; }
 .video-knopf[aria-pressed='true'] .symbol-spielen { display: block; }
 figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); max-width: 60ch; }
+/* Unter breiten Aufnahmen laeuft die Unterschrift ueber die volle Bildbreite.
+   Die 60-Zeichen-Grenze haelt Fliesstext lesbar, liess den Text hier aber
+   nach gut der Haelfte enden -- unter einem 712 px breiten Video sah das
+   aus wie abgeschnitten. Die figure selbst ist auf die native Bildbreite
+   begrenzt, laenger als das Bild wird die Zeile also nie. */
+.bildreihe figure[data-breit] figcaption { max-width: none; }
 
 .bildreihe { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)); gap: 1.5rem; }
 /* Feste Dreierteilung, sobald Platz ist. Mit auto-fit passten hier vier
