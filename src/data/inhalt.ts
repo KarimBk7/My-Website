@@ -442,7 +442,11 @@ public void markValidated() {
       },
     },
     bilder: [
-      { datei: 'kaiju-ingame', breit: true, bu: { de: 'Spielansicht von oben: die Spielfigur am Strand, eine Nichtspielerfigur davor, links ein Höhleneingang. Oben links der Hinweis auf das Pausemenü, an den Rändern die Zähler für Schlüssel, Geld und Tränke.', en: 'Top-down gameplay: the player on the beach, a non-player character ahead, a cave entrance to the left. Top left the hint for the pause menu, around the edges the counters for keys, money and potions.' } },
+      /* Das einzige bewegte Bild der Seite, und bewusst hier: ein Standbild
+         kann nicht zeigen, dass die selbst geschriebene Spielschleife
+         wirklich laeuft. Erzeugt mit tools/video.mjs; `datei` ist zugleich
+         der Name des Standbilds im Bildmanifest. */
+      { datei: 'kaiju-spiel', breit: true, video: true, bu: { de: 'Laufende Spielszene, 20 Sekunden mit 60 Bildern je Sekunde: Die Kamera folgt der Spielfigur durch den Wald, durch das Tor ins ummauerte Dorf und bis zum Haus eines Dorfbewohners. Unterwegs ein Schwerthieb, gegnerische Würmer und die Geldanzeige, die im Lauf von 200 auf 300 springt.', en: 'Live gameplay, 20 seconds at 60 frames per second: the camera follows the player through the forest, through the gate into the walled village and up to a villager’s house. Along the way a sword strike, enemy worms, and the money counter jumping from 200 to 300 mid-run.' } },
       { datei: 'kaiju-titelbild', bu: { de: 'Titelbildschirm mit Menüführung über die Zustände Starten, Neues Spiel, Laden und Beenden. Die Auswahl läuft vollständig über den selbst geschriebenen Zustandsautomaten.', en: 'Title screen with menu navigation across the start, new game, load and quit states. Selection runs entirely through the hand-written state machine.' } },
       { datei: 'kaiju-weltkarte', bu: { de: 'Entwurf der Welt mit Dorf, See, Höhle und Bossarena. Das Raster liegt als Textdatei im Projekt und wird beim Start in Kacheln übersetzt.', en: 'World design with village, lake, cave and boss arena. The grid lives as a text file in the project and is translated into tiles at startup.' } },
       { datei: 'kaiju-pausemenu', bu: { de: 'Pausemenü über der abgedunkelten Spielwelt — einer der elf Spielzustände. Weiterspielen, Speichern und Hauptmenü stehen zur Wahl, darunter die Tastenbelegung für Bewegen, Heilen und Angreifen.', en: 'Pause menu over the dimmed game world — one of the eleven game states. Resume, save and main menu, with the key bindings for moving, healing and attacking below.' } },
@@ -526,8 +530,8 @@ public void markValidated() {
     stempel: { wort: { de: 'Veröffentlicht', en: 'Published' }, zusatz: '09/2026' },
     titel: { de: 'Diese Seite', en: 'This page' },
     kurz: {
-      de: 'Die Bewerbungsseite, die Sie gerade lesen: statisch erzeugt, zweisprachig, ohne Tracker und ohne Cookies, ausgeliefert als Cloudflare Worker. Ein einziges JavaScript von 3,2 KB, kein Framework im Browser.',
-      en: 'The application site you are reading: statically generated, bilingual, no trackers and no cookies, served as a Cloudflare Worker. A single 3.2 KB JavaScript file, no framework in the browser.',
+      de: 'Die Bewerbungsseite, die Sie gerade lesen: statisch erzeugt, zweisprachig, ohne Tracker und ohne Cookies, ausgeliefert als Cloudflare Worker. Ein einziges JavaScript von 4,5 KB, kein Framework im Browser.',
+      en: 'The application site you are reading: statically generated, bilingual, no trackers and no cookies, served as a Cloudflare Worker. A single 4.5 KB JavaScript file, no framework in the browser.',
     },
     kopf: [
       { l: { de: 'Rahmen', en: 'Context' }, w: { de: 'Eigenarbeit', en: 'Own work' } },
@@ -567,7 +571,7 @@ public void markValidated() {
     },
     kennzahlen: [
       { wert: '145', l: { de: 'ms Antwortzeit', en: 'ms response time' }, s: { de: 'Median aus fünf Abrufen', en: 'median of five requests' } },
-      { wert: '3,2', l: { de: 'KB JavaScript', en: 'KB of JavaScript' }, s: { de: 'eine Datei, gzip, kein Framework', en: 'one file, gzipped, no framework' } },
+      { wert: '4,5', l: { de: 'KB JavaScript', en: 'KB of JavaScript' }, s: { de: 'eine Datei, gzip, kein Framework', en: 'one file, gzipped, no framework' } },
       { wert: '0', l: { de: 'Tracker und Cookies', en: 'trackers and cookies' }, s: { de: 'keine fremden Server', en: 'no third-party servers' } },
       { wert: '2', l: { de: 'Sprachen', en: 'languages' }, s: { de: 'vollständig, aus einer Quelle', en: 'complete, from one source' } },
     ],
@@ -650,6 +654,10 @@ export const ui: Record<string, S> = {
   /* Bildlupe. Ohne Skript bleibt der Link ein Link auf die Bilddatei -- das
      ist der Grund, warum hier ein <a> steht und kein <button>. */
   bildVergroessern: { de: 'Bild vergrößern', en: 'Enlarge image' },
+  /* Umschalter mit festem Namen und aria-pressed als Zustand -- das ist das
+     Muster, das Screenreader als Schalter ansagen ("gedrueckt"/"nicht
+     gedrueckt"), statt dass die Beschriftung bei jedem Klick wechselt. */
+  videoAnhalten: { de: 'Video anhalten', en: 'Pause video' },
   bildSchliessen: { de: 'Schließen', en: 'Close' },
   bildAnsicht: { de: 'Bildansicht', en: 'Image view' },
   bildVoll: { de: 'Volle Auflösung', en: 'Full resolution' },

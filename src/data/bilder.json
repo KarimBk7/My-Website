@@ -1,21 +1,4 @@
 {
-  "kaiju-ingame": {
-    "breite": 957,
-    "hoehe": 750,
-    "seitenverhaeltnis": 1.276,
-    "varianten": [
-      {
-        "datei": "/media/kaiju-ingame-800.webp",
-        "breite": 800,
-        "kb": 123
-      },
-      {
-        "datei": "/media/kaiju-ingame-957.webp",
-        "breite": 957,
-        "kb": 142
-      }
-    ]
-  },
   "kaiju-pausemenu": {
     "breite": 956,
     "hoehe": 751,
@@ -30,6 +13,18 @@
         "datei": "/media/kaiju-pausemenu-956.webp",
         "breite": 956,
         "kb": 58
+      }
+    ]
+  },
+  "kaiju-spiel": {
+    "breite": 712,
+    "hoehe": 534,
+    "seitenverhaeltnis": 1.3333,
+    "varianten": [
+      {
+        "datei": "/media/kaiju-spiel-712.webp",
+        "breite": 712,
+        "kb": 88
       }
     ]
   },

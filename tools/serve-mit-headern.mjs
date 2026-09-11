@@ -25,7 +25,7 @@ const TYPEN = {
   '.js': 'text/javascript; charset=utf-8', '.json': 'application/json',
   '.svg': 'image/svg+xml', '.webp': 'image/webp', '.png': 'image/png',
   '.pdf': 'application/pdf', '.woff2': 'font/woff2', '.xml': 'application/xml',
-  '.txt': 'text/plain; charset=utf-8',
+  '.txt': 'text/plain; charset=utf-8', '.mp4': 'video/mp4',
 };
 
 createServer(async (req, res) => {

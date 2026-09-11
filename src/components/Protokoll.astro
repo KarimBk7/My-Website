@@ -475,10 +475,47 @@ const eintraege: Eintrag[] = [
                   data-breit={'breit' in b && b.breit ? '' : undefined}
                   style={`--nativ:${bild(b.datei).breite}px`}
                 >
-                  {/* Ein <a> auf die Bilddatei, kein <button>: ohne Skript
-                      oeffnet der Link das Bild in voller Groesse in einem
-                      neuen Tab. Mit Skript faengt register.js den Klick ab
-                      und zeigt es in der Lupe. */}
+                  {'video' in b && b.video ? (
+                    /* Bewegtes Bild. Im HTML steht es MIT Bedienleiste und ohne
+                       autoplay: ohne Skript und bei "Bewegung reduzieren"
+                       entscheidet der Besucher selbst, ob es laeuft. Erst
+                       register.js nimmt die Leiste weg und spielt es ab --
+                       nur solange es im Bild ist, und mit eigenem Pausenknopf
+                       (WCAG 2.2.2: bewegte Inhalte ueber 5 s muessen sich
+                       anhalten lassen). preload="none": geladen wird erst,
+                       wenn jemand bis hierher scrollt.
+                       Keine Lupe: das Video steht bereits in seiner nativen
+                       Groesse (--nativ), groesser gibt es nicht. */
+                    <div class="video-rahmen">
+                      <video
+                        data-video
+                        width={bild(b.datei).breite}
+                        height={bild(b.datei).hoehe}
+                        poster={bild(b.datei).gross}
+                        preload="none"
+                        muted
+                        loop
+                        playsinline
+                        controls
+                        aria-label={t(b.bu)}
+                      >
+                        <source src={`/media/${b.datei}.mp4`} type="video/mp4" />
+                      </video>
+                      <button class="video-knopf" type="button" data-video-knopf hidden
+                              aria-label={t(ui.videoAnhalten)} aria-pressed="false">
+                        <svg class="symbol-pause" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                          <path d="M3.5 2v10M10.5 2v10" stroke="currentColor" stroke-width="2.4" />
+                        </svg>
+                        <svg class="symbol-spielen" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                          <path d="M3.5 2.2 11.5 7l-8 4.8Z" fill="currentColor" />
+                        </svg>
+                      </button>
+                    </div>
+                  ) : (
+                  /* Ein <a> auf die Bilddatei, kein <button>: ohne Skript
+                     oeffnet der Link das Bild in voller Groesse in einem
+                     neuen Tab. Mit Skript faengt register.js den Klick ab
+                     und zeigt es in der Lupe. */
                   <a class="bild-lupe" href={bild(b.datei).gross} target="_blank" rel="noopener"
                      data-lupe data-bu={t(b.bu)}
                      data-w={bild(b.datei).breite} data-h={bild(b.datei).hoehe}
@@ -503,6 +540,7 @@ const eintraege: Eintrag[] = [
                       </svg>
                     </span>
                   </a>
+                  )}
                   <figcaption>{t(b.bu)}</figcaption>
                 </figure>
               ))}

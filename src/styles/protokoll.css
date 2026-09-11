@@ -510,7 +510,32 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
    --nativ setzt die Komponente aus dem Bildmanifest; die Begrenzung sitzt auf
    der figure, damit die Bildunterschrift mitzentriert und bündig bleibt. */
 figure { margin: 0; max-width: min(100%, var(--nativ, 100%)); margin-inline: auto; }
-figure img { display: block; width: 100%; height: auto; border: var(--spur) solid var(--haar-stark); background: #fff; }
+figure img, figure video { display: block; width: 100%; height: auto; border: var(--spur) solid var(--haar-stark); background: #fff; }
+
+/* --- Bewegtes Bild ------------------------------------------------------ */
+/* Der Pausenknopf traegt dasselbe Kleid wie das Lupen-Zeichen der Bilder --
+   ein eigenes Bedienelement im Stil des Browsers waere der einzige Fremd-
+   koerper auf der Seite. Er ist immer sichtbar, nicht erst beim Darueber-
+   fahren: wer das Video anhalten will, muss den Knopf finden, ohne suchen
+   zu muessen (und auf Tippgeraeten gibt es kein Darueberfahren). */
+.video-rahmen { position: relative; }
+.video-knopf {
+  position: absolute;
+  right: 0.55rem;
+  bottom: 0.55rem;
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  background: var(--papier);
+  border: var(--spur) solid var(--haar-stark);
+  color: var(--gruen-tief);
+  cursor: pointer;
+}
+.video-knopf:hover { background: var(--gruen-band); }
+.video-knopf .symbol-spielen,
+.video-knopf[aria-pressed='true'] .symbol-pause { display: none; }
+.video-knopf[aria-pressed='true'] .symbol-spielen { display: block; }
 figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); max-width: 60ch; }
 
 .bildreihe { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)); gap: 1.5rem; }
@@ -783,7 +808,7 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 
   /* Bedienelemente haben auf Papier nichts zu suchen. */
   .sprachwahl, .sprung, .register, .register-griff, .register-schleier,
-  .klappe, .kontakt-hinweis, .lupe-marke, .lupe { display: none !important; }
+  .klappe, .kontakt-hinweis, .lupe-marke, .lupe, .video-knopf { display: none !important; }
   .rumpf { grid-template-columns: minmax(0, 1fr) !important; }
   .rumpf::before { display: none !important; }
 

@@ -209,3 +209,31 @@ if (lupe && typeof lupe.showModal === 'function') {
     if (ausloeser) { ausloeser.focus(); ausloeser = null; }
   });
 }
+
+/* --------------------------------------------------------- Bewegtes Bild */
+/* Im HTML steht das Video mit Bedienleiste und ohne autoplay. Erst hier wird
+   es zum stummen Endlos-Clip -- und nur, wenn niemand "Bewegung reduzieren"
+   eingestellt hat. Die Seite verspricht, dass sich jede Bewegung abschalten
+   laesst; ein fest verdrahtetes autoplay wuerde genau das brechen.
+   Gespielt wird nur, solange das Video im Bild ist: ausserhalb kostet es
+   Akku und Rechenzeit, ohne dass es jemand sieht. Der Knopf haelt es an
+   (WCAG 2.2.2), und eine bewusste Pause gilt, bis wieder gedrueckt wird --
+   auch wenn man weg- und zurueckscrollt. */
+for (const v of document.querySelectorAll('video[data-video]')) {
+  const knopf = v.parentElement.querySelector('[data-video-knopf]');
+  v.muted = true; // Browser spielen nur stumme Videos ohne Klick ab
+  if (RUHIG.matches || !knopf) continue; // Bedienleiste bleibt, Besucher entscheidet
+
+  v.removeAttribute('controls');
+  knopf.hidden = false;
+  let angehalten = false;
+  let sichtbar = false;
+  const abspielen = () => { if (sichtbar && !angehalten) v.play().catch(() => {}); else v.pause(); };
+
+  new IntersectionObserver(([e]) => { sichtbar = e.isIntersecting; abspielen(); }, { threshold: 0.25 }).observe(v);
+  knopf.addEventListener('click', () => {
+    angehalten = !angehalten;
+    knopf.setAttribute('aria-pressed', String(angehalten));
+    abspielen();
+  });
+}
