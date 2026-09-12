@@ -530,8 +530,8 @@ public void markValidated() {
     stempel: { wort: { de: 'Veröffentlicht', en: 'Published' }, zusatz: '09/2026' },
     titel: { de: 'Diese Seite', en: 'This page' },
     kurz: {
-      de: 'Die Bewerbungsseite, die Sie gerade lesen: statisch erzeugt, zweisprachig, ohne Tracker und ohne Cookies, ausgeliefert als Cloudflare Worker. Ein einziges JavaScript von 5,0 KB, kein Framework im Browser.',
-      en: 'The application site you are reading: statically generated, bilingual, no trackers and no cookies, served as a Cloudflare Worker. A single 5.0 KB JavaScript file, no framework in the browser.',
+      de: 'Die Bewerbungsseite, die Sie gerade lesen: statisch erzeugt, zweisprachig, ohne Tracker und ohne Cookies, ausgeliefert als Cloudflare Worker. Ein einziges JavaScript von 5,4 KB, kein Framework im Browser.',
+      en: 'The application site you are reading: statically generated, bilingual, no trackers and no cookies, served as a Cloudflare Worker. A single 5.4 KB JavaScript file, no framework in the browser.',
     },
     kopf: [
       { l: { de: 'Rahmen', en: 'Context' }, w: { de: 'Eigenarbeit', en: 'Own work' } },
@@ -658,6 +658,7 @@ export const ui: Record<string, S> = {
      Muster, das Screenreader als Schalter ansagen ("gedrueckt"/"nicht
      gedrueckt"), statt dass die Beschriftung bei jedem Klick wechselt. */
   videoAnhalten: { de: 'Video anhalten', en: 'Pause video' },
+  videoVollbild: { de: 'Video im Vollbild', en: 'Full-screen video' },
   bildSchliessen: { de: 'Schließen', en: 'Close' },
   bildAnsicht: { de: 'Bildansicht', en: 'Image view' },
   abnahme: { de: 'Abnahme', en: 'Sign-off' },

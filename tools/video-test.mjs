@@ -51,6 +51,23 @@ const weg = (p) => p.evaluate(() => window.scrollTo(0, 0));
   erg.wiederAn = await zustand(p);
   await weg(p); await p.waitForTimeout(500);
   erg.weggescrollt = await zustand(p);               // muss anhalten
+  // Vollbild per Knopf und per Klick aufs Video, beide Male mit Esc zurueck
+  const voll = () => p.evaluate(() => {
+    const v = document.querySelector('video[data-video]'), g = v.parentElement.querySelector('[data-video-gross]');
+    return { rahmenVoll: document.fullscreenElement === v.parentElement, videoBreite: Math.round(v.getBoundingClientRect().width),
+             knopfSichtbar: !g.hidden, gedrueckt: g.getAttribute('aria-pressed'), laeuft: !v.paused };
+  });
+  await hin(p); await p.waitForTimeout(500);
+  await p.locator('[data-video-gross]').first().click(); await p.waitForTimeout(800);
+  erg.vollbildKnopf = await voll(p);
+  await p.locator('[data-video-gross]').first().click(); await p.waitForTimeout(800);
+  erg.vollbildZu = await voll(p);
+  await p.locator('video[data-video]').first().click(); await p.waitForTimeout(800);
+  erg.vollbildKlick = await voll(p);
+  // Esc und Zurueck-Geste gehoeren dem Browser; ein per Playwright gedruecktes
+  // Esc erreicht sie nicht. Verlassen daher ueber die Schnittstelle.
+  await p.evaluate(() => document.exitFullscreen()); await p.waitForTimeout(800);
+  erg.nachVerlassen = await voll(p);
   erg.fehler = fehler;
   await ctx.close();
 }

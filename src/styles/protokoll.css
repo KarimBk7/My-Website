@@ -536,6 +536,15 @@ figure img, figure video { display: block; width: 100%; height: auto; border: va
 .video-knopf .symbol-spielen,
 .video-knopf[aria-pressed='true'] .symbol-pause { display: none; }
 .video-knopf[aria-pressed='true'] .symbol-spielen { display: block; }
+/* Vollbild: links neben der Pause. Der ganze Rahmen geht ins Vollbild, nicht
+   nur das <video>, damit der Pausenknopf mitkommt. */
+.video-gross { right: calc(0.55rem + 1.9rem + 0.4rem); }
+.video-gross .symbol-zu,
+.video-gross[aria-pressed='true'] .symbol-auf { display: none; }
+.video-gross[aria-pressed='true'] .symbol-zu { display: block; }
+.video-rahmen video:not([controls]) { cursor: zoom-in; }
+.video-rahmen:fullscreen { display: grid; place-items: center; background: #000; }
+.video-rahmen:fullscreen video { width: 100%; height: 100%; object-fit: contain; border: 0; background: #000; cursor: auto; }
 figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); max-width: 60ch; }
 /* Unter breiten Aufnahmen laeuft die Unterschrift ueber die volle Bildbreite.
    Die 60-Zeichen-Grenze haelt Fliesstext lesbar, liess den Text hier aber

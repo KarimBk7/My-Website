@@ -484,8 +484,10 @@ const eintraege: Eintrag[] = [
                        (WCAG 2.2.2: bewegte Inhalte ueber 5 s muessen sich
                        anhalten lassen). preload="none": geladen wird erst,
                        wenn jemand bis hierher scrollt.
-                       Keine Lupe: das Video steht bereits in seiner nativen
-                       Groesse (--nativ), groesser gibt es nicht. */
+                       Statt Lupe ein Vollbild-Knopf: am Handy ist die Aufnahme
+                       nur ein Viertel so breit wie ihr Original, die Tabelle
+                       darin unlesbar. Ohne Skript uebernimmt das die
+                       Bedienleiste des Browsers. */
                     <div class="video-rahmen">
                       <video
                         data-video
@@ -501,6 +503,15 @@ const eintraege: Eintrag[] = [
                       >
                         <source src={`/media/${b.datei}.mp4`} type="video/mp4" />
                       </video>
+                      <button class="video-knopf video-gross" type="button" data-video-gross hidden
+                              aria-label={t(ui.videoVollbild)} aria-pressed="false">
+                        <svg class="symbol-auf" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                          <path d="M1.5 5V1.5H5M9 1.5h3.5V5M12.5 9v3.5H9M5 12.5H1.5V9" stroke="currentColor" stroke-width="1.8" />
+                        </svg>
+                        <svg class="symbol-zu" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                          <path d="M5 1.5V5H1.5M12.5 5H9V1.5M9 12.5V9h3.5M1.5 9H5v3.5" stroke="currentColor" stroke-width="1.8" />
+                        </svg>
+                      </button>
                       <button class="video-knopf" type="button" data-video-knopf hidden
                               aria-label={t(ui.videoAnhalten)} aria-pressed="false">
                         <svg class="symbol-pause" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">

@@ -219,7 +219,9 @@ if (lupe && typeof lupe.showModal === 'function') {
    (WCAG 2.2.2), und eine bewusste Pause gilt, bis wieder gedrueckt wird --
    auch wenn man weg- und zurueckscrollt. */
 for (const v of document.querySelectorAll('video[data-video]')) {
-  const knopf = v.parentElement.querySelector('[data-video-knopf]');
+  const rahmen = v.parentElement;
+  const knopf = rahmen.querySelector('[data-video-knopf]');
+  const gross = rahmen.querySelector('[data-video-gross]');
   v.muted = true; // Browser spielen nur stumme Videos ohne Klick ab
   if (RUHIG.matches || !knopf) continue; // Bedienleiste bleibt, Besucher entscheidet
 
@@ -244,7 +246,7 @@ for (const v of document.querySelectorAll('video[data-video]')) {
   const aufgeben = (bedienleiste) => {
     io.disconnect();
     v.pause(); // sonst "versucht" das Element weiter zu spielen, obwohl nichts kommt
-    knopf.hidden = true;
+    knopf.hidden = gross.hidden = true;
     if (bedienleiste) v.setAttribute('controls', '');
   };
   const abspielen = () => {
@@ -261,4 +263,17 @@ for (const v of document.querySelectorAll('video[data-video]')) {
     knopf.setAttribute('aria-pressed', String(angehalten));
     abspielen();
   });
+
+  /* Vollbild. Der Rahmen samt Pausenknopf, wo der Browser das kann; das
+     iPhone kann es nur fuer ein <video> und zeigt dann seinen eigenen Player
+     (und haelt beim Verlassen an -- daher abspielen()). Android dreht dabei
+     ins Querformat; Browser, die das nicht koennen, lehnen still ab. */
+  const vollbild = document.fullscreenEnabled ? () => rahmen.requestFullscreen().then(() => screen.orientation?.lock?.('landscape')).catch(() => {})
+    : v.webkitEnterFullscreen && (() => { try { v.webkitEnterFullscreen(); } catch {} });
+  if (!vollbild) continue;
+  gross.hidden = false;
+  gross.addEventListener('click', () => (document.fullscreenElement ? document.exitFullscreen() : vollbild()));
+  v.addEventListener('click', () => { if (!v.controls && !document.fullscreenElement) vollbild(); });
+  rahmen.addEventListener('fullscreenchange', () => gross.setAttribute('aria-pressed', String(document.fullscreenElement === rahmen)));
+  v.addEventListener('webkitendfullscreen', abspielen);
 }
