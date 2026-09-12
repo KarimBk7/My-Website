@@ -2,13 +2,14 @@
 import '../styles/protokoll.css';
 import { ui, person, type Lang } from '../data/inhalt';
 
-interface Props { lang: Lang }
-const { lang } = Astro.props;
+/* Ohne `pfade`, `titel` und `beschreibung` ist es die Startseite. */
+interface Props { lang: Lang; pfade?: Record<Lang, string>; titel?: string; beschreibung?: string }
+const { lang, pfade = { de: '/', en: '/en/' } } = Astro.props;
+const startseite = !Astro.props.pfade;
 
-const pfad = lang === 'de' ? '/' : '/en/';
-const kanonisch = new URL(pfad, Astro.site).href;
-const titel = ui.seiteTitel[lang];
-const beschreibung = ui.seiteBeschreibung[lang];
+const kanonisch = new URL(pfade[lang], Astro.site).href;
+const titel = Astro.props.titel ?? ui.seiteTitel[lang];
+const beschreibung = Astro.props.beschreibung ?? ui.seiteBeschreibung[lang];
 ---
 
 <!doctype html>
@@ -19,9 +20,9 @@ const beschreibung = ui.seiteBeschreibung[lang];
     <title>{titel}</title>
     <meta name="description" content={beschreibung} />
     <link rel="canonical" href={kanonisch} />
-    <link rel="alternate" hreflang="de" href={new URL('/', Astro.site).href} />
-    <link rel="alternate" hreflang="en" href={new URL('/en/', Astro.site).href} />
-    <link rel="alternate" hreflang="x-default" href={new URL('/', Astro.site).href} />
+    <link rel="alternate" hreflang="de" href={new URL(pfade.de, Astro.site).href} />
+    <link rel="alternate" hreflang="en" href={new URL(pfade.en, Astro.site).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(pfade.de, Astro.site).href} />
 
     <meta property="og:type" content="profile" />
     <meta property="og:title" content={titel} />
@@ -44,7 +45,7 @@ const beschreibung = ui.seiteBeschreibung[lang];
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <script
+    {startseite && <script
       type="application/ld+json"
       is:inline
       set:html={JSON.stringify({
@@ -58,7 +59,7 @@ const beschreibung = ui.seiteBeschreibung[lang];
         address: { '@type': 'PostalAddress', addressLocality: 'Berlin', addressCountry: 'DE' },
         alumniOf: { '@type': 'CollegeOrUniversity', name: 'Freie Universität Berlin' },
       })}
-    />
+    />}
   </head>
   <body>
     <a class="sprung" href="#inhalt">{ui.skipLink[lang]}</a>

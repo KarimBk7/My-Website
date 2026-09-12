@@ -1,0 +1,108 @@
+---
+import { person, ui, type Lang } from '../data/inhalt';
+
+/* Rechtstext, deshalb nicht in inhalt.ts: er wird als Ganzes gelesen und
+   geaendert, nicht in Bausteinen, und seine Links stehen mitten im Satz.
+   Wer hier etwas an der Seite aendert (Tracker, Formular, fremde Schrift,
+   Besucherzaehler), muss diesen Text im selben Zug anpassen. */
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const de = lang === 'de';
+const aussen = { target: '_blank', rel: 'noopener' } as const;
+const start = de ? '/' : '/en/';
+const mail = `mailto:${person.email}`;
+---
+
+<div class="huelle recht-kopf">
+  <a href={start}>← {person.name}</a>
+  <nav class="sprachwahl" aria-label={ui.sprache[lang]}>
+    <a href="/datenschutz/" hreflang="de" aria-current={de ? 'true' : undefined}>DE</a>
+    <a href="/en/privacy/" hreflang="en" aria-current={de ? undefined : 'true'}>EN</a>
+  </nav>
+</div>
+
+<main id="inhalt" class="huelle abschnitt recht">
+  {de ? (
+    <>
+      <p class="feld-name">Stand: September 2026</p>
+      <h1 class="titel-abschnitt">Datenschutzerklärung</h1>
+      <p class="fliess">Diese Seite ist eine statische Bewerbungsseite. Sie hat kein Formular, kein Konto und keine Analyse. Personenbezogene Daten fallen nur dort an, wo es technisch nicht anders geht, und wenn Sie mir schreiben.</p>
+
+      <div class="gitter">
+        <div class="gitter-reihe"><span class="feld-name">Cookies</span><span>keine</span></div>
+        <div class="gitter-reihe"><span class="feld-name">Tracking und Analyse</span><span>keine</span></div>
+        <div class="gitter-reihe"><span class="feld-name">Inhalte fremder Server</span><span>keine, auch die Schriften liegen auf dieser Seite</span></div>
+        <div class="gitter-reihe"><span class="feld-name">Speicher im Browser</span><span>ein Eintrag: ob das Inhaltsverzeichnis offen ist</span></div>
+      </div>
+
+      <h2>1. Verantwortlicher</h2>
+      <p>{person.name}, Berlin<br />E-Mail: <a href={mail}>{person.email}</a></p>
+
+      <h2>2. Bereitstellung der Seite durch Cloudflare</h2>
+      <p>Die Seite wird über Cloudflare ausgeliefert (Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA). Damit Ihr Browser die Seite und die Dateien darauf, etwa die PDFs, abrufen kann, verarbeitet Cloudflare bei jedem Aufruf technische Verbindungsdaten: Ihre IP-Adresse, Datum und Uhrzeit, die aufgerufene Adresse, die zuvor besuchte Seite, soweit Ihr Browser sie mitsendet, sowie Browser und Betriebssystem.</p>
+      <p>Zweck ist die Auslieferung der Seite und ihr Schutz vor Angriffen und Missbrauch. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; mein berechtigtes Interesse ist eine sichere und erreichbare Seite. Ich nutze diese Daten nicht, um Besucher zu erkennen oder Nutzungsprofile zu bilden.</p>
+      <p>Cloudflare verarbeitet die Daten als Auftragsverarbeiter auf Grundlage eines Vertrags nach Art. 28 DSGVO. Dabei können Daten in die USA übermittelt werden. Cloudflare ist nach dem EU-US Data Privacy Framework zertifiziert, für das ein Angemessenheitsbeschluss der EU-Kommission besteht (Art. 45 DSGVO). Wie lange Cloudflare diese Daten aufbewahrt, beschreibt die <a href="https://www.cloudflare.com/de-de/privacypolicy/" {...aussen}>Datenschutzerklärung von Cloudflare</a>.</p>
+
+      <h2>3. Speicher im Browser</h2>
+      <p>Wenn Sie das Inhaltsverzeichnis am linken Rand öffnen oder schließen, merkt sich die Seite das im lokalen Speicher Ihres Browsers (localStorage, Eintrag „register“ mit dem Wert „auf“ oder „zu“). Der Eintrag bleibt auf Ihrem Gerät, wird nicht übertragen und enthält nichts über Sie. Er dient allein dazu, eine von Ihnen gewählte Einstellung beizubehalten, und ist dafür unbedingt erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG); eine Einwilligung ist deshalb nicht nötig. Sie können ihn jederzeit löschen, indem Sie die Websitedaten dieser Seite in Ihrem Browser entfernen.</p>
+
+      <h2>4. Kontakt per E-Mail</h2>
+      <p>Die Knöpfe „Kontakt aufnehmen“ öffnen Ihr eigenes E-Mail-Programm und kopieren die Adresse in Ihre Zwischenablage; dabei wird nichts an diese Seite gesendet. Schreiben Sie mir, verarbeite ich Ihre E-Mail-Adresse, Ihren Namen und den Inhalt Ihrer Nachricht, um Ihnen zu antworten und gegebenenfalls ein Bewerbungsverfahren zu führen.</p>
+      <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit es um die Anbahnung eines Arbeits- oder Vertragsverhältnisses geht, sonst Art. 6 Abs. 1 lit. f DSGVO (Beantwortung Ihrer Anfrage). Ich lösche die Nachrichten, sobald sie dafür nicht mehr gebraucht werden, es sei denn, gesetzliche Aufbewahrungspflichten stehen entgegen. Mein Postfach wird von Google bereitgestellt (Gmail); Ihre Nachricht wird dort gespeichert.</p>
+
+      <h2>5. Links zu anderen Seiten</h2>
+      <p>Die Seite verlinkt unter anderem auf GitHub und LinkedIn. Diese Seiten werden erst geladen, wenn Sie den Link anklicken; ab dann gilt die Datenschutzerklärung des jeweiligen Anbieters. Dabei erfährt die Zielseite, dass Sie von dieser Seite kommen, nicht aber, welche Unterseite Sie gelesen haben.</p>
+
+      <h2>6. Ihre Rechte</h2>
+      <p>Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18) und Datenübertragbarkeit (Art. 20). Einer Verarbeitung auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO können Sie aus Gründen, die sich aus Ihrer besonderen Situation ergeben, jederzeit widersprechen (Art. 21). Eine formlose E-Mail an <a href={mail}>{person.email}</a> genügt.</p>
+      <p>Außerdem können Sie sich bei einer Datenschutz-Aufsichtsbehörde beschweren (Art. 77 DSGVO), etwa bei der für mich zuständigen <a href="https://www.datenschutz-berlin.de" {...aussen}>Berliner Beauftragten für Datenschutz und Informationsfreiheit</a>, Alt-Moabit 59–61, 10555 Berlin.</p>
+
+      <h2>7. Weiteres</h2>
+      <p>Sie müssen keine Daten bereitstellen, um diese Seite zu lesen; ohne die Verbindungsdaten aus Abschnitt 2 lässt sie sich technisch aber nicht ausliefern. Eine automatisierte Entscheidungsfindung oder ein Profiling findet nicht statt.</p>
+    </>
+  ) : (
+    <>
+      <p class="feld-name">Last updated: September 2026</p>
+      <h1 class="titel-abschnitt">Privacy policy</h1>
+      <p class="fliess">This is a static application website. It has no form, no account and no analytics. Personal data is processed only where it is technically unavoidable, and when you write to me.</p>
+      <p class="fliess">This English version is provided for convenience; the <a href="/datenschutz/" hreflang="de">German version</a> is authoritative.</p>
+
+      <div class="gitter">
+        <div class="gitter-reihe"><span class="feld-name">Cookies</span><span>none</span></div>
+        <div class="gitter-reihe"><span class="feld-name">Tracking and analytics</span><span>none</span></div>
+        <div class="gitter-reihe"><span class="feld-name">Content from other servers</span><span>none, the fonts are served from this site too</span></div>
+        <div class="gitter-reihe"><span class="feld-name">Browser storage</span><span>one entry: whether the contents panel is open</span></div>
+      </div>
+
+      <h2>1. Controller</h2>
+      <p>{person.name}, Berlin, Germany<br />Email: <a href={mail}>{person.email}</a></p>
+
+      <h2>2. Hosting by Cloudflare</h2>
+      <p>The site is delivered through Cloudflare (Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA). So that your browser can retrieve the page and the files on it, such as the PDFs, Cloudflare processes technical connection data on every request: your IP address, date and time, the requested address, the previously visited page where your browser sends it, and your browser and operating system.</p>
+      <p>The purpose is to deliver the site and protect it against attacks and abuse. The legal basis is Art. 6(1)(f) GDPR; my legitimate interest is a secure and available website. I do not use this data to identify visitors or build usage profiles.</p>
+      <p>Cloudflare processes the data as a processor under a contract pursuant to Art. 28 GDPR. Data may be transferred to the USA. Cloudflare is certified under the EU-US Data Privacy Framework, which is covered by an adequacy decision of the European Commission (Art. 45 GDPR). How long Cloudflare retains this data is described in <a href="https://www.cloudflare.com/privacypolicy/" {...aussen}>Cloudflare's privacy policy</a>.</p>
+
+      <h2>3. Browser storage</h2>
+      <p>When you open or close the contents panel on the left, the site remembers this in your browser's local storage (localStorage, entry “register” with the value “auf” or “zu”, German for open and closed). The entry stays on your device, is never transmitted and contains nothing about you. It only keeps a setting you chose and is strictly necessary for that (Section 25(2) no. 2 TDDDG), so no consent is required. You can delete it at any time by clearing this site's data in your browser.</p>
+
+      <h2>4. Contact by email</h2>
+      <p>The “Get in touch” buttons open your own email program and copy the address to your clipboard; nothing is sent to this site. If you write to me, I process your email address, your name and the content of your message in order to reply and, where applicable, to conduct an application process.</p>
+      <p>The legal basis is Art. 6(1)(b) GDPR where the message concerns a possible employment or other contract, otherwise Art. 6(1)(f) GDPR (answering your enquiry). I delete messages once they are no longer needed for this, unless statutory retention obligations apply. My mailbox is provided by Google (Gmail); your message is stored there.</p>
+
+      <h2>5. Links to other sites</h2>
+      <p>The site links to GitHub and LinkedIn, among others. These sites are only loaded when you click the link; from then on, the respective provider's privacy policy applies. The target site learns that you came from this website, but not which page you were reading.</p>
+
+      <h2>6. Your rights</h2>
+      <p>You have the right of access (Art. 15 GDPR), rectification (Art. 16), erasure (Art. 17), restriction of processing (Art. 18) and data portability (Art. 20). You may object at any time, on grounds relating to your particular situation, to processing based on Art. 6(1)(f) GDPR (Art. 21). An informal email to <a href={mail}>{person.email}</a> is sufficient.</p>
+      <p>You also have the right to lodge a complaint with a data protection supervisory authority (Art. 77 GDPR), for example the authority responsible for me, the <a href="https://www.datenschutz-berlin.de/en/" {...aussen}>Berlin Commissioner for Data Protection and Freedom of Information</a>, Alt-Moabit 59–61, 10555 Berlin, Germany.</p>
+
+      <h2>7. Other information</h2>
+      <p>You are not required to provide any data to read this site; without the connection data described in section 2, however, it cannot technically be delivered. There is no automated decision-making or profiling.</p>
+    </>
+  )}
+</main>
+
+<div class="huelle fuss">
+  <p style="margin:0"><a href={start}>{de ? 'Zurück zur Bewerbungsseite' : 'Back to the application site'}</a></p>
+</div>

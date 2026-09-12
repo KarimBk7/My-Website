@@ -775,6 +775,7 @@ export const ui: Record<string, S> = {
     en: 'Computer science student at FU Berlin. Backend at the core, plus web, cloud infrastructure and hardware. Four documented projects, measured results, two employment references.',
   },
   skipLink: { de: 'Zum Inhalt springen', en: 'Skip to content' },
+  datenschutz: { de: 'Datenschutz', en: 'Privacy' },
   fussnote: {
     de: 'Diese Seite ist statisch, kommt ohne Tracker und ohne Cookies aus und setzt keine Analysewerkzeuge ein.',
     en: 'This page is static, uses no trackers and no cookies, and runs no analytics.',

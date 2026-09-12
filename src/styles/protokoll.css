@@ -890,3 +890,17 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
   }
   img { max-width: 100% !important; }
 }
+
+/* --- Datenschutzerklaerung ---------------------------------------------- */
+/* Ein Lesetext, kein Protokollblatt: eine Spalte in Lesebreite, Absatz-
+   ueberschriften eine Stufe unter den Blatttiteln. Die Kurzfassung oben
+   steht als Feldgitter, wie jede andere Angabe auf der Seite. */
+.recht-kopf { display: flex; align-items: baseline; gap: 1rem; padding-block: 1.25rem; border-bottom: var(--spur) solid var(--haar); }
+.recht-kopf > a { font-size: 0.9375rem; }
+.recht > * { max-width: 68ch; }
+.recht h1 { margin-block: 0.4rem 1rem; }
+.recht h2 { font-size: 1.125rem; font-variation-settings: 'wdth' 104, 'wght' 620; margin-top: 2.5rem; }
+.recht h2 + p { margin-top: 0.6rem; }
+.recht p { color: var(--tinte-2); }
+.recht .gitter { margin-top: 1.75rem; }
+.recht a { overflow-wrap: anywhere; }
