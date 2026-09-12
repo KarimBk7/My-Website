@@ -30,7 +30,7 @@ Changes to the original contract, each on the user's decision unless noted. Reco
 - **The PRÜFLAST instrument was removed** (user, September 2026). The first viewport no longer carries a load slider or a two-trace curve; the measurements moved, shortened, into the measurement sheet they came from, with the measuring method named. The "one live control remaps the whole page" raise is therefore retired.
 - **The "working with AI agents" section was removed** (user). The site's own sheet now notes in one sentence that it was built in dialogue with an AI agent; there is no method section.
 - **A fourth project, the site itself, was added**, with its repository linked.
-- **The page gained behaviour and motion** (user asked for more energy and for interactive projects): a register column, the head writing itself on load, rows filling in on scroll, counters, a full-size plate dialog and one gameplay clip. The page stays complete without script.
+- **The page gained behaviour and motion** (user asked for more energy and for interactive projects): a register column, the head writing itself on load, rows filling in on scroll, counters, a full-size plate dialog and two clips: the Kaiju gameplay and the Spesenkonfigurator in use, which replaced the static main-window plate. Recordings are cropped to the application window; the Projektron logo is painted over and the operating system file dialog is cut. The page stays complete without script.
 - **A photograph now exists** and sits in the head as a form field. The earlier note that none exists is obsolete.
 - **The continuous vertical rule** is hidden while the register column is open, where the column's edge takes its place.
 - **Hosting:** the site runs as a Cloudflare Worker with static assets, not on Cloudflare Pages.
@@ -39,4 +39,4 @@ Changes to the original contract, each on the user's decision unless noted. Reco
 
 - Custom domain not chosen; the `workers.dev` subdomain is printed in both CVs, the LinkedIn banner and the link preview until then.
 - The Projektron report "before" figure is schematic, not measured, and must render as a labelled chip wherever it appears.
-- A clip of the Spesenkonfigurator loading 10,000 rows would complete the moving-plate evidence; it needs a recording.
+- The Spesenkonfigurator clip shows a small file; a recording at 10,000 rows would put the headline measurement on screen.

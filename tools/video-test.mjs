@@ -1,4 +1,5 @@
-// Prueft das bewegte Bild im Betrieb: spielt es, wenn es im Bild ist, haelt
+// Prueft das erste bewegte Bild der Seite im Betrieb (alle teilen denselben
+// Code): spielt es, wenn es im Bild ist, haelt
 // es ausserhalb an, laesst es sich per Knopf anhalten -- und bleibt es bei
 // "Bewegung reduzieren" und ohne Skript stehen, mit Bedienleiste?
 //
@@ -36,17 +37,17 @@ const weg = (p) => p.evaluate(() => window.scrollTo(0, 0));
   const { ctx, p, fehler } = await seite();
   // Platz muss vor dem Laden reserviert sein, sonst rutscht die Seite nach.
   erg.platz = await p.evaluate(() => {
-    const r = document.querySelector('video[data-video]').getBoundingClientRect();
-    return { breite: Math.round(r.width), hoehe: Math.round(r.height), soll: Math.round(r.width * 534 / 712) };
+    const v = document.querySelector('video[data-video]'); const r = v.getBoundingClientRect();
+    return { breite: Math.round(r.width), hoehe: Math.round(r.height), soll: Math.round(r.width * v.height / v.width) };
   });
   erg.obenVorDemScrollen = await zustand(p);        // ausserhalb: darf nicht laufen
   await hin(p); await p.waitForTimeout(1500);
   erg.imBild = await zustand(p);                     // muss laufen
-  await p.locator('[data-video-knopf]').click(); await p.waitForTimeout(300);
+  await p.locator('[data-video-knopf]').first().click(); await p.waitForTimeout(300);
   erg.nachPause = await zustand(p);
   await weg(p); await p.waitForTimeout(300); await hin(p); await p.waitForTimeout(800);
   erg.pauseUeberlebtScrollen = await zustand(p);     // bewusste Pause bleibt
-  await p.locator('[data-video-knopf]').click(); await p.waitForTimeout(800);
+  await p.locator('[data-video-knopf]').first().click(); await p.waitForTimeout(800);
   erg.wiederAn = await zustand(p);
   await weg(p); await p.waitForTimeout(500);
   erg.weggescrollt = await zustand(p);               // muss anhalten
@@ -73,7 +74,7 @@ const weg = (p) => p.evaluate(() => window.scrollTo(0, 0));
 //    ein Problem, das nicht auftritt.
 {
   const { ctx, p, fehler } = await seite();
-  await p.route('**/kaiju-spiel.mp4', (r) => r.abort());
+  await p.route('**/*.mp4', (r) => r.abort());
   await hin(p); await p.waitForTimeout(1500);
   erg.dateiFehlt = { ...(await zustand(p)), poster: await p.evaluate(() => !!document.querySelector('video[data-video]').poster), fehler };
   await ctx.close();

@@ -86,6 +86,23 @@
       }
     ]
   },
+  "projektron-ablauf": {
+    "breite": 1476,
+    "hoehe": 828,
+    "seitenverhaeltnis": 1.7826,
+    "varianten": [
+      {
+        "datei": "/media/projektron-ablauf-800.webp",
+        "breite": 800,
+        "kb": 18
+      },
+      {
+        "datei": "/media/projektron-ablauf-1476.webp",
+        "breite": 1476,
+        "kb": 44
+      }
+    ]
+  },
   "projektron-einstellungen": {
     "breite": 787,
     "hoehe": 1072,
