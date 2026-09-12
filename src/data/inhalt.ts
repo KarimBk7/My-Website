@@ -571,7 +571,7 @@ public void markValidated() {
     },
     kennzahlen: [
       { wert: '145', l: { de: 'ms Antwortzeit', en: 'ms response time' }, s: { de: 'Median aus fünf Abrufen', en: 'median of five requests' } },
-      { wert: '5,0', l: { de: 'KB JavaScript', en: 'KB of JavaScript' }, s: { de: 'eine Datei, gzip, kein Framework', en: 'one file, gzipped, no framework' } },
+      { wert: '5,4', l: { de: 'KB JavaScript', en: 'KB of JavaScript' }, s: { de: 'eine Datei, gzip, kein Framework', en: 'one file, gzipped, no framework' } },
       { wert: '0', l: { de: 'Tracker und Cookies', en: 'trackers and cookies' }, s: { de: 'keine fremden Server', en: 'no third-party servers' } },
       { wert: '2', l: { de: 'Sprachen', en: 'languages' }, s: { de: 'vollständig, aus einer Quelle', en: 'complete, from one source' } },
     ],
@@ -694,6 +694,7 @@ export const ui: Record<string, S> = {
      Sprungziel des Elternknotens im Inhaltsverzeichnis — ein Eintrag, der
      nirgendwohin führt, wäre dort der einzige tote Punkt. */
   projekteTitel: { de: 'Projekte', en: 'Projects' },
+  blatt: { de: 'Blatt', en: 'Sheet' },
   projekteText: {
     de: 'Vier Arbeiten, je ein Blatt: eine Auftragsentwicklung für ein Softwareunternehmen, ein von Grund auf selbst gebautes Spiel ohne fertige Engine, ein über anderthalb Jahre gepflegtes Lernrepository — und diese Seite selbst.',
     en: 'Four pieces of work, one sheet each: a contract development for a software company, a game built from scratch without an engine, a learning repository maintained over eighteen months — and this page itself.',

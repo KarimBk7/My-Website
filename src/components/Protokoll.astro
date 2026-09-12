@@ -303,12 +303,15 @@ const eintraege: Eintrag[] = [
       <p class="fliess" style="margin:0">{t(ui.projekteText)}</p>
     </section>
 
-    {projekte.map((p) => (
+    {projekte.map((p, i) => (
       <section class="abschnitt huelle blatt" aria-labelledby={`h-${p.id}`}>
         <div class="stapel" style="--l:2rem">
           <div class="blatt-kopf">
             <div class="blatt-zeile">
-              <span class="blatt-nr">{p.nr}</span>
+              <span class="blatt-marke">
+                <span class="blatt-nr">{p.nr}</span>
+                <span class="blatt-gruppe">{t(ui.projekteTitel)} · {t(ui.blatt)} {i + 1}/{projekte.length}</span>
+              </span>
               {'stempel' in p && p.stempel && (
                 <span class="abnahme-stempel" role="img"
                       aria-label={`${t(ui.abnahme)}: ${t(p.stempel.wort)} ${p.stempel.zusatz}`}>

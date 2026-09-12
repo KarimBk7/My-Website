@@ -434,6 +434,32 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
 /* --- Messreihen (Projektblätter) ---------------------------------------- */
 
 .blatt-kopf { display: grid; gap: 0.75rem; margin-bottom: 2rem; }
+
+/* Die Projektblaetter gehoeren sichtbar unter "Projekte": eingerueckt an
+   einer durchgehenden Leiste, wie ihre Eintraege im Register. Zwischen zwei
+   Blaettern beginnt die Trennlinie erst an der Leiste, damit sie nicht wie
+   ein neuer Hauptabschnitt aussieht. */
+.blatt { --einzug: clamp(1rem, 2.5vw, 2rem); padding-left: calc(var(--rand) + var(--einzug)); }
+.blatt::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  left: var(--rand);
+  width: 2px;
+  background: var(--gruen-linie);
+}
+.blatt + .blatt { border-top: 0; }
+.blatt + .blatt::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--rand);
+  right: var(--rand);
+  height: var(--spur);
+  background: var(--haar);
+}
+.blatt-marke { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.blatt-gruppe { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tinte-3); }
 .blatt-zeile { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 
 /* --- Abnahmestempel ----------------------------------------------------- */
