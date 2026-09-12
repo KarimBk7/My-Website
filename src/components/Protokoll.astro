@@ -718,7 +718,11 @@ const eintraege: Eintrag[] = [
 </footer>
 
 <div class="huelle fuss">
-  <p style="margin:0">{t(ui.fussnote)} <a href={lang === 'de' ? '/datenschutz/' : '/en/privacy/'}>{t(ui.datenschutz)}</a></p>
+  <p style="margin:0">{t(ui.fussnote)}</p>
+  <p class="rechtslinks">
+    <a href={lang === 'de' ? '/impressum/' : '/en/legal-notice/'}>{t(ui.impressum)}</a>
+    <a href={lang === 'de' ? '/datenschutz/' : '/en/privacy/'}>{t(ui.datenschutz)}</a>
+  </p>
 </div>
 
 <script type="module" src="/js/register.js" is:inline></script>

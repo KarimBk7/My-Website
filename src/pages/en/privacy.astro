@@ -1,10 +1,14 @@
 ---
 import Basis from '../../layouts/Basis.astro';
+import Rechtsseite from '../../components/Rechtsseite.astro';
 import Datenschutz from '../../components/Datenschutz.astro';
+const pfade = { de: '/datenschutz/', en: '/en/privacy/' };
 ---
 
-<Basis lang="en" pfade={{ de: '/datenschutz/', en: '/en/privacy/' }}
+<Basis lang="en" pfade={pfade}
        titel="Privacy policy — Abdil Karim Bakir"
        beschreibung="What data is processed when you visit this application site: no cookies, no tracking, delivered through Cloudflare.">
-  <Datenschutz lang="en" />
+  <Rechtsseite lang="en" pfade={pfade}>
+    <Datenschutz lang="en" />
+  </Rechtsseite>
 </Basis>

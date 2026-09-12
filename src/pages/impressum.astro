@@ -1,0 +1,25 @@
+---
+import Basis from '../layouts/Basis.astro';
+import Rechtsseite from '../components/Rechtsseite.astro';
+import { person } from '../data/inhalt';
+const pfade = { de: '/impressum/', en: '/en/legal-notice/' };
+---
+
+{/* Die Postanschrift steht NUR hier und in der englischen Fassung (Pflicht-
+    angabe nach § 5 DDG), auf keiner anderen Seite und in keiner Datei.
+    noindex haelt sie aus den Suchergebnissen. */}
+<Basis lang="de" pfade={pfade} noindex
+       titel="Impressum — Abdil Karim Bakir"
+       beschreibung="Anbieterkennzeichnung der Bewerbungsseite von Abdil Karim Bakir.">
+  <Rechtsseite lang="de" pfade={pfade}>
+    <h1 class="titel-abschnitt">Impressum</h1>
+    <p class="fliess">Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)</p>
+    <div class="gitter">
+      <div class="gitter-reihe"><span class="feld-name">Name</span><span>{person.name}</span></div>
+      <div class="gitter-reihe"><span class="feld-name">Anschrift</span><span>Mahonienweg 34 G<br />12437 Berlin<br />Deutschland</span></div>
+      <div class="gitter-reihe"><span class="feld-name">E-Mail</span><a href={`mailto:${person.email}`}>{person.email}</a></div>
+    </div>
+    <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+    <p>{person.name}, Anschrift wie oben</p>
+  </Rechtsseite>
+</Basis>

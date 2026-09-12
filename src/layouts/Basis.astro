@@ -3,7 +3,7 @@ import '../styles/protokoll.css';
 import { ui, person, type Lang } from '../data/inhalt';
 
 /* Ohne `pfade`, `titel` und `beschreibung` ist es die Startseite. */
-interface Props { lang: Lang; pfade?: Record<Lang, string>; titel?: string; beschreibung?: string }
+interface Props { lang: Lang; pfade?: Record<Lang, string>; titel?: string; beschreibung?: string; noindex?: boolean }
 const { lang, pfade = { de: '/', en: '/en/' } } = Astro.props;
 const startseite = !Astro.props.pfade;
 
@@ -19,6 +19,7 @@ const beschreibung = Astro.props.beschreibung ?? ui.seiteBeschreibung[lang];
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{titel}</title>
     <meta name="description" content={beschreibung} />
+    {Astro.props.noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={kanonisch} />
     <link rel="alternate" hreflang="de" href={new URL(pfade.de, Astro.site).href} />
     <link rel="alternate" hreflang="en" href={new URL(pfade.en, Astro.site).href} />

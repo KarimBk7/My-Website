@@ -776,6 +776,7 @@ export const ui: Record<string, S> = {
   },
   skipLink: { de: 'Zum Inhalt springen', en: 'Skip to content' },
   datenschutz: { de: 'Datenschutz', en: 'Privacy' },
+  impressum: { de: 'Impressum', en: 'Legal notice' },
   fussnote: {
     de: 'Diese Seite ist statisch, kommt ohne Tracker und ohne Cookies aus und setzt keine Analysewerkzeuge ein.',
     en: 'This page is static, uses no trackers and no cookies, and runs no analytics.',

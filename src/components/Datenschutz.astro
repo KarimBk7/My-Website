@@ -1,5 +1,5 @@
 ---
-import { person, ui, type Lang } from '../data/inhalt';
+import { person, type Lang } from '../data/inhalt';
 
 /* Rechtstext, deshalb nicht in inhalt.ts: er wird als Ganzes gelesen und
    geaendert, nicht in Bausteinen, und seine Links stehen mitten im Satz.
@@ -10,19 +10,9 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const de = lang === 'de';
 const aussen = { target: '_blank', rel: 'noopener' } as const;
-const start = de ? '/' : '/en/';
 const mail = `mailto:${person.email}`;
 ---
 
-<div class="huelle recht-kopf">
-  <a href={start}>← {person.name}</a>
-  <nav class="sprachwahl" aria-label={ui.sprache[lang]}>
-    <a href="/datenschutz/" hreflang="de" aria-current={de ? 'true' : undefined}>DE</a>
-    <a href="/en/privacy/" hreflang="en" aria-current={de ? undefined : 'true'}>EN</a>
-  </nav>
-</div>
-
-<main id="inhalt" class="huelle abschnitt recht">
   {de ? (
     <>
       <p class="feld-name">Stand: September 2026</p>
@@ -37,7 +27,7 @@ const mail = `mailto:${person.email}`;
       </div>
 
       <h2>1. Verantwortlicher</h2>
-      <p>{person.name}, Berlin<br />E-Mail: <a href={mail}>{person.email}</a></p>
+      <p>{person.name}, Anschrift im <a href="/impressum/">Impressum</a><br />E-Mail: <a href={mail}>{person.email}</a></p>
 
       <h2>2. Bereitstellung der Seite durch Cloudflare</h2>
       <p>Die Seite wird über Cloudflare ausgeliefert (Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA). Damit Ihr Browser die Seite und die Dateien darauf, etwa die PDFs, abrufen kann, verarbeitet Cloudflare bei jedem Aufruf technische Verbindungsdaten: Ihre IP-Adresse, Datum und Uhrzeit, die aufgerufene Adresse, die zuvor besuchte Seite, soweit Ihr Browser sie mitsendet, sowie Browser und Betriebssystem.</p>
@@ -76,7 +66,7 @@ const mail = `mailto:${person.email}`;
       </div>
 
       <h2>1. Controller</h2>
-      <p>{person.name}, Berlin, Germany<br />Email: <a href={mail}>{person.email}</a></p>
+      <p>{person.name}, postal address in the <a href="/en/legal-notice/">legal notice</a><br />Email: <a href={mail}>{person.email}</a></p>
 
       <h2>2. Hosting by Cloudflare</h2>
       <p>The site is delivered through Cloudflare (Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA). So that your browser can retrieve the page and the files on it, such as the PDFs, Cloudflare processes technical connection data on every request: your IP address, date and time, the requested address, the previously visited page where your browser sends it, and your browser and operating system.</p>
@@ -101,8 +91,3 @@ const mail = `mailto:${person.email}`;
       <p>You are not required to provide any data to read this site; without the connection data described in section 2, however, it cannot technically be delivered. There is no automated decision-making or profiling.</p>
     </>
   )}
-</main>
-
-<div class="huelle fuss">
-  <p style="margin:0"><a href={start}>{de ? 'Zurück zur Bewerbungsseite' : 'Back to the application site'}</a></p>
-</div>

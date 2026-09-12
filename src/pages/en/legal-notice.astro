@@ -1,0 +1,23 @@
+---
+import Basis from '../../layouts/Basis.astro';
+import Rechtsseite from '../../components/Rechtsseite.astro';
+import { person } from '../../data/inhalt';
+const pfade = { de: '/impressum/', en: '/en/legal-notice/' };
+---
+
+{/* Postal address ONLY here and in src/pages/impressum.astro. */}
+<Basis lang="en" pfade={pfade} noindex
+       titel="Legal notice — Abdil Karim Bakir"
+       beschreibung="Provider identification for the application site of Abdil Karim Bakir.">
+  <Rechtsseite lang="en" pfade={pfade}>
+    <h1 class="titel-abschnitt">Legal notice</h1>
+    <p class="fliess">Information pursuant to Section 5 of the German Digital Services Act (DDG). The <a href="/impressum/" hreflang="de">German version</a> is authoritative.</p>
+    <div class="gitter">
+      <div class="gitter-reihe"><span class="feld-name">Name</span><span>{person.name}</span></div>
+      <div class="gitter-reihe"><span class="feld-name">Postal address</span><span>Mahonienweg 34 G<br />12437 Berlin<br />Germany</span></div>
+      <div class="gitter-reihe"><span class="feld-name">Email</span><a href={`mailto:${person.email}`}>{person.email}</a></div>
+    </div>
+    <h2>Responsible for content under Section 18(2) MStV</h2>
+    <p>{person.name}, address as above</p>
+  </Rechtsseite>
+</Basis>

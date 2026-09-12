@@ -1,0 +1,28 @@
+---
+import { ui, type Lang } from '../data/inhalt';
+
+/* Rahmen fuer Impressum und Datenschutzerklaerung: schmale Kopfzeile mit
+   Rueckweg und Sprachwahl, eine Lesespalte, im Fuss die Rechtslinks. */
+interface Props { lang: Lang; pfade: Record<Lang, string> }
+const { lang, pfade } = Astro.props;
+const de = lang === 'de';
+---
+
+<div class="huelle recht-kopf">
+  <a href={de ? '/' : '/en/'}>← {de ? 'Zur Bewerbungsseite' : 'To the application site'}</a>
+  <nav class="sprachwahl" aria-label={ui.sprache[lang]}>
+    <a href={pfade.de} hreflang="de" aria-current={de ? 'true' : undefined}>DE</a>
+    <a href={pfade.en} hreflang="en" aria-current={de ? undefined : 'true'}>EN</a>
+  </nav>
+</div>
+
+<main id="inhalt" class="huelle abschnitt recht">
+  <slot />
+</main>
+
+<div class="huelle fuss">
+  <p class="rechtslinks">
+    <a href={de ? '/impressum/' : '/en/legal-notice/'}>{ui.impressum[lang]}</a>
+    <a href={de ? '/datenschutz/' : '/en/privacy/'}>{ui.datenschutz[lang]}</a>
+  </p>
+</div>
