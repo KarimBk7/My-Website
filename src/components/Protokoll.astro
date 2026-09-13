@@ -49,8 +49,9 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
    fuehrt, waere der einzige tote Punkt in der Liste. */
 const eintraege = [
   { id: 'h-felder', label: t(ui.arbeitsfelderTitel) },
-  { id: 'h-stamm', label: t(ui.stammdatenTitel) },
-  { id: 'h-stationen', label: t(ui.stationenTitel) },
+  // Stammdaten und Stationen stehen nebeneinander in einem Abschnitt: zwei
+  // Eintraege fuehrten an dieselbe Stelle, deshalb einer fuer beide.
+  { id: 'h-stamm', label: t(ui.stammUndStationen) },
   { id: 'h-projekte', label: t(ui.projekteTitel) },
   { id: 'h-befunde', label: t(ui.fremdbefundeTitel) },
   { id: 'h-freigabe', label: t(ui.freigabeTitel) },

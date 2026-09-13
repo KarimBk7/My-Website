@@ -743,6 +743,7 @@ export const ui: Record<string, S> = {
 
   stammdatenTitel: { de: 'Stammdaten', en: 'Master data' },
   stationenTitel: { de: 'Stationen', en: 'Positions' },
+  stammUndStationen: { de: 'Stammdaten & Stationen', en: 'Master data & positions' },
   aufgabe: { de: 'Aufgabe', en: 'Task' },
   meinBeitrag: { de: 'Mein Beitrag', en: 'My contribution' },
   auslieferung: { de: 'Auslieferung', en: 'Delivery' },
