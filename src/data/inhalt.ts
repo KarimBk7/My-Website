@@ -159,9 +159,10 @@ export const stammdaten: { label: S; wert: S }[] = [
  * Cloud aus dem Arbeitszeugnis Lesto Branto, Hardware aus dem Raspberry-Pi-
  * Server im Lebenslauf, Web aus dem Lern-Repository und dieser Seite.
  */
-export const arbeitsfelder: { name: S; beleg: S }[] = [
+export const arbeitsfelder: { name: S; symbol: 'code' | 'web' | 'cloud' | 'chip'; beleg: S }[] = [
   {
     name: { de: 'Backend', en: 'Backend' },
+    symbol: 'code',
     beleg: {
       de: 'Java, Datenverarbeitung, Performance unter Last. Tabellenkern, Undo/Redo und Absturzsicherung im Spesenkonfigurator.',
       en: 'Java, data processing, performance under load. Table core, undo/redo and crash protection in the expense configurator.',
@@ -169,6 +170,7 @@ export const arbeitsfelder: { name: S; beleg: S }[] = [
   },
   {
     name: { de: 'Web', en: 'Web' },
+    symbol: 'web',
     beleg: {
       de: 'HTML, CSS, JavaScript, HTTP und FastAPI im Lern-Repository. Diese Seite: statisch mit Astro und TypeScript, ohne Tracker.',
       en: 'HTML, CSS, JavaScript, HTTP and FastAPI in the learning repository. This page: static, Astro and TypeScript, no trackers.',
@@ -176,6 +178,7 @@ export const arbeitsfelder: { name: S; beleg: S }[] = [
   },
   {
     name: { de: 'Cloud & Betrieb', en: 'Cloud & operations' },
+    symbol: 'cloud',
     beleg: {
       de: 'Cloudflare mit DNS, Reverse Proxy und SSL/TLS, Nextcloud, Ubuntu und OpenBSD. Unternehmens-Cloud bei Lesto Branto aufgebaut und betrieben.',
       en: 'Cloudflare with DNS, reverse proxy and SSL/TLS, Nextcloud, Ubuntu and OpenBSD. Built and operate the company cloud at Lesto Branto.',
@@ -183,6 +186,7 @@ export const arbeitsfelder: { name: S; beleg: S }[] = [
   },
   {
     name: { de: 'Hardware', en: 'Hardware' },
+    symbol: 'chip',
     beleg: {
       de: 'Eigener Nextcloud-Server auf einem Raspberry Pi mit eigener Domain, abgesichert über Cloudflare. Hardware-Montage.',
       en: 'My own Nextcloud server on a Raspberry Pi with its own domain, secured through Cloudflare. Hardware assembly.',

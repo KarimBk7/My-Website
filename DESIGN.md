@@ -289,6 +289,9 @@ Links that navigate or download are anchors; controls that change state on the p
 - **Skip link:** parked above the viewport in ink, sliding in on focus.
 - Links that leave the site open a new tab, carry `rel="noopener"`, and announce "opens in a new tab" in their accessible name.
 
+### Work Fields
+Four cells in the 1px-gap grid, each opened by a drawn line symbol in a 2.75rem box with a 2px inspection-green border on green wash — code brackets, a browser window, a cloud, a chip, stroked at 1.7 on a 24 grid with square caps and mitred joins, never an icon font — and the field's running number in mono ink 3 opposite. On hover the cell turns white, a 2px green rule draws across its top edge from the left, the symbol box fills green with a white stroke and the number turns green. Nothing moves and nothing casts a shadow.
+
 ### Project Tile
 The start page's door to a sheet, described under Layout. Tile plates are real captures, never illustrations: a frame from the project's own clip (M-1 at 9 s, M-2 its poster) or a crop of the site itself (M-3 its key figures and topic map, M-4 the protocol head), rendered by `tools/kacheln.mjs`. Tile images carry `alt=""`; the title link names the tile.
 

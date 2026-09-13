@@ -21,6 +21,16 @@ const githubMarke =
 const linkedinMarke =
   'M13.63 13.63h-2.37V9.92c0-.89-.02-2.03-1.24-2.03-1.24 0-1.43.97-1.43 1.97v3.77H6.22V6h2.28v1.04h.03c.32-.6 1.09-1.24 2.25-1.24 2.4 0 2.85 1.58 2.85 3.64v4.19ZM3.55 4.96a1.38 1.38 0 1 1 0-2.76 1.38 1.38 0 0 1 0 2.76Zm1.19 8.67H2.36V6h2.38v7.63ZM14.82 0H1.18C.53 0 0 .52 0 1.16v13.68C0 15.48.53 16 1.18 16h13.64c.65 0 1.18-.52 1.18-1.16V1.16C16 .52 15.47 0 14.82 0Z';
 
+/* Zeichen der Arbeitsfelder, im 24er-Raster gezeichnet: gerade Linien und
+   rechte Winkel wie der Rest des Protokolls, keine Symbolschrift, keine
+   runden Clip-Art-Formen. Code-Klammern, Browserfenster, Wolke, Chip. */
+const feldSymbole = {
+  code: 'M8 7 3 12l5 5M16 7l5 5-5 5M13.5 4.5l-3 15',
+  web: 'M3 4.5h18v15H3zM3 9h18M6 6.75h1M9 6.75h1M12 6.75h1',
+  cloud: 'M6.5 18.5a4.25 4.25 0 0 1-.35-8.48A5.75 5.75 0 0 1 17.3 8.7a4.9 4.9 0 0 1 .2 9.8Z',
+  chip: 'M7 7h10v10H7zM10 10h4v4h-4zM9.5 3v4M14.5 3v4M9.5 17v4M14.5 17v4M3 9.5h4M3 14.5h4M17 9.5h4M17 14.5h4',
+} as const;
+
 /* Ein Pfeil in eine Ablage -- das uebliche Zeichen fuer "wird gespeichert".
    Steht an jedem Link, der eine Datei herunterlaedt, damit vor dem Klick
    klar ist, dass etwas auf der Platte landet und sich nichts oeffnet. */
@@ -206,8 +216,17 @@ const eintraege = [
       <div class="stapel" style="--l:1.25rem">
         <h2 class="titel-abschnitt" id="h-felder">{t(ui.arbeitsfelderTitel)}</h2>
         <div class="felder">
-          {arbeitsfelder.map((f) => (
-            <div class="aufbau">
+          {arbeitsfelder.map((f, i) => (
+            <div class="feld aufbau">
+              <div class="feld-kopf">
+                <span class="feld-symbol" aria-hidden="true">
+                  <svg width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="1.7" stroke-linecap="square" stroke-linejoin="miter">
+                    <path d={feldSymbole[f.symbol]} />
+                  </svg>
+                </span>
+                <span class="feld-nr">{String(i + 1).padStart(2, '0')}</span>
+              </div>
               <h3>{t(f.name)}</h3>
               <p>{t(f.beleg)}</p>
             </div>
