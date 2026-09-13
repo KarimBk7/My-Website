@@ -46,7 +46,7 @@ const bilder = await seite.evaluate(() =>
 // Die Messwerte im Projektblatt M-1 (eigene Seite): vier Zeilen, die nicht
 // gemessene markiert. Eigener Tab, damit die Pruefungen der Startseite
 // unten weiter auf der Startseite laufen.
-const blatt = await seite.context().newPage();
+const blatt = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 blatt.on('response', (r) => { if (r.status() >= 400) auffaellig.push(`${r.status()}  ${r.url()}`); });
 blatt.on('pageerror', (e) => auffaellig.push(`SKRIPTFEHLER M-1  ${e.message}`));
 await blatt.goto(basis + 'projekte/spesenkonfigurator/', { waitUntil: 'load', timeout: 60000 });
