@@ -11,7 +11,7 @@ const ctx = await b.newContext({ viewport: { width: 1280, height: 900 } });
 const p = await ctx.newPage();
 const fehler = [];
 p.on('pageerror', (e) => fehler.push(e.message));
-await p.goto(BASIS + '/', { waitUntil: 'networkidle' });
+await p.goto(BASIS + '/projekte/spesenkonfigurator/', { waitUntil: 'networkidle' });
 const erg = {};
 
 const lupe = p.locator('#lupe');
@@ -61,7 +61,7 @@ await ctx.close();
 // Ohne Skript: der Link muss die Bilddatei in einem neuen Tab oeffnen.
 const c2 = await b.newContext({ viewport: { width: 1280, height: 900 }, javaScriptEnabled: false });
 const p2 = await c2.newPage();
-await p2.goto(BASIS + '/', { waitUntil: 'load' });
+await p2.goto(BASIS + '/projekte/spesenkonfigurator/', { waitUntil: 'load' });
 const l = p2.locator('a[data-lupe]').nth(1);
 erg.ohneJs = {
   href: (await l.getAttribute('href'))?.split('/').pop(),

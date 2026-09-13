@@ -1,0 +1,81 @@
+---
+import { person, projekte, ui, type Lang } from '../data/inhalt';
+import { projektPfad } from '../data/bild';
+import Blatt from './Blatt.astro';
+import Lupe from './Lupe.astro';
+
+/* Eine Projekt-Detailseite: schmale Kopfzeile, das volle Blatt, darunter
+   Weiterblaettern und Kontakt -- wer ein Projekt zu Ende gelesen hat, soll
+   weder zurueck noch nach oben muessen, um das naechste zu sehen oder zu
+   schreiben. */
+interface Props { lang: Lang; id: string }
+const { lang, id } = Astro.props;
+const t = (s: Record<Lang, string>) => s[lang];
+const i = projekte.findIndex((p) => p.id === id);
+const p = projekte[i];
+const vorher = projekte[(i + projekte.length - 1) % projekte.length];
+const nachher = projekte[(i + 1) % projekte.length];
+const start = lang === 'de' ? '/' : '/en/';
+const mailto = `mailto:${person.email}?subject=${encodeURIComponent(t(ui.mailBetreff))}`;
+const lebenslaufPfad = lang === 'de'
+  ? '/dokumente/lebenslauf-abdil-karim-bakir.pdf'
+  : '/dokumente/cv-abdil-karim-bakir.pdf';
+const ladeMarke = 'M8 1v8m0 0 3.2-3.2M8 9 4.8 5.8M2 11.5v1.7c0 .44.36.8.8.8h10.4c.44 0 .8-.36.8-.8v-1.7';
+---
+
+<div class="huelle recht-kopf">
+  <a href={`${start}#h-projekte`}>← {t(ui.alleProjekte)}</a>
+  <a class="recht-kopf-name feld-name" href={start}>{person.name}</a>
+  <nav class="sprachwahl" aria-label={t(ui.sprache)}>
+    <a href={projektPfad('de', id)} hreflang="de" aria-current={lang === 'de' ? 'true' : undefined}>DE</a>
+    <a href={projektPfad('en', id)} hreflang="en" aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+  </nav>
+</div>
+
+<main id="inhalt">
+  <Blatt lang={lang} p={p} i={i} />
+</main>
+
+<nav class="huelle blaettern" aria-label={t(ui.weitereProjekte)}>
+  <a href={projektPfad(lang, vorher.id)} rel="prev">
+    <span class="feld-name">← {vorher.nr}</span>
+    <span>{t(vorher.titel)}</span>
+  </a>
+  <a href={projektPfad(lang, nachher.id)} rel="next">
+    <span class="feld-name">{nachher.nr} →</span>
+    <span>{t(nachher.titel)}</span>
+  </a>
+</nav>
+
+<footer class="freigabe">
+  <div class="huelle blatt-kontakt">
+    <p style="margin:0">
+      <span class="feld-name" style="color:#d6e5dd">{t(ui.verfuegbarTitel)}</span><br />
+      <span style="font-variation-settings:'wdth' 104, 'wght' 620;font-size:1.0625rem">{t(ui.verfuegbarWert)}</span>
+    </p>
+    <div class="kontakt">
+      <div class="knopfreihe">
+        <a class="knopf" href={mailto} data-kontakt={person.email}>{t(ui.kontakt)}</a>
+        <a class="knopf knopf--rand" href={lebenslaufPfad} download
+           aria-label={`${t(ui.lebenslaufPdf)} ${t(ui.herunterladen)}`}>
+          {t(ui.lebenslaufPdf)}
+          <svg class="lade-marke" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d={ladeMarke} stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+      <p class="kontakt-hinweis" role="status" aria-live="polite" data-kopiert={t(ui.kontaktKopiert)} data-adresse={t(ui.kontaktAdresse)}></p>
+    </div>
+  </div>
+</footer>
+
+<Lupe lang={lang} />
+
+<div class="huelle fuss">
+  <p class="rechtslinks">
+    <a href={lang === 'de' ? '/impressum/' : '/en/legal-notice/'}>{t(ui.impressum)}</a>
+    <a href={lang === 'de' ? '/datenschutz/' : '/en/privacy/'}>{t(ui.datenschutz)}</a>
+  </p>
+</div>
+
+<script type="module" src="/js/register.js" is:inline></script>

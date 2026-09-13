@@ -19,7 +19,7 @@ async function seite(opt = {}) {
   const p = await ctx.newPage();
   const fehler = [];
   p.on('pageerror', (e) => fehler.push(e.message));
-  await p.goto(BASIS + '/', { waitUntil: 'networkidle' });
+  await p.goto(BASIS + '/projekte/spesenkonfigurator/', { waitUntil: 'networkidle' });
   await p.addStyleTag({ content: 'html{scroll-behavior:auto !important}' });
   return { ctx, p, fehler };
 }
@@ -104,7 +104,7 @@ const weg = (p) => p.evaluate(() => window.scrollTo(0, 0));
     HTMLMediaElement.prototype.play = function () { return Promise.reject(new DOMException('gesperrt', 'NotAllowedError')); };
   });
   const p = await ctx.newPage();
-  await p.goto(BASIS + '/', { waitUntil: 'networkidle' });
+  await p.goto(BASIS + '/projekte/spesenkonfigurator/', { waitUntil: 'networkidle' });
   await p.addStyleTag({ content: 'html{scroll-behavior:auto !important}' });
   await hin(p); await p.waitForTimeout(800);
   erg.autoplayGesperrt = await zustand(p);
@@ -114,7 +114,7 @@ const weg = (p) => p.evaluate(() => window.scrollTo(0, 0));
 {
   const ctx = await b.newContext({ viewport: { width: 1280, height: 900 }, javaScriptEnabled: false });
   const p = await ctx.newPage();
-  await p.goto(BASIS + '/', { waitUntil: 'load' });
+  await p.goto(BASIS + '/projekte/spesenkonfigurator/', { waitUntil: 'load' });
   erg.ohneSkript = await p.evaluate(() => {
     const v = document.querySelector('video[data-video]');
     return { bedienleiste: v.hasAttribute('controls'), autoplay: v.autoplay, poster: !!v.poster,

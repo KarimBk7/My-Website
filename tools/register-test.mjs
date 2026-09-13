@@ -1,4 +1,5 @@
-// Prüft die Bedienung des Inhaltsverzeichnisses und das Zählwerk.
+// Prüft die Bedienung des Inhaltsverzeichnisses (Startseite) und das Zählwerk
+// (Projektblatt M-1).
 // Aufruf: node tools/register-test.mjs [basis-url]
 import { chromium } from 'playwright';
 
@@ -29,7 +30,7 @@ const fehler = [];
   // Wieder aufklappen und einen Sprung testen.
   await p.locator('.register-griff').click();
   await p.waitForTimeout(450);
-  const ziel = 'h-kaiju';
+  const ziel = 'h-projekte';
   await p.locator(`#register a[href="#${ziel}"]`).click();
   // Weiches Scrollen abwarten, statt eine feste Wartezeit zu raten -- sonst
   // misst der Test die Seite mitten in der Bewegung und meldet einen Fehler,
@@ -47,15 +48,12 @@ const fehler = [];
   ergebnis.aktiverEintrag = await p.evaluate(
     () => document.querySelector('#register a[aria-current="true"]')?.getAttribute('href') ?? null,
   );
-  // Steht ein Projekt im Licht, muss der Elternknoten "Projekte" mitmarkiert
-  // sein -- sonst weiss man beim Scrollen nicht mehr, wo man ist.
-  ergebnis.elternMitmarkiert = await p.evaluate(
-    () => !!document.querySelector('#register .hat-kinder[data-kind-aktiv]'),
-  );
   await p.locator('#register').screenshot({ path: '.impeccable/review/pruef-register-aktiv.png' });
 
   // Zählwerk: der sichtbare Endstand muss exakt der Zahl aus den Daten
-  // entsprechen. Erst zur Zahl scrollen, dann das Auslaufen abwarten.
+  // entsprechen. Die Zahlen stehen auf den Projektblättern, nicht mehr auf
+  // der Startseite. Erst zur Zahl scrollen, dann das Auslaufen abwarten.
+  await p.goto(BASIS + '/projekte/spesenkonfigurator/', { waitUntil: 'networkidle' });
   await p.evaluate(() => document.querySelector('[data-zahl]')?.scrollIntoView({ block: 'center' }));
   await p.waitForFunction(
     () => {
@@ -104,8 +102,11 @@ const fehler = [];
     registerSichtbar: !!document.querySelector('#register'),
     versteckteAufbauElemente: [...document.querySelectorAll('.aufbau')]
       .filter((el) => getComputedStyle(el).opacity === '0').length,
-    kennzahlSichtbar: document.querySelector('[data-zahl]')?.textContent.trim() || null,
   }));
+  await p.goto(BASIS + '/projekte/spesenkonfigurator/', { waitUntil: 'load' });
+  ergebnis.ohneJs.kennzahlSichtbar = await p.evaluate(() => document.querySelector('[data-zahl]')?.textContent.trim() || null);
+  ergebnis.ohneJs.versteckteAufbauElementeBlatt = await p.evaluate(() => [...document.querySelectorAll('.aufbau')]
+    .filter((el) => getComputedStyle(el).opacity === '0').length);
   await ctx.close();
 }
 

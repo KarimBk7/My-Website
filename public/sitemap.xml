@@ -13,4 +13,52 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://my-website.abdilkarimb.workers.dev/en/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://my-website.abdilkarimb.workers.dev/"/>
   </url>
+  <url>
+    <loc>https://my-website.abdilkarimb.workers.dev/projekte/spesenkonfigurator/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://my-website.abdilkarimb.workers.dev/projekte/spesenkonfigurator/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://my-website.abdilkarimb.workers.dev/en/projects/spesenkonfigurator/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://my-website.abdilkarimb.workers.dev/projekte/spesenkonfigurator/"/>
+  </url>
+  <url>
+    <loc>https://my-website.abdilkarimb.workers.dev/en/projects/spesenkonfigurator/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://my-website.abdilkarimb.workers.dev/projekte/spesenkonfigurator/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://my-website.abdilkarimb.workers.dev/en/projects/spesenkonfigurator/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://my-website.abdilkarimb.workers.dev/projekte/spesenkonfigurator/"/>
+  </url>
+  <url>
+    <loc>https://my-website.abdilkarimb.workers.dev/projekte/kaiju/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://my-website.abdilkarimb.workers.dev/projekte/kaiju/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://my-website.abdilkarimb.workers.dev/en/projects/kaiju/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://my-website.abdilkarimb.workers.dev/projekte/kaiju/"/>
+  </url>
+  <url>
+    <loc>https://my-website.abdilkarimb.workers.dev/en/projects/kaiju/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://my-website.abdilkarimb.workers.dev/projekte/kaiju/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://my-website.abdilkarimb.workers.dev/en/projects/kaiju/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://my-website.abdilkarimb.workers.dev/projekte/kaiju/"/>
+  </url>
+  <url>
+    <loc>https://my-website.abdilkarimb.workers.dev/projekte/lernrepo/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://my-website.abdilkarimb.workers.dev/projekte/lernrepo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://my-website.abdilkarimb.workers.dev/en/projects/lernrepo/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://my-website.abdilkarimb.workers.dev/projekte/lernrepo/"/>
+  </url>
+  <url>
+    <loc>https://my-website.abdilkarimb.workers.dev/en/projects/lernrepo/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://my-website.abdilkarimb.workers.dev/projekte/lernrepo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://my-website.abdilkarimb.workers.dev/en/projects/lernrepo/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://my-website.abdilkarimb.workers.dev/projekte/lernrepo/"/>
+  </url>
+  <url>
+    <loc>https://my-website.abdilkarimb.workers.dev/projekte/website/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://my-website.abdilkarimb.workers.dev/projekte/website/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://my-website.abdilkarimb.workers.dev/en/projects/website/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://my-website.abdilkarimb.workers.dev/projekte/website/"/>
+  </url>
+  <url>
+    <loc>https://my-website.abdilkarimb.workers.dev/en/projects/website/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://my-website.abdilkarimb.workers.dev/projekte/website/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://my-website.abdilkarimb.workers.dev/en/projects/website/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://my-website.abdilkarimb.workers.dev/projekte/website/"/>
+  </url>
 </urlset>

@@ -5,7 +5,7 @@ primary_target: "src/pages/index.astro"
 related_targets: ["src/pages/en/index.astro"]
 ---
 
-Scope: the single-page bilingual application site at `/` (DE default) and `/en/` (EN mirror). There are no project detail routes; each project is a measurement sheet on the one page. Visitor mode: **Persuade**.
+Scope: the bilingual application site at `/` (DE default) and `/en/` (EN mirror), with one detail page per project at `/projekte/<id>/` and `/en/projects/<id>/`, plus the legal notice and privacy pages. Visitor mode: **Persuade**.
 
 Audience: a recruiter or hiring manager in Berlin, semi-technical, skimming under a minute, often on a phone, comparing candidates in adjacent tabs. Secondary: the engineer who opens it afterwards and looks deeper — including the public repository the page links to. Action: send an email; secondary, download the CV. Proof: four projects with measured outcomes (the fourth is the site itself), the code of the change behind the headline number, two employment references. Constraints: static, served as a Cloudflare Worker with static assets; contact surface email, GitHub and LinkedIn; no phone number or postal address anywhere in the artifact or the files it serves; grades and the transcript never published; Projektron's corporate identity assets never republished.
 
@@ -34,6 +34,8 @@ Changes to the original contract, each on the user's decision unless noted. Reco
 - **A photograph now exists** and sits in the head as a form field. The earlier note that none exists is obsolete.
 - **The continuous vertical rule** is hidden while the register column is open, where the column's edge takes its place.
 - **Hosting:** the site runs as a Cloudflare Worker with static assets, not on Cloudflare Pages.
+- **Projects moved to their own pages** (user, September 2026: scrolling through four full sheets was too much work). The start page shows four tiles; each opens its sheet on its own URL, with previous/next and contact beneath. The register no longer lists the sheets. Measurements, clips and the plate dialog now live on the project pages.
+- **Legal notice and privacy policy added** (user). The postal address appears on the legal notice pages only, which carry `noindex`.
 
 ## Unresolved
 

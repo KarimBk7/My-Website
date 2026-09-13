@@ -1,0 +1,14 @@
+---
+import Basis from '../../../layouts/Basis.astro';
+import ProjektSeite from '../../../components/ProjektSeite.astro';
+import { projekte } from '../../../data/inhalt';
+import { projektPfad } from '../../../data/bild';
+
+export const getStaticPaths = () => projekte.map((p) => ({ params: { id: p.id }, props: { p } }));
+const { p } = Astro.props;
+---
+
+<Basis lang="en" pfade={{ de: projektPfad('de', p.id), en: projektPfad('en', p.id) }}
+       titel={`${p.titel.en} — Abdil Karim Bakir`} beschreibung={p.kurz.en}>
+  <ProjektSeite lang="en" id={p.id} />
+</Basis>

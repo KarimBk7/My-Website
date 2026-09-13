@@ -227,6 +227,7 @@ export const stationen: { zeit: S; rolle: S; ort: string; text: S }[] = [
 export const projekte = [
   {
     id: 'spesenkonfigurator',
+    kachel: 'kachel-spesenkonfig',
     nr: 'M-1',
     /* Abnahmevermerk auf dem Blatt. Jedes Wort ist durch einen Fakt auf
        demselben Blatt gedeckt -- hier durch die Auslieferung als Installer im
@@ -369,6 +370,7 @@ public void markValidated() {
   },
   {
     id: 'kaiju',
+    kachel: 'kaiju-spiel',
     nr: 'M-2',
     stempel: { wort: { de: 'Abgegeben', en: 'Submitted' }, zusatz: '12/2022' },
     titel: { de: 'Kaiju Adventure', en: 'Kaiju Adventure' },
@@ -460,6 +462,7 @@ public void markValidated() {
   },
   {
     id: 'lernrepo',
+    kachel: 'kachel-lernrepo',
     nr: 'M-3',
     stempel: { wort: { de: 'Abgenommen', en: 'Accepted' }, zusatz: '67/67' },
     titel: { de: 'Technisches Lern-Repository', en: 'Technical learning repository' },
@@ -526,12 +529,13 @@ public void markValidated() {
    */
   {
     id: 'website',
+    kachel: 'kachel-website',
     nr: 'M-4',
     stempel: { wort: { de: 'Veröffentlicht', en: 'Published' }, zusatz: '09/2026' },
     titel: { de: 'Diese Seite', en: 'This page' },
     kurz: {
-      de: 'Die Bewerbungsseite, die Sie gerade lesen: statisch erzeugt, zweisprachig, ohne Tracker und ohne Cookies, ausgeliefert als Cloudflare Worker. Ein einziges JavaScript von 5,4 KB, kein Framework im Browser.',
-      en: 'The application site you are reading: statically generated, bilingual, no trackers and no cookies, served as a Cloudflare Worker. A single 5.4 KB JavaScript file, no framework in the browser.',
+      de: 'Die Bewerbungsseite, die Sie gerade lesen: statisch erzeugt, zweisprachig, ohne Tracker und ohne Cookies, ausgeliefert als Cloudflare Worker. Ein einziges JavaScript von 5,2 KB, kein Framework im Browser.',
+      en: 'The application site you are reading: statically generated, bilingual, no trackers and no cookies, served as a Cloudflare Worker. A single 5.2 KB JavaScript file, no framework in the browser.',
     },
     kopf: [
       { l: { de: 'Rahmen', en: 'Context' }, w: { de: 'Eigenarbeit', en: 'Own work' } },
@@ -571,7 +575,7 @@ public void markValidated() {
     },
     kennzahlen: [
       { wert: '145', l: { de: 'ms Antwortzeit', en: 'ms response time' }, s: { de: 'Median aus fünf Abrufen', en: 'median of five requests' } },
-      { wert: '5,4', l: { de: 'KB JavaScript', en: 'KB of JavaScript' }, s: { de: 'eine Datei, gzip, kein Framework', en: 'one file, gzipped, no framework' } },
+      { wert: '5,2', l: { de: 'KB JavaScript', en: 'KB of JavaScript' }, s: { de: 'eine Datei, gzip, kein Framework', en: 'one file, gzipped, no framework' } },
       { wert: '0', l: { de: 'Tracker und Cookies', en: 'trackers and cookies' }, s: { de: 'keine fremden Server', en: 'no third-party servers' } },
       { wert: '2', l: { de: 'Sprachen', en: 'languages' }, s: { de: 'vollständig, aus einer Quelle', en: 'complete, from one source' } },
     ],
@@ -690,14 +694,15 @@ export const ui: Record<string, S> = {
   standort: { de: 'Standort', en: 'Location' },
   standortWert: { de: 'Berlin, Deutschland', en: 'Berlin, Germany' },
 
-  /* Sammelüberschrift über den drei Projektblättern. Sie ist auch das
-     Sprungziel des Elternknotens im Inhaltsverzeichnis — ein Eintrag, der
-     nirgendwohin führt, wäre dort der einzige tote Punkt. */
+  /* Überschrift über den Projektkacheln; jede Kachel führt auf ihr Blatt. */
   projekteTitel: { de: 'Projekte', en: 'Projects' },
   blatt: { de: 'Blatt', en: 'Sheet' },
+  blattOeffnen: { de: 'Blatt öffnen', en: 'Open sheet' },
+  alleProjekte: { de: 'Alle Projekte', en: 'All projects' },
+  weitereProjekte: { de: 'Weitere Projekte', en: 'More projects' },
   projekteText: {
-    de: 'Vier Arbeiten, je ein Blatt: eine Auftragsentwicklung für ein Softwareunternehmen, ein von Grund auf selbst gebautes Spiel ohne fertige Engine, ein über anderthalb Jahre gepflegtes Lernrepository — und diese Seite selbst.',
-    en: 'Four pieces of work, one sheet each: a contract development for a software company, a game built from scratch without an engine, a learning repository maintained over eighteen months — and this page itself.',
+    de: 'Vier Arbeiten, je ein Blatt zum Aufschlagen: eine Auftragsentwicklung für ein Softwareunternehmen, ein von Grund auf selbst gebautes Spiel ohne fertige Engine, ein über anderthalb Jahre gepflegtes Lernrepository — und diese Seite selbst.',
+    en: 'Four pieces of work, one sheet each to open: a contract development for a software company, a game built from scratch without an engine, a learning repository maintained over eighteen months — and this page itself.',
   },
 
   /* Inhaltsverzeichnis in der linken Spalte */

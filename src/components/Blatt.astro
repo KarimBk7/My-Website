@@ -1,0 +1,325 @@
+---
+import { projekte, pruefstand, ui, type Lang } from '../data/inhalt';
+import { bild } from '../data/bild';
+
+/* Ein Projektblatt in voller Laenge. Steht auf seiner eigenen Seite
+   (src/pages/projekte/[id].astro); die Startseite zeigt nur die Kachel. */
+interface Props { lang: Lang; p: (typeof projekte)[number]; i: number }
+const { lang, p, i } = Astro.props;
+const t = (s: Record<Lang, string>) => s[lang];
+const aussen = { target: '_blank', rel: 'noopener' } as const;
+
+const zahl = (n: number) => n.toLocaleString(lang === 'de' ? 'de-DE' : 'en-GB');
+
+/** Zerlegt eine Kennzahl wie "6.400" oder "90+" in Zahl und Suffix, damit das
+    Zaehlwerk sie hochlaufen lassen kann. Der sichtbare Text wird aus derselben
+    Zahl formatiert, damit Skript und Nicht-Skript dasselbe zeigen. */
+const kennzahl = (s: string) => {
+  const m = s.match(/^(\d[\d.]*)(\+?)$/);
+  return m ? { wert: Number(m[1].replace(/\./g, '')), suffix: m[2] } : null;
+};
+---
+
+<section class="abschnitt huelle blatt" aria-labelledby={`h-${p.id}`}>
+  <div class="stapel" style="--l:2rem">
+    <div class="blatt-kopf">
+      <div class="blatt-zeile">
+        <span class="blatt-marke">
+          <span class="blatt-nr">{p.nr}</span>
+          <span class="blatt-gruppe">{t(ui.projekteTitel)} · {t(ui.blatt)} {i + 1}/{projekte.length}</span>
+        </span>
+        {'stempel' in p && p.stempel && (
+          <span class="abnahme-stempel" role="img"
+                aria-label={`${t(ui.abnahme)}: ${t(p.stempel.wort)} ${p.stempel.zusatz}`}>
+            <span class="abnahme-wort">{t(p.stempel.wort)}</span>
+            <span class="abnahme-zusatz">{p.stempel.zusatz}</span>
+          </span>
+        )}
+      </div>
+      <h1 class="titel-blatt" id={`h-${p.id}`}>{t(p.titel)}</h1>
+      <p class="fliess" style="margin:0">{t(p.kurz)}</p>
+    </div>
+
+    <div class="gitter">
+      {p.kopf.map((f) => (
+        <div class="gitter-reihe aufbau">
+          <span class="feld-name">{t(f.l)}</span>
+          <span>{t(f.w)}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="spalten-2">
+      <div class="stapel" style="--l:.75rem">
+        <h2 class="feld-name">{t(ui.aufgabe)}</h2>
+        <p class="fliess" style="margin:0">{t(p.aufgabe)}</p>
+        {'herausforderung' in p && p.herausforderung && (
+          <div style="border-left:1px solid var(--gruen-linie);padding-left:1rem;margin-top:.75rem">
+            <h3 style="font-size:.9375rem">{t(p.herausforderung.titel)}</h3>
+            <p class="fliess" style="margin:.4rem 0 0;font-size:.9375rem">{t(p.herausforderung.text)}</p>
+          </div>
+        )}
+      </div>
+
+      <div class="stapel" style="--l:.75rem">
+        <h2 class="feld-name">{t(ui.meinBeitrag)}</h2>
+        <ul class="liste">
+          {p.beitrag[lang].map((b) => <li class="aufbau"><span></span><span>{b}</span></li>)}
+        </ul>
+      </div>
+    </div>
+
+    {/* Die grosse Zahlenreihe traegt nur dort, wo die Zahlen das Argument
+        sind. Viermal wiederholt waere sie das Geruest der Seite. */}
+    {p.id === 'spesenkonfigurator' ? (
+      <div class="zahlenreihe">
+        {p.kennzahlen.map((k) => {
+          const n = kennzahl(k.wert);
+          return (
+            <div class="aufbau">
+              <div class="zahl" data-zahl={n?.wert} data-suffix={n?.suffix || undefined}>
+                {n ? zahl(n.wert) + n.suffix : k.wert}
+              </div>
+              <div class="zahl-l">{t(k.l)}</div>
+              <div class="zahl-s">{t(k.s)}</div>
+            </div>
+          );
+        })}
+      </div>
+    ) : (
+      <div class="stapel" style="--l:.6rem">
+        <h2 class="feld-name">{t(ui.kennwerte)}</h2>
+        <div class="kennwerte">
+          {p.kennzahlen.map((k) => {
+            const n = kennzahl(k.wert);
+            return (
+              <div class="aufbau">
+                <span class="w" data-zahl={n?.wert} data-suffix={n?.suffix || undefined}>
+                  {n ? zahl(n.wert) + n.suffix : k.wert}
+                </span>
+                <span class="l">{t(k.l)}</span>
+                <span class="s">{t(k.s)}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    )}
+
+    {/* Die Messwerte sitzen dort, wo sie hingehoeren: im Projekt, aus dem
+        sie stammen. Kurz gehalten -- es geht darum zu zeigen, dass die
+        Optimierung stattgefunden hat und belegbar ist. */}
+    {p.id === 'spesenkonfigurator' && (
+      <div class="stapel" style="--l:.75rem">
+        <h2 class="feld-name">{t(ui.performanzTitel)}</h2>
+        <p class="fliess" style="margin:0">{t(ui.performanzText)}</p>
+        <table class="messtabelle messtabelle--kompakt">
+          <thead>
+            <tr>
+              <th scope="col" class="feld-name">{t(ui.pruefpunkt)}</th>
+              <th scope="col" class="feld-name">{t(pruefstand.stufen.vorher)}</th>
+              <th scope="col" class="feld-name">{t(pruefstand.stufen.nachher)}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pruefstand.zeilen.map((z) => (
+              <tr class="aufbau">
+                <td>
+                  {t(z.label)}
+                  <div class="mess-quelle" style="margin-top:.15rem">{t(pruefstand.last)}</div>
+                </td>
+                <td class="messwert">
+                  {z.vorher === null ? (
+                    <span class="stufe stufe--offen">{t(z.vorherText!)}</span>
+                  ) : (
+                    <>
+                      <span data-zahl={z.vorher}>{zahl(z.vorher)}</span>
+                      {z.einheit && <span class="mess-einheit">{z.einheit}</span>}
+                    </>
+                  )}
+                </td>
+                <td class="messwert" style="font-variation-settings:'wght' 620">
+                  <span data-zahl={z.nachher}>{zahl(z.nachher)}</span>
+                  {z.einheit && <span class="mess-einheit">{z.einheit}</span>}
+                  {z.faktor && <div style="font-size:.75rem;color:var(--gruen);margin-top:.15rem">{t(ui.faktor)} {z.faktor}</div>}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p class="mess-quelle" style="margin:.25rem 0 0" set:html={t(ui.messmethode)} />
+      </div>
+    )}
+
+    {/* Der Beleg zum groessten Messwert: erst die Schichtmessung, die
+        zeigt WO die Zeit lag, dann der Quelltext davor und danach. Ohne
+        den Code bleibt der Faktor 34 eine Behauptung. */}
+    {'eingriff' in p && p.eingriff && (
+      <div class="stapel" style="--l:.75rem">
+        <h2 class="feld-name">{t(p.eingriff.titel)}</h2>
+        <p class="fliess" style="margin:0">{t(p.eingriff.text)}</p>
+
+        <div class="schichten" aria-hidden="true">
+          {p.eingriff.schichten.map((s) => (
+            <div class="schicht aufbau" style={`--f:${s.ms / 5051}`}>
+              <span class="schicht-l">{t(s.l)}</span>
+              <span class="schicht-balken"><span></span></span>
+              <span class="schicht-w">{zahl(s.ms)} ms</span>
+            </div>
+          ))}
+        </div>
+        <p class="mess-quelle" style="margin:0">{t(p.eingriff.schichtHinweis)}</p>
+
+        <div class="codepaar">
+          <figure class="aufbau">
+            <figcaption><span class="marke-vorher">{t(ui.eingriffVorher)}</span></figcaption>
+            <pre><code>{p.eingriff.vorher}</code></pre>
+          </figure>
+          <figure class="aufbau">
+            <figcaption><span class="marke-nachher">{t(ui.eingriffNachher)}</span></figcaption>
+            <pre><code>{p.eingriff.nachher}</code></pre>
+          </figure>
+        </div>
+        <p class="mess-quelle" style="margin:0">
+          {p.eingriff.datei} · {t(ui.eingriffCommit)} <span class="messwert">{p.eingriff.commit}</span>
+        </p>
+      </div>
+    )}
+
+    {'bilder' in p && p.bilder && (
+      <div class="bildreihe">
+        {p.bilder.map((b) => (
+          <figure
+            class="aufbau"
+            data-breit={'breit' in b && b.breit ? '' : undefined}
+            style={`--nativ:${bild(b.datei).breite}px`}
+          >
+            {'video' in b && b.video ? (
+              /* Bewegtes Bild. Im HTML steht es MIT Bedienleiste und ohne
+                 autoplay: ohne Skript und bei "Bewegung reduzieren"
+                 entscheidet der Besucher selbst, ob es laeuft. Erst
+                 register.js nimmt die Leiste weg und spielt es ab --
+                 nur solange es im Bild ist, und mit eigenem Pausenknopf
+                 (WCAG 2.2.2: bewegte Inhalte ueber 5 s muessen sich
+                 anhalten lassen). preload="none": geladen wird erst,
+                 wenn jemand bis hierher scrollt.
+                 Statt Lupe ein Vollbild-Knopf: am Handy ist die Aufnahme
+                 nur ein Viertel so breit wie ihr Original, die Tabelle
+                 darin unlesbar. Ohne Skript uebernimmt das die
+                 Bedienleiste des Browsers. */
+              <div class="video-rahmen">
+                <video
+                  data-video
+                  width={bild(b.datei).breite}
+                  height={bild(b.datei).hoehe}
+                  poster={bild(b.datei).gross}
+                  preload="none"
+                  muted
+                  loop
+                  playsinline
+                  controls
+                  aria-label={t(b.bu)}
+                >
+                  <source src={`/media/${b.datei}.mp4`} type="video/mp4" />
+                </video>
+                <button class="video-knopf video-gross" type="button" data-video-gross hidden
+                        aria-label={t(ui.videoVollbild)} aria-pressed="false">
+                  <svg class="symbol-auf" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M1.5 5V1.5H5M9 1.5h3.5V5M12.5 9v3.5H9M5 12.5H1.5V9" stroke="currentColor" stroke-width="1.8" />
+                  </svg>
+                  <svg class="symbol-zu" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M5 1.5V5H1.5M12.5 5H9V1.5M9 12.5V9h3.5M1.5 9H5v3.5" stroke="currentColor" stroke-width="1.8" />
+                  </svg>
+                </button>
+                <button class="video-knopf" type="button" data-video-knopf hidden
+                        aria-label={t(ui.videoAnhalten)} aria-pressed="false">
+                  <svg class="symbol-pause" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                    <path d="M3.5 2v10M10.5 2v10" stroke="currentColor" stroke-width="2.4" />
+                  </svg>
+                  <svg class="symbol-spielen" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                    <path d="M3.5 2.2 11.5 7l-8 4.8Z" fill="currentColor" />
+                  </svg>
+                </button>
+              </div>
+            ) : (
+            /* Ein <a> auf die Bilddatei, kein <button>: ohne Skript
+               oeffnet der Link das Bild in voller Groesse in einem
+               neuen Tab. Mit Skript faengt register.js den Klick ab
+               und zeigt es in der Lupe. */
+            <a class="bild-lupe" href={bild(b.datei).gross} target="_blank" rel="noopener"
+               data-lupe data-bu={t(b.bu)}
+               data-w={bild(b.datei).breite} data-h={bild(b.datei).hoehe}
+               aria-label={`${t(ui.bildVergroessern)}: ${t(b.bu)}`}>
+              <img
+                src={bild(b.datei).gross}
+                srcset={bild(b.datei).srcset}
+                sizes={'breit' in b && b.breit
+                  ? '(max-width: 52rem) 92vw, 72rem'
+                  : '(max-width: 52rem) 92vw, 30vw'}
+                width={bild(b.datei).breite}
+                height={bild(b.datei).hoehe}
+                alt={t(b.bu)}
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="lupe-marke" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <circle cx="7" cy="7" r="4.7" stroke="currentColor" stroke-width="1.6" />
+                  <path d="M10.4 10.4 14 14M5.2 7h3.6M7 5.2v3.6" stroke="currentColor"
+                        stroke-width="1.6" stroke-linecap="round" />
+                </svg>
+              </span>
+            </a>
+            )}
+            <figcaption>{t(b.bu)}</figcaption>
+          </figure>
+        ))}
+      </div>
+    )}
+
+    {'maengel' in p && p.maengel && (
+      <div class="maengel">
+        <h2 class="titel-blatt" style="font-size:1.125rem">{t(p.maengel.titel)}</h2>
+        <p class="fliess" style="margin:.5rem 0 1rem;color:var(--tinte-2)">{t(p.maengel.hinweis)}</p>
+        <ul class="liste">
+          {p.maengel.punkte[lang].map((m) => <li class="aufbau"><span></span><span>{m}</span></li>)}
+        </ul>
+      </div>
+    )}
+
+    {'themen' in p && p.themen && (
+      <div class="stapel" style="--l:.75rem">
+        <h2 class="feld-name">{t(ui.themenlandkarte)}</h2>
+        <div class="landkarte">
+          {p.themen.map((g) => (
+            <div class="aufbau">
+              <h3>{t(g.gruppe)} <span>{g.punkte.length}</span></h3>
+              <ul>{g.punkte.map((x) => <li>{x}</li>)}</ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <div class="spalten-2">
+      <div class="stapel" style="--l:.6rem">
+        <h2 class="feld-name">{t(ui.werkzeuge)}</h2>
+        <ul class="marken">{p.stack.map((s) => <li>{s}</li>)}</ul>
+      </div>
+      <div class="stapel" style="--l:.6rem">
+        {'auslieferung' in p && p.auslieferung && (
+          <>
+            <h2 class="feld-name">{t(ui.auslieferung)}</h2>
+            <p class="fliess" style="margin:0;font-size:.9375rem">{t(p.auslieferung)}</p>
+          </>
+        )}
+        <h2 class="feld-name">{t(ui.einordnung)}</h2>
+        <p class="fliess" style="margin:0;font-size:.9375rem">{t(p.einordnung)}</p>
+        {'repo' in p && p.repo && (
+          <p style="margin:0"><a class="messwert" style="font-size:.8125rem" href={p.repo} {...aussen}
+            aria-label={`${p.repo.replace('https://', '')} (${t(ui.neuerTab)})`}>{p.repo.replace('https://', '')}</a></p>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

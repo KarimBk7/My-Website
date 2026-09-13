@@ -1,0 +1,31 @@
+---
+import { ui, type Lang } from '../data/inhalt';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = (s: Record<Lang, string>) => s[lang];
+---
+
+{/* Bildlupe. Ein natives <dialog>: Fokusfalle, Escape und der abdunkelnde
+    Hintergrund kommen vom Browser, nicht aus nachgebautem JavaScript. Steht
+    leer im HTML und wird erst beim Klick befuellt -- so laedt die grosse
+    Fassung nur, wenn sie jemand sehen will. */}
+<dialog class="lupe" id="lupe" aria-label={t(ui.bildAnsicht)}>
+  <form method="dialog" class="lupe-schliessen-form">
+    <button class="lupe-schliessen" type="submit" aria-label={t(ui.bildSchliessen)}>
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+      </svg>
+    </button>
+  </form>
+  {/* Ohne <img>-Platzhalter: register.js legt das Bild beim Oeffnen an und
+      entfernt es beim Schliessen wieder. Ein mitgeliefertes <img> ohne src
+      waere dauerhaft ein Bild, das keines laedt -- und haette die drei
+      Bildwaechter (schuss.mjs, live.mjs) gezwungen, genau diesen Fall
+      auszunehmen. Lieber den Fall vermeiden als die Pruefung abstumpfen. */}
+  <figure class="lupe-figur">
+    <figcaption>
+      <span class="lupe-bu"></span>
+      <span class="lupe-mass feld-name"></span>
+    </figcaption>
+  </figure>
+</dialog>

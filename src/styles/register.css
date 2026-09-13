@@ -50,58 +50,6 @@
   font-variation-settings: 'wght' 620;
 }
 
-/* Elternknoten mit Unterpunkten: als Gruppenkopf gesetzt, damit man sieht,
-   dass darunter etwas haengt und nicht drei gleichrangige Abschnitte folgen. */
-.register nav .hat-kinder > a {
-  font-variation-settings: 'wght' 640;
-  color: var(--tinte);
-  margin-top: 0.5rem;
-}
-.register nav .hat-kinder > a[aria-current='true'] { color: var(--gruen-tief); }
-/* Ist ein Kind aktiv, bleibt der Elternknoten mitmarkiert -- sonst weiss man
-   nicht mehr, in welchem Teil der Seite man steht. */
-.register nav .hat-kinder[data-kind-aktiv] > a {
-  color: var(--gruen-tief);
-  border-left-color: var(--gruen-linie);
-}
-
-/* Unterpunkte: eingerückt an einer durchgehenden Linie, wie die Blätter
-   hinter einem Registerreiter. */
-.register nav .kinder {
-  margin: 2px 0 0.35rem;
-  padding-left: 0.7rem;
-  border-left: var(--spur) solid var(--haar-stark);
-  margin-left: 0.7rem;
-}
-.register nav .kinder a {
-  display: grid;
-  grid-template-columns: 2.4rem minmax(0, 1fr);
-  gap: 0.1rem 0.4rem;
-  align-items: baseline;
-  padding: 0.4rem 0.55rem;
-  text-decoration: none;
-  color: var(--tinte-2);
-  font-size: 0.875rem;
-  line-height: 1.25;
-  border-left: 2px solid transparent;
-  margin-left: -0.7rem;
-  transition: background var(--takt) var(--kurve), color var(--takt) var(--kurve),
-              border-color var(--takt) var(--kurve);
-}
-.register nav .kinder .nr {
-  font-family: var(--mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.06em;
-  color: var(--gruen);
-  border: var(--spur) solid var(--gruen-linie);
-  padding: 0.05rem 0.25rem;
-  justify-self: start;
-  align-self: start;
-  transform: translateY(0.1em);
-}
-.register nav .kinder a[aria-current='true'] .nr {
-  background: var(--gruen); border-color: var(--gruen); color: #fff;
-}
 .register-fuss { margin-top: auto; display: grid; gap: 0.35rem; padding-top: 1rem; border-top: var(--spur) solid var(--haar); }
 .register-fuss a {
   display: flex; align-items: center; gap: 0.5rem;

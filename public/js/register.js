@@ -59,12 +59,6 @@ if (register) {
     if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) aktiv = ziele[ziele.length - 1];
     links.forEach((a) => a.setAttribute('aria-current', a.getAttribute('href') === '#' + aktiv.id ? 'true' : 'false'));
 
-    // Steht ein Unterpunkt im Licht, bleibt sein Elternknoten mitmarkiert --
-    // sonst verliert man beim Scrollen durch die Projekte den Ort.
-    register.querySelectorAll('.hat-kinder').forEach((li) => {
-      const trifft = !!li.querySelector('.kinder a[aria-current="true"]');
-      li.toggleAttribute('data-kind-aktiv', trifft);
-    });
   };
   window.addEventListener('scroll', () => {
     if (!angefragt) { angefragt = true; requestAnimationFrame(aktualisiere); }

@@ -23,6 +23,8 @@ const ANSICHTEN = [
   { name: 'mobile-hero', pfad: '/', width: 390, height: 844, voll: false },
   { name: 'desktop-en', pfad: '/en/', width: 1440, height: 900, voll: true },
   { name: 'desktop-1280', pfad: '/', width: 1280, height: 800, voll: false },
+  { name: 'projekt-m1', pfad: '/projekte/spesenkonfigurator/', width: 1440, height: 900, voll: true },
+  { name: 'projekt-m1-mobile', pfad: '/projekte/spesenkonfigurator/', width: 390, height: 844, voll: true },
 ];
 
 const browser = await chromium.launch();
@@ -77,12 +79,16 @@ for (const a of ANSICHTEN) {
   await ctx.close();
 }
 
-// Ein paar harte Prüfungen, die kein Bild zeigt.
+// Ein paar harte Prüfungen, die kein Bild zeigt -- auf jeder ausgelieferten
+// Seite ausser dem Impressum, das die Anschrift absichtlich traegt.
+const PRUEFSEITEN = ['/', '/en/', '/datenschutz/', '/en/privacy/',
+  ...['spesenkonfigurator', 'kaiju', 'lernrepo', 'website'].flatMap((id) => [`/projekte/${id}/`, `/en/projects/${id}/`])];
 const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
 const page = await ctx.newPage();
-await page.goto(BASIS + '/', { waitUntil: 'networkidle' });
-
-const befund = await page.evaluate((muster) => {
+const befund = {};
+for (const pfad of PRUEFSEITEN) {
+await page.goto(BASIS + pfad, { waitUntil: 'networkidle' });
+const b = await page.evaluate((muster) => {
   const doc = document.documentElement;
   const text = document.body.innerText;
   return {
@@ -90,11 +96,20 @@ const befund = await page.evaluate((muster) => {
     scrollWidth: doc.scrollWidth,
     clientWidth: doc.clientWidth,
     h1: document.querySelectorAll('h1').length,
-    bilderOhneAlt: [...document.images].filter((i) => !i.alt).length,
+    // alt="" ist fuer schmueckende Bilder richtig (Kachelbilder: der Link
+    // traegt den Namen). Gezaehlt wird nur ein fehlendes Attribut.
+    bilderOhneAlt: [...document.images].filter((i) => !i.hasAttribute('alt')).length,
     leereLinks: [...document.querySelectorAll('a')].filter((a) => !a.textContent.trim() && !a.getAttribute('aria-label')).length,
     privateDaten: muster ? muster.filter((m) => text.includes(m)) : 'nicht geprüft',
   };
 }, sperrmuster);
+// Nur Auffaelliges melden, sonst wird die Ausgabe zur Tapete.
+const auffaellig = Object.entries(b).filter(([k, v]) =>
+  (k === 'querUeberlauf' && v) || (k === 'h1' && v !== 1) || (['bilderOhneAlt', 'leereLinks'].includes(k) && v) ||
+  (k === 'privateDaten' && (!Array.isArray(v) || v.length)));
+befund[pfad] = auffaellig.length ? Object.fromEntries(auffaellig) : 'ok';
+}
+await page.goto(BASIS + '/projekte/spesenkonfigurator/', { waitUntil: 'networkidle' });
 
 // Die Messwerte im Projektblatt M-1: vier Zeilen, und die nicht gemessene
 // Angabe muss als solche markiert sein.

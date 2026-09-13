@@ -115,20 +115,14 @@ a:hover { text-decoration-color: var(--gruen); }
 .abschnitt { padding-block: clamp(3rem, 7vw, 5.5rem); position: relative; }
 .abschnitt + .abschnitt { border-top: var(--spur) solid var(--haar); }
 
-/* Der Vorspann vor den Projektblaettern war ein eigenes Band mit drei Zeilen
-   Text und einem halben Bildschirm Leerraum darunter -- und die rechte
-   Seitenhaelfte blieb ungenutzt. Jetzt stehen Ueberschrift und Einleitung
-   nebeneinander, und der Block gehoert optisch zum ersten Blatt statt fuer
-   sich zu stehen: unten keine Polsterung, und die Trennlinie zum Blatt
-   darunter faellt weg. */
+/* Ueberschrift und Einleitung der Projekte nebeneinander: drei Zeilen Text
+   unter einer kurzen Ueberschrift liessen sonst die rechte Haelfte leer. */
 .vorspann {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
   gap: clamp(1rem, 4vw, 3rem);
   align-items: baseline;
-  padding-bottom: clamp(1.5rem, 3vw, 2.25rem);
 }
-.vorspann + .abschnitt { border-top: 0; padding-top: clamp(1.5rem, 3vw, 2.25rem); }
 @media (max-width: 46rem) {
   .vorspann { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
 }
@@ -435,29 +429,58 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
 
 .blatt-kopf { display: grid; gap: 0.75rem; margin-bottom: 2rem; }
 
-/* Die Projektblaetter gehoeren sichtbar unter "Projekte": eingerueckt an
-   einer durchgehenden Leiste, wie ihre Eintraege im Register. Zwischen zwei
-   Blaettern beginnt die Trennlinie erst an der Leiste, damit sie nicht wie
-   ein neuer Hauptabschnitt aussieht. */
-.blatt { --einzug: clamp(1rem, 2.5vw, 2rem); padding-left: calc(var(--rand) + var(--einzug)); }
-.blatt::after {
-  content: '';
-  position: absolute;
-  inset-block: 0;
-  left: var(--rand);
-  width: 2px;
-  background: var(--gruen-linie);
+/* --- Projektkacheln ----------------------------------------------------- */
+/* Vier Blaetter als Deckblaetter nebeneinander. Die ganze Kachel ist die
+   Klickflaeche (der Titel-Link spannt sich per ::after darueber), Rahmen und
+   Pfeil werden gruen, sobald man darauf zeigt oder mit der Tastatur steht. */
+.kacheln {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+  gap: clamp(1rem, 2.5vw, 1.75rem);
 }
-.blatt + .blatt { border-top: 0; }
-.blatt + .blatt::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: var(--rand);
-  right: var(--rand);
-  height: var(--spur);
-  background: var(--haar);
+.kachel {
+  position: relative; display: grid; grid-template-rows: auto 1fr;
+  background: #fff; border: var(--spur) solid var(--haar-stark);
+  transition: border-color var(--takt) var(--kurve);
 }
+.kachel-bild { aspect-ratio: 16 / 9; overflow: hidden; border-bottom: var(--spur) solid var(--haar); background: var(--papier-tief); }
+.kachel-bild img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.6s var(--kurve); }
+.kachel-text { display: flex; flex-direction: column; gap: 0.7rem; padding: 1.1rem 1.25rem 1.25rem; }
+.kachel-zeile { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; }
+.kachel-vermerk { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gruen); }
+.kachel-titel { font-size: clamp(1.2rem, 1rem + 0.6vw, 1.45rem); font-variation-settings: 'wdth' 106, 'wght' 640; letter-spacing: -0.015em; }
+.kachel-titel a { text-decoration: none; }
+.kachel-titel a::after { content: ''; position: absolute; inset: 0; }
+.kachel-titel a:focus-visible { outline: 0; }
+.kachel-kurz {
+  margin: 0; font-size: 0.9375rem; color: var(--tinte-2);
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;
+}
+.kachel-zahlen { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 0.2rem 0 0; padding-top: 0.7rem; border-top: var(--spur) solid var(--haar); }
+.kachel-zahlen div { display: flex; flex-direction: column-reverse; gap: 0.1rem; }
+.kachel-zahlen dt { font-size: 0.8125rem; color: var(--tinte-3); }
+.kachel-zahlen dd { margin: 0; font-family: var(--mono); font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
+.kachel-marken li { font-size: 0.6875rem; padding: 0.15rem 0.45rem; }
+.kachel-marken .kachel-mehr { color: var(--tinte-3); border-style: dashed; }
+.kachel-oeffnen { margin-top: auto; padding-top: 0.3rem; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gruen-tief); transition: transform var(--takt) var(--kurve); }
+.kachel:hover, .kachel:has(a:focus-visible) { border-color: var(--gruen); }
+.kachel:has(a:focus-visible) { outline: 2px solid var(--gruen); outline-offset: 2px; }
+.kachel:hover .kachel-bild img { transform: scale(1.025); }
+.kachel:hover .kachel-oeffnen { transform: translateX(4px); }
+
+/* --- Projekt-Detailseite ------------------------------------------------ */
+/* Unter dem Blatt: vor- und zurueckblaettern, dann Kontakt. Wer ein Projekt
+   zu Ende gelesen hat, soll nicht nach oben muessen. */
+.blaettern { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding-block: 1.5rem; border-top: var(--spur) solid var(--haar); }
+.blaettern a { display: grid; gap: 0.25rem; text-decoration: none; padding: 0.9rem 1rem; border: var(--spur) solid var(--haar); }
+.blaettern a:hover { border-color: var(--gruen); }
+.blaettern a[rel='next'] { text-align: right; }
+@media (max-width: 34rem) { .blaettern { grid-template-columns: 1fr; } .blaettern a[rel='next'] { text-align: left; } }
+.blatt-kontakt { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; padding-block: 2rem; }
+.recht-kopf-name { margin-left: auto; text-decoration: none; }
+.recht-kopf-name + .sprachwahl { margin-left: 0.75rem; }
+@media (max-width: 34rem) { .recht-kopf-name { display: none; } .recht-kopf-name + .sprachwahl { margin-left: auto; } }
+
 .blatt-marke { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
 .blatt-gruppe { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tinte-3); }
 .blatt-zeile { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
@@ -754,8 +777,8 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 
 .landkarte { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr)); gap: 1px; background: var(--haar); border: var(--spur) solid var(--haar); }
 .landkarte > div { background: var(--papier); padding: 1rem; }
-.landkarte h5 { font-size: 0.9375rem; display: flex; justify-content: space-between; gap: 0.5rem; align-items: baseline; }
-.landkarte h5 span { font-family: var(--mono); font-size: 0.75rem; color: var(--tinte-3); }
+.landkarte h3 { font-size: 0.9375rem; display: flex; justify-content: space-between; gap: 0.5rem; align-items: baseline; }
+.landkarte h3 span { font-family: var(--mono); font-size: 0.75rem; color: var(--tinte-3); }
 .landkarte ul { margin: 0.7rem 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.3rem; }
 .landkarte li { font-family: var(--mono); font-size: 0.6875rem; border: var(--spur) solid var(--haar-stark); padding: 0.15rem 0.4rem; color: var(--tinte-2); }
 

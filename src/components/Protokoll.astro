@@ -1,43 +1,14 @@
 ---
 import {
-  person, pruefstand, stammdaten, stationen, arbeitsfelder, projekte,
+  person, stammdaten, stationen, arbeitsfelder, projekte,
   fremdbefunde, ui, type Lang,
 } from '../data/inhalt';
 
-/* Bilder bewusst NICHT ueber astro:assets.
-   Cloudflare hat dieses Projekt als Worker angelegt und dabei einen Adapter
-   eingesetzt, dessen Bilddienst <Image> auf einen Laufzeit-Endpunkt /_image
-   umbiegt -- den die statische Auslieferung nicht bedient. Lokal war alles
-   gruen, live antworteten alle sieben Bilder mit 404.
-   Die Varianten erzeugt jetzt `node tools/bilder.mjs` vorab nach public/media,
-   dieses Manifest haelt Groessen und Dateinamen. Damit haengt nichts mehr an
-   einer Hosting-Eigenheit, und der Build laesst sich vor dem Deploy pruefen. */
-import bilder from '../data/bilder.json';
+import { bild, projektPfad } from '../data/bild';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = (s: Record<Lang, string>) => s[lang];
-
-/** Liefert Quelle, srcset und Naturgroesse eines vorberechneten Bildes. */
-const bild = (name: string) => {
-  const m = (bilder as Record<string, any>)[name];
-  return {
-    breite: m.breite,
-    hoehe: m.hoehe,
-    gross: m.varianten[m.varianten.length - 1].datei,
-    srcset: m.varianten.map((v: any) => `${v.datei} ${v.breite}w`).join(', '),
-  };
-};
-
-const zahl = (n: number) => n.toLocaleString(lang === 'de' ? 'de-DE' : 'en-GB');
-
-/** Zerlegt eine Kennzahl wie "6.400" oder "90+" in Zahl und Suffix, damit das
-    Zaehlwerk sie hochlaufen lassen kann. Der sichtbare Text wird aus derselben
-    Zahl formatiert, damit Skript und Nicht-Skript dasselbe zeigen. */
-const kennzahl = (s: string) => {
-  const m = s.match(/^(\d[\d.]*)(\+?)$/);
-  return m ? { wert: Number(m[1].replace(/\./g, '')), suffix: m[2] } : null;
-};
 
 /* Die GitHub-Marke als gezeichneter Pfad (Octicon mark-github, 16er-Raster).
    Einmal definiert, an beiden Stellen verwendet -- ein Zeichensatz-Symbol
@@ -57,8 +28,7 @@ const ladeMarke = 'M8 1v8m0 0 3.2-3.2M8 9 4.8 5.8M2 11.5v1.7c0 .44.36.8.8.8h10.4
 
 /* Aussenlinks oeffnen einen neuen Tab. Als eine Stelle statt an jedem Link
    wiederholt -- so kann keiner davon den Zusatz verlieren. `noopener` haelt
-   die neue Seite von window.opener fern. */
-const aussen = { target: '_blank', rel: 'noopener' } as const;
+   die neue Seite von window.opener fern. `me`: es sind die eigenen Profile. */
 const aussenIch = { target: '_blank', rel: 'me noopener' } as const;
 
 /* Den Lebenslauf gibt es in beiden Sprachen. Ausgeliefert wird der zur Seite
@@ -77,16 +47,11 @@ const stellen = ['Freie Universität Berlin', 'Projektron GmbH', 'Lesto Branto G
 /* Das Inhaltsverzeichnis. Jedes Sprungziel ist eine echte Ueberschrift auf
    der Seite, auch der Elternknoten "Projekte" -- ein Eintrag, der nirgendwohin
    fuehrt, waere der einzige tote Punkt in der Liste. */
-type Eintrag = { id: string; label: string; nr?: string; kinder?: Eintrag[] };
-const eintraege: Eintrag[] = [
+const eintraege = [
   { id: 'h-felder', label: t(ui.arbeitsfelderTitel) },
   { id: 'h-stamm', label: t(ui.stammdatenTitel) },
   { id: 'h-stationen', label: t(ui.stationenTitel) },
-  {
-    id: 'h-projekte',
-    label: t(ui.projekteTitel),
-    kinder: projekte.map((p) => ({ id: `h-${p.id}`, label: t(p.titel), nr: p.nr })),
-  },
+  { id: 'h-projekte', label: t(ui.projekteTitel) },
   { id: 'h-befunde', label: t(ui.fremdbefundeTitel) },
   { id: 'h-freigabe', label: t(ui.freigabeTitel) },
 ];
@@ -201,21 +166,7 @@ const eintraege: Eintrag[] = [
     <nav aria-label={t(ui.register)}>
       <ul>
         {eintraege.map((e) => (
-          <li class={e.kinder ? 'hat-kinder' : undefined}>
-            <a href={`#${e.id}`} data-eintrag={e.id}>{e.label}</a>
-            {e.kinder && (
-              <ul class="kinder">
-                {e.kinder.map((k) => (
-                  <li>
-                    <a href={`#${k.id}`} data-eintrag={k.id}>
-                      <span class="nr">{k.nr}</span>
-                      <span class="text">{k.label}</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
+          <li><a href={`#${e.id}`} data-eintrag={e.id}>{e.label}</a></li>
         ))}
       </ul>
     </nav>
@@ -298,316 +249,48 @@ const eintraege: Eintrag[] = [
     </section>
 
     <!-- -------------------------------------------------------- Projekte -->
-    <section class="abschnitt huelle vorspann" aria-labelledby="h-projekte">
-      <h2 class="titel-abschnitt" id="h-projekte" style="margin:0">{t(ui.projekteTitel)}</h2>
-      <p class="fliess" style="margin:0">{t(ui.projekteText)}</p>
-    </section>
-
-    {projekte.map((p, i) => (
-      <section class="abschnitt huelle blatt" aria-labelledby={`h-${p.id}`}>
-        <div class="stapel" style="--l:2rem">
-          <div class="blatt-kopf">
-            <div class="blatt-zeile">
-              <span class="blatt-marke">
-                <span class="blatt-nr">{p.nr}</span>
-                <span class="blatt-gruppe">{t(ui.projekteTitel)} · {t(ui.blatt)} {i + 1}/{projekte.length}</span>
-              </span>
-              {'stempel' in p && p.stempel && (
-                <span class="abnahme-stempel" role="img"
-                      aria-label={`${t(ui.abnahme)}: ${t(p.stempel.wort)} ${p.stempel.zusatz}`}>
-                  <span class="abnahme-wort">{t(p.stempel.wort)}</span>
-                  <span class="abnahme-zusatz">{p.stempel.zusatz}</span>
-                </span>
-              )}
-            </div>
-            <h3 class="titel-blatt" id={`h-${p.id}`}>{t(p.titel)}</h3>
-            <p class="fliess" style="margin:0">{t(p.kurz)}</p>
-          </div>
-
-          <div class="gitter">
-            {p.kopf.map((f) => (
-              <div class="gitter-reihe aufbau">
-                <span class="feld-name">{t(f.l)}</span>
-                <span>{t(f.w)}</span>
-              </div>
-            ))}
-          </div>
-
-          <div class="spalten-2">
-            <div class="stapel" style="--l:.75rem">
-              <h4 class="feld-name">{t(ui.aufgabe)}</h4>
-              <p class="fliess" style="margin:0">{t(p.aufgabe)}</p>
-              {'herausforderung' in p && p.herausforderung && (
-                <div style="border-left:1px solid var(--gruen-linie);padding-left:1rem;margin-top:.75rem">
-                  <h5 style="font-size:.9375rem">{t(p.herausforderung.titel)}</h5>
-                  <p class="fliess" style="margin:.4rem 0 0;font-size:.9375rem">{t(p.herausforderung.text)}</p>
-                </div>
-              )}
-            </div>
-
-            <div class="stapel" style="--l:.75rem">
-              <h4 class="feld-name">{t(ui.meinBeitrag)}</h4>
-              <ul class="liste">
-                {p.beitrag[lang].map((b) => <li class="aufbau"><span></span><span>{b}</span></li>)}
-              </ul>
-            </div>
-          </div>
-
-          {/* Die grosse Zahlenreihe traegt nur dort, wo die Zahlen das Argument
-              sind. Viermal wiederholt waere sie das Geruest der Seite. */}
-          {p.id === 'spesenkonfigurator' ? (
-            <div class="zahlenreihe">
-              {p.kennzahlen.map((k) => {
-                const n = kennzahl(k.wert);
-                return (
-                  <div class="aufbau">
-                    <div class="zahl" data-zahl={n?.wert} data-suffix={n?.suffix || undefined}>
-                      {n ? zahl(n.wert) + n.suffix : k.wert}
-                    </div>
-                    <div class="zahl-l">{t(k.l)}</div>
-                    <div class="zahl-s">{t(k.s)}</div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div class="stapel" style="--l:.6rem">
-              <h4 class="feld-name">{t(ui.kennwerte)}</h4>
-              <div class="kennwerte">
-                {p.kennzahlen.map((k) => {
-                  const n = kennzahl(k.wert);
-                  return (
-                    <div class="aufbau">
-                      <span class="w" data-zahl={n?.wert} data-suffix={n?.suffix || undefined}>
-                        {n ? zahl(n.wert) + n.suffix : k.wert}
-                      </span>
-                      <span class="l">{t(k.l)}</span>
-                      <span class="s">{t(k.s)}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Die Messwerte sitzen dort, wo sie hingehoeren: im Projekt, aus dem
-              sie stammen. Kurz gehalten -- es geht darum zu zeigen, dass die
-              Optimierung stattgefunden hat und belegbar ist. */}
-          {p.id === 'spesenkonfigurator' && (
-            <div class="stapel" style="--l:.75rem">
-              <h4 class="feld-name">{t(ui.performanzTitel)}</h4>
-              <p class="fliess" style="margin:0">{t(ui.performanzText)}</p>
-              <table class="messtabelle messtabelle--kompakt">
-                <thead>
-                  <tr>
-                    <th scope="col" class="feld-name">{t(ui.pruefpunkt)}</th>
-                    <th scope="col" class="feld-name">{t(pruefstand.stufen.vorher)}</th>
-                    <th scope="col" class="feld-name">{t(pruefstand.stufen.nachher)}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {pruefstand.zeilen.map((z) => (
-                    <tr class="aufbau">
-                      <td>
-                        {t(z.label)}
-                        <div class="mess-quelle" style="margin-top:.15rem">{t(pruefstand.last)}</div>
-                      </td>
-                      <td class="messwert">
-                        {z.vorher === null ? (
-                          <span class="stufe stufe--offen">{t(z.vorherText!)}</span>
-                        ) : (
-                          <>
-                            <span data-zahl={z.vorher}>{zahl(z.vorher)}</span>
-                            {z.einheit && <span class="mess-einheit">{z.einheit}</span>}
-                          </>
-                        )}
-                      </td>
-                      <td class="messwert" style="font-variation-settings:'wght' 620">
-                        <span data-zahl={z.nachher}>{zahl(z.nachher)}</span>
-                        {z.einheit && <span class="mess-einheit">{z.einheit}</span>}
-                        {z.faktor && <div style="font-size:.75rem;color:var(--gruen);margin-top:.15rem">{t(ui.faktor)} {z.faktor}</div>}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <p class="mess-quelle" style="margin:.25rem 0 0" set:html={t(ui.messmethode)} />
-            </div>
-          )}
-
-          {/* Der Beleg zum groessten Messwert: erst die Schichtmessung, die
-              zeigt WO die Zeit lag, dann der Quelltext davor und danach. Ohne
-              den Code bleibt der Faktor 34 eine Behauptung. */}
-          {'eingriff' in p && p.eingriff && (
-            <div class="stapel" style="--l:.75rem">
-              <h4 class="feld-name">{t(p.eingriff.titel)}</h4>
-              <p class="fliess" style="margin:0">{t(p.eingriff.text)}</p>
-
-              <div class="schichten" aria-hidden="true">
-                {p.eingriff.schichten.map((s) => (
-                  <div class="schicht aufbau" style={`--f:${s.ms / 5051}`}>
-                    <span class="schicht-l">{t(s.l)}</span>
-                    <span class="schicht-balken"><span></span></span>
-                    <span class="schicht-w">{zahl(s.ms)} ms</span>
-                  </div>
-                ))}
-              </div>
-              <p class="mess-quelle" style="margin:0">{t(p.eingriff.schichtHinweis)}</p>
-
-              <div class="codepaar">
-                <figure class="aufbau">
-                  <figcaption><span class="marke-vorher">{t(ui.eingriffVorher)}</span></figcaption>
-                  <pre><code>{p.eingriff.vorher}</code></pre>
-                </figure>
-                <figure class="aufbau">
-                  <figcaption><span class="marke-nachher">{t(ui.eingriffNachher)}</span></figcaption>
-                  <pre><code>{p.eingriff.nachher}</code></pre>
-                </figure>
-              </div>
-              <p class="mess-quelle" style="margin:0">
-                {p.eingriff.datei} · {t(ui.eingriffCommit)} <span class="messwert">{p.eingriff.commit}</span>
-              </p>
-            </div>
-          )}
-
-          {'bilder' in p && p.bilder && (
-            <div class="bildreihe">
-              {p.bilder.map((b) => (
-                <figure
-                  class="aufbau"
-                  data-breit={'breit' in b && b.breit ? '' : undefined}
-                  style={`--nativ:${bild(b.datei).breite}px`}
-                >
-                  {'video' in b && b.video ? (
-                    /* Bewegtes Bild. Im HTML steht es MIT Bedienleiste und ohne
-                       autoplay: ohne Skript und bei "Bewegung reduzieren"
-                       entscheidet der Besucher selbst, ob es laeuft. Erst
-                       register.js nimmt die Leiste weg und spielt es ab --
-                       nur solange es im Bild ist, und mit eigenem Pausenknopf
-                       (WCAG 2.2.2: bewegte Inhalte ueber 5 s muessen sich
-                       anhalten lassen). preload="none": geladen wird erst,
-                       wenn jemand bis hierher scrollt.
-                       Statt Lupe ein Vollbild-Knopf: am Handy ist die Aufnahme
-                       nur ein Viertel so breit wie ihr Original, die Tabelle
-                       darin unlesbar. Ohne Skript uebernimmt das die
-                       Bedienleiste des Browsers. */
-                    <div class="video-rahmen">
-                      <video
-                        data-video
-                        width={bild(b.datei).breite}
-                        height={bild(b.datei).hoehe}
-                        poster={bild(b.datei).gross}
-                        preload="none"
-                        muted
-                        loop
-                        playsinline
-                        controls
-                        aria-label={t(b.bu)}
-                      >
-                        <source src={`/media/${b.datei}.mp4`} type="video/mp4" />
-                      </video>
-                      <button class="video-knopf video-gross" type="button" data-video-gross hidden
-                              aria-label={t(ui.videoVollbild)} aria-pressed="false">
-                        <svg class="symbol-auf" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                          <path d="M1.5 5V1.5H5M9 1.5h3.5V5M12.5 9v3.5H9M5 12.5H1.5V9" stroke="currentColor" stroke-width="1.8" />
-                        </svg>
-                        <svg class="symbol-zu" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                          <path d="M5 1.5V5H1.5M12.5 5H9V1.5M9 12.5V9h3.5M1.5 9H5v3.5" stroke="currentColor" stroke-width="1.8" />
-                        </svg>
-                      </button>
-                      <button class="video-knopf" type="button" data-video-knopf hidden
-                              aria-label={t(ui.videoAnhalten)} aria-pressed="false">
-                        <svg class="symbol-pause" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
-                          <path d="M3.5 2v10M10.5 2v10" stroke="currentColor" stroke-width="2.4" />
-                        </svg>
-                        <svg class="symbol-spielen" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
-                          <path d="M3.5 2.2 11.5 7l-8 4.8Z" fill="currentColor" />
-                        </svg>
-                      </button>
-                    </div>
-                  ) : (
-                  /* Ein <a> auf die Bilddatei, kein <button>: ohne Skript
-                     oeffnet der Link das Bild in voller Groesse in einem
-                     neuen Tab. Mit Skript faengt register.js den Klick ab
-                     und zeigt es in der Lupe. */
-                  <a class="bild-lupe" href={bild(b.datei).gross} target="_blank" rel="noopener"
-                     data-lupe data-bu={t(b.bu)}
-                     data-w={bild(b.datei).breite} data-h={bild(b.datei).hoehe}
-                     aria-label={`${t(ui.bildVergroessern)}: ${t(b.bu)}`}>
-                    <img
-                      src={bild(b.datei).gross}
-                      srcset={bild(b.datei).srcset}
-                      sizes={'breit' in b && b.breit
-                        ? '(max-width: 52rem) 92vw, 72rem'
-                        : '(max-width: 52rem) 92vw, 30vw'}
-                      width={bild(b.datei).breite}
-                      height={bild(b.datei).hoehe}
-                      alt={t(b.bu)}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    <span class="lupe-marke" aria-hidden="true">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <circle cx="7" cy="7" r="4.7" stroke="currentColor" stroke-width="1.6" />
-                        <path d="M10.4 10.4 14 14M5.2 7h3.6M7 5.2v3.6" stroke="currentColor"
-                              stroke-width="1.6" stroke-linecap="round" />
-                      </svg>
-                    </span>
-                  </a>
-                  )}
-                  <figcaption>{t(b.bu)}</figcaption>
-                </figure>
-              ))}
-            </div>
-          )}
-
-          {'maengel' in p && p.maengel && (
-            <div class="maengel">
-              <h4 class="titel-blatt" style="font-size:1.125rem">{t(p.maengel.titel)}</h4>
-              <p class="fliess" style="margin:.5rem 0 1rem;color:var(--tinte-2)">{t(p.maengel.hinweis)}</p>
-              <ul class="liste">
-                {p.maengel.punkte[lang].map((m) => <li class="aufbau"><span></span><span>{m}</span></li>)}
-              </ul>
-            </div>
-          )}
-
-          {'themen' in p && p.themen && (
-            <div class="stapel" style="--l:.75rem">
-              <h4 class="feld-name">{t(ui.themenlandkarte)}</h4>
-              <div class="landkarte">
-                {p.themen.map((g) => (
-                  <div class="aufbau">
-                    <h5>{t(g.gruppe)} <span>{g.punkte.length}</span></h5>
-                    <ul>{g.punkte.map((x) => <li>{x}</li>)}</ul>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div class="spalten-2">
-            <div class="stapel" style="--l:.6rem">
-              <h4 class="feld-name">{t(ui.werkzeuge)}</h4>
-              <ul class="marken">{p.stack.map((s) => <li>{s}</li>)}</ul>
-            </div>
-            <div class="stapel" style="--l:.6rem">
-              {'auslieferung' in p && p.auslieferung && (
-                <>
-                  <h4 class="feld-name">{t(ui.auslieferung)}</h4>
-                  <p class="fliess" style="margin:0;font-size:.9375rem">{t(p.auslieferung)}</p>
-                </>
-              )}
-              <h4 class="feld-name">{t(ui.einordnung)}</h4>
-              <p class="fliess" style="margin:0;font-size:.9375rem">{t(p.einordnung)}</p>
-              {'repo' in p && p.repo && (
-                <p style="margin:0"><a class="messwert" style="font-size:.8125rem" href={p.repo} {...aussen}
-                  aria-label={`${p.repo.replace('https://', '')} (${t(ui.neuerTab)})`}>{p.repo.replace('https://', '')}</a></p>
-              )}
-            </div>
-          </div>
+    {/* Vier Kacheln statt vier Blaetter untereinander: wer die Seite ueberfliegt,
+        sieht alle Projekte in einem Bildschirm und oeffnet nur das, was ihn
+        interessiert. Die ganze Kachel ist klickbar, der Link selbst sitzt auf
+        dem Titel (ein Link je Kachel, sein Name ist der Projekttitel). */}
+    <section class="abschnitt huelle" aria-labelledby="h-projekte">
+      <div class="stapel" style="--l:1.5rem">
+        <div class="vorspann">
+          <h2 class="titel-abschnitt" id="h-projekte">{t(ui.projekteTitel)}</h2>
+          <p class="fliess" style="margin:0">{t(ui.projekteText)}</p>
         </div>
-      </section>
-    ))}
+        <ul class="kacheln">
+          {projekte.map((p) => (
+            <li class="kachel aufbau">
+              <div class="kachel-bild">
+                <img src={bild(p.kachel).gross} srcset={bild(p.kachel).srcset}
+                     sizes="(max-width: 46rem) 92vw, 36rem"
+                     width={bild(p.kachel).breite} height={bild(p.kachel).hoehe}
+                     alt="" loading="lazy" decoding="async" />
+              </div>
+              <div class="kachel-text">
+                <div class="kachel-zeile">
+                  <span class="blatt-nr">{p.nr}</span>
+                  <span class="kachel-vermerk">{t(p.stempel.wort)} · {p.stempel.zusatz}</span>
+                </div>
+                <h3 class="kachel-titel"><a href={projektPfad(lang, p.id)}>{t(p.titel)}</a></h3>
+                <p class="kachel-kurz">{t(p.kurz)}</p>
+                <dl class="kachel-zahlen">
+                  {p.kennzahlen.slice(0, 2).map((k) => (
+                    <div><dt>{t(k.l)}</dt><dd>{k.wert}</dd></div>
+                  ))}
+                </dl>
+                <ul class="marken kachel-marken">
+                  {p.stack.slice(0, 4).map((x) => <li>{x}</li>)}
+                  {p.stack.length > 4 && <li class="kachel-mehr">+{p.stack.length - 4}</li>}
+                </ul>
+                <span class="kachel-oeffnen" aria-hidden="true">{t(ui.blattOeffnen)} →</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
 
     <!-- ----------------------------------------------------- Fremdbefunde -->
     <section class="abschnitt huelle" aria-labelledby="h-befunde">
@@ -646,31 +329,6 @@ const eintraege: Eintrag[] = [
     </section>
   </main>
 </div>
-
-{/* Bildlupe. Ein natives <dialog>: Fokusfalle, Escape und der abdunkelnde
-    Hintergrund kommen vom Browser, nicht aus nachgebautem JavaScript. Steht
-    leer im HTML und wird erst beim Klick befuellt -- so laedt die grosse
-    Fassung nur, wenn sie jemand sehen will. */}
-<dialog class="lupe" id="lupe" aria-label={t(ui.bildAnsicht)}>
-  <form method="dialog" class="lupe-schliessen-form">
-    <button class="lupe-schliessen" type="submit" aria-label={t(ui.bildSchliessen)}>
-      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-        <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-      </svg>
-    </button>
-  </form>
-  {/* Ohne <img>-Platzhalter: register.js legt das Bild beim Oeffnen an und
-      entfernt es beim Schliessen wieder. Ein mitgeliefertes <img> ohne src
-      waere dauerhaft ein Bild, das keines laedt -- und haette die drei
-      Bildwaechter (schuss.mjs, live.mjs) gezwungen, genau diesen Fall
-      auszunehmen. Lieber den Fall vermeiden als die Pruefung abstumpfen. */}
-  <figure class="lupe-figur">
-    <figcaption>
-      <span class="lupe-bu"></span>
-      <span class="lupe-mass feld-name"></span>
-    </figcaption>
-  </figure>
-</dialog>
 
 <!-- ---------------------------------------------------------- Freigabe -->
 <footer class="freigabe">

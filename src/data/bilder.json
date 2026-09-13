@@ -1,4 +1,55 @@
 {
+  "kachel-lernrepo": {
+    "breite": 1168,
+    "hoehe": 657,
+    "seitenverhaeltnis": 1.7778,
+    "varianten": [
+      {
+        "datei": "/media/kachel-lernrepo-800.webp",
+        "breite": 800,
+        "kb": 22
+      },
+      {
+        "datei": "/media/kachel-lernrepo-1168.webp",
+        "breite": 1168,
+        "kb": 35
+      }
+    ]
+  },
+  "kachel-spesenkonfig": {
+    "breite": 1200,
+    "hoehe": 673,
+    "seitenverhaeltnis": 1.7831,
+    "varianten": [
+      {
+        "datei": "/media/kachel-spesenkonfig-800.webp",
+        "breite": 800,
+        "kb": 24
+      },
+      {
+        "datei": "/media/kachel-spesenkonfig-1200.webp",
+        "breite": 1200,
+        "kb": 42
+      }
+    ]
+  },
+  "kachel-website": {
+    "breite": 1200,
+    "hoehe": 675,
+    "seitenverhaeltnis": 1.7778,
+    "varianten": [
+      {
+        "datei": "/media/kachel-website-800.webp",
+        "breite": 800,
+        "kb": 26
+      },
+      {
+        "datei": "/media/kachel-website-1200.webp",
+        "breite": 1200,
+        "kb": 43
+      }
+    ]
+  },
   "kaiju-pausemenu": {
     "breite": 956,
     "hoehe": 751,
