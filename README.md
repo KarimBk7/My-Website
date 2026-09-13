@@ -1,7 +1,25 @@
-# Bewerbungs-Website — Abdil Karim Bakir
+# Portfolio — Abdil Karim Bakir
 
-Statische, zweisprachige Website (Deutsch unter `/`, Englisch unter `/en/`).
-Gebaut mit [Astro](https://astro.build), ausgeliefert über Cloudflare Pages.
+My application website: **https://my-website.abdilkarimb.workers.dev** ([English](https://my-website.abdilkarimb.workers.dev/en/))
+
+![Head of the site: name, photo, availability, contact](src/assets/media/kachel-website.png)
+
+The page is designed as a German *Prüfprotokoll*, an acceptance test record: every claim sits next to a measured value and its source. Four projects each have their own sheet with key figures, screenshots or a clip, and for the headline result, the code before and after the change.
+
+## Highlights
+
+- **Static and bilingual.** Built with [Astro](https://astro.build); German at `/`, English at `/en/`, one detail page per project. All text comes from a single source, `src/data/inhalt.ts`.
+- **No framework in the browser.** One JavaScript file of about 5 KB (gzip) adds the contents panel, scroll reveal, counters, an image dialog and video playback. Everything works without it.
+- **Strict Content-Security-Policy** (`script-src 'self'`), security headers from `public/_headers`, no cookies, no trackers, no third-party requests. Fonts are self-hosted.
+- **Accessible motion.** Clips play only while visible, can be paused and opened full screen, and stay still under "reduce motion".
+- **Checked in a real browser.** Playwright scripts in `tools/` test layout, contents panel, image dialog, video, links and contact, both locally and against the live site, and scan every page except the legal notice for personal data that must not be published.
+- **Hosting:** Cloudflare Worker with static assets, deployed on every push to `main`.
+
+**Stack:** Astro, TypeScript, CSS, Cloudflare Workers, sharp, ffmpeg, Playwright.
+
+---
+
+*Ab hier: Entwicklerdokumentation auf Deutsch.*
 
 ## Entwickeln
 
@@ -21,17 +39,29 @@ node tools/schuss.mjs http://127.0.0.1:4400
 ```
 
 `tools/schuss.mjs` legt Bildschirmaufnahmen unter `.impeccable/review/` ab und
-prüft in einem Durchgang: Querüberlauf auf 1440 und 390 px, genau eine `h1`,
-Alt-Texte an allen Bildern, Konsolenfehler, ob der Vorher/Nachher-Schalter die
-Werte tatsächlich umschaltet, und ob Anschrift, Telefonnummer oder
-Matrikelnummer irgendwo im gerenderten Text auftauchen.
+prüft in einem Durchgang: Querüberlauf auf 1440 und 390 px, Konsolenfehler, die
+Messtabelle auf dem Blatt M-1, und auf jeder Seite außer dem Impressum genau
+eine `h1`, das `alt`-Attribut an allen Bildern und ob Anschrift,
+Telefonnummer oder Matrikelnummer im gerenderten Text auftauchen. Die Muster
+dafür stehen in `.sperrmuster.json` (nicht im Repository).
+
+Weitere Prüfungen, alle mit `[basis-url]` als optionalem Argument:
+
+| Skript | Prüft |
+| --- | --- |
+| `tools/register-test.mjs` | Inhaltsverzeichnis auf Desktop und Telefon, Zählwerk, Seite ohne JavaScript |
+| `tools/lupe-test.mjs` | Bilddialog: Öffnen, Fokus, Schließen, Fallback ohne Skript |
+| `tools/video-test.mjs` | Video: nur im Bild, Pause, Vollbild, reduzierte Bewegung, Fehlerfälle (läuft in Edge wegen H.264) |
+| `tools/links-test.mjs` | Downloads, Außenlinks in neuem Tab mit `noopener` |
+| `tools/kontakt-test.mjs` | Kontaktknopf kopiert die Adresse und zeigt die Rückmeldung |
 
 `tools/serve-mit-headern.mjs` wendet `public/_headers` an — die Vorschau von
 Astro tut das nicht, und die Content-Security-Policy fällt sonst erst in
 Produktion auf.
 
 **Das gesamte Seitenverhalten liegt in `public/js/register.js`** —
-Inhaltsverzeichnis, Auftritt beim Scrollen, Zählwerk. Bewusst eine eigene
+Inhaltsverzeichnis, Auftritt beim Scrollen, Zählwerk, Kontaktrückmeldung,
+Bilddialog und Videosteuerung. Bewusst eine eigene
 Datei: die Richtlinie setzt `script-src 'self'` ohne `unsafe-inline`, und
 Astro bettet kleine `<script>`-Blöcke aus Komponenten von sich aus in die
 Seite ein — so ein Skript wird in Produktion stillschweigend blockiert, und
@@ -79,26 +109,36 @@ node tools/live.mjs https://my-website.abdilkarimb.workers.dev/
 
 Prüft die ausgerollte Seite statt des lokalen Builds: Statuscode, ob die
 Sicherheitskopfzeilen aus `public/_headers` wirklich ankommen, ob jedes Bild
-lädt, ob der Schalter unter der scharfen Content-Security-Policy funktioniert,
-und meldet jede Anfrage mit Fehlerstatus. Genau so ist der Bilderfehler
+lädt, ob das Skript unter der scharfen Content-Security-Policy gelaufen ist,
+ob die Messtabelle auf M-1 vollständig ist, und meldet jede Anfrage mit
+Fehlerstatus. Genau so ist der Bilderfehler
 aufgefallen.
 
 ## Aufbau
 
 ```
-src/data/inhalt.ts        Sämtliche Inhalte, zweisprachig
-src/data/bilder.json      Manifest der vorberechneten Bilder (aus tools/bilder.mjs)
-src/styles/protokoll.css  Das Gestaltungssystem
-src/components/           Die Seite
-public/dokumente/         Lebenslauf und geschwärzte Zeugnisse
-public/media/             Vorberechnete WebP-Varianten der Screenshots
-tools/                    Prüf- und Bildwerkzeuge
+src/data/inhalt.ts                 Sämtliche Inhalte, zweisprachig
+src/data/bilder.json               Manifest der vorberechneten Bilder (aus tools/bilder.mjs)
+src/data/bild.ts                   Bild- und Pfadhelfer
+src/styles/                        Das Gestaltungssystem (protokoll.css, register.css)
+src/components/Protokoll.astro     Startseite mit Projektkacheln
+src/components/Blatt.astro         Ein Projektblatt in voller Länge
+src/components/ProjektSeite.astro  Rahmen der Projektseiten
+src/components/Rechtsseite.astro   Rahmen von Impressum und Datenschutz
+src/pages/                         /, /en/, /projekte/<id>/, /en/projects/<id>/, Rechtsseiten
+public/js/register.js              Das einzige Skript
+public/dokumente/                  Lebenslauf (DE/EN) und geschwärzte Zeugnisse
+public/media/                      WebP-Varianten, Videos, Vorschaubild
+tools/                             Prüf-, Bild-, Video- und Kachelwerkzeuge
+DESIGN.md                          Gestaltungssystem als Dokument
 ```
 
 ## Regeln für diese Seite
 
-- **Keine Anschrift, keine Telefonnummer, keine Matrikelnummer** — weder im
-  Text noch in einer ausgelieferten Datei. `tools/schuss.mjs` prüft das.
+- **Keine Telefonnummer, keine Matrikelnummer** — weder im Text noch in einer
+  ausgelieferten Datei. Die Anschrift steht ausschließlich im Impressum
+  (`/impressum/`, `/en/legal-notice/`, beide mit `noindex`).
+  `tools/schuss.mjs` prüft alle übrigen Seiten.
 - **Jede Zahl trägt ihre Quelle.** Was nicht gemessen wurde, wird als
   schematisch ausgewiesen und nie als Messwert dargestellt.
 - Die veröffentlichten Zeugnisse sind geschwärzt: fremde Unterschriften,
@@ -108,13 +148,13 @@ tools/                    Prüf- und Bildwerkzeuge
 
 ## Offene Baustelle
 
-`src/components/Protokoll.astro` enthält 59 Inline-`style`-Attribute mit fest
+Die Komponenten enthalten zusammen rund 60 Inline-`style`-Attribute mit fest
 eingetragenen Schriftgrößen und Farben. Sie umgehen die Token-Ebene aus
-`src/styles/protokoll.css` und `DESIGN.md`. Der Detektor meldet das als
-54 beratende Befunde:
+`src/styles/protokoll.css` und `DESIGN.md`. Der Detektor meldet sie als
+beratende Befunde:
 
 ```bash
-"…/impeccable" detect --json src/components/Protokoll.astro src/styles/protokoll.css
+"…/impeccable" detect --json src/components/*.astro src/styles/protokoll.css
 ```
 
 Sichtbar ist davon nichts — die Werte stimmen, sie stehen nur am falschen Ort.
