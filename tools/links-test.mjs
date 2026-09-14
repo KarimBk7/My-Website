@@ -37,9 +37,9 @@ for (const i of [0, 1]) {
   await neu.close();
 }
 
-// Zeugnisse laden herunter.
+// Alle drei Zeugnisse laden herunter.
 erg.zeugnisse = [];
-for (const i of [0, 1]) {
+for (const i of [0, 1, 2]) {
   const [d] = await Promise.all([
     p.waitForEvent('download', { timeout: 8000 }),
     p.locator('.befund a[download]').nth(i).click(),

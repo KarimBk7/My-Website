@@ -596,6 +596,28 @@ public void markValidated() {
 
 export const fremdbefunde = [
   {
+    /* Zuerst, weil es die Backend-Arbeit am Spesenkonfigurator (M-1) belegt.
+       Geschwaerzt zusaetzlich zu Anschrift, Unterschrift und Bankverbindung:
+       Geburtsdatum, der Name der Unterzeichnerin, Logo und Firmenstempel
+       (Corporate Identity des Auftraggebers) sowie der Vermerk "Vertraulich". */
+    quelle: 'Projektron GmbH',
+    rolle: {
+      de: 'Teilnahmebescheinigung Studienprojekt, 14.09.2026',
+      en: 'Certificate of participation, study project, 14 September 2026',
+    },
+    zitate: {
+      de: [
+        'Er zeigte während des Studienprojekts stets ein hohes Maß an Engagement und überzeugte durch ein sehr gutes technisches Verständnis sowie durchdachte und zielführende Fragen.',
+        'Durch seine stets engagierte und konstruktive Mitarbeit trug er das Projekt maßgeblich voran und leistete einen sehr wichtigen Beitrag zu dessen erfolgreichem Verlauf.',
+      ],
+      en: [
+        'Throughout the study project he consistently showed a high level of commitment and impressed with a very good technical understanding as well as well-considered, purposeful questions.',
+        'Through his consistently committed and constructive collaboration he drove the project forward significantly and made a very important contribution to its successful course.',
+      ],
+    },
+    datei: '/dokumente/teilnahmebescheinigung-projektron-geschwaerzt.pdf',
+  },
+  {
     quelle: 'Lesto Branto GmbH',
     /* Das Dokument nennt sich selbst "Arbeitszeugnis", beschreibt aber eine
        laufende Taetigkeit ("ist seit dem 01.10.2025 ... taetig"). Der Zusatz
@@ -760,8 +782,8 @@ export const ui: Record<string, S> = {
      einen Blick erkennen, dass es Zeugnisse sind. */
   fremdbefundeTitel: { de: 'Zeugnisse & Referenzen', en: 'References' },
   fremdbefundeText: {
-    de: 'Zitate aus den Originalzeugnissen. Die verlinkten PDFs sind geschwärzt: Unterschriften, Bankverbindung des Arbeitgebers und meine Anschrift sind entfernt. Ungeschwärzte Originale reiche ich auf Anfrage nach.',
-    en: 'Quotations from the original references. The linked PDFs are redacted: signatures, the employer’s bank details and my postal address have been removed. Unredacted originals on request.',
+    de: 'Zitate aus den Originalzeugnissen. Die verlinkten PDFs sind geschwärzt: Unterschriften, Bankverbindungen und meine Anschrift sind entfernt. Ungeschwärzte Originale reiche ich auf Anfrage nach.',
+    en: 'Quotations from the original references. The linked PDFs are redacted: signatures, bank details and my postal address have been removed. Unredacted originals on request.',
   },
   /* Hiess "PDF oeffnen". Mit dem download-Attribut speichert der Browser die
      Datei, statt sie anzuzeigen -- dann darf die Beschriftung nicht "oeffnen"

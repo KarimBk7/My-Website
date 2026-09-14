@@ -792,8 +792,10 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
    Zeilenzahl nicht veraendert. */
 .befunde {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr));
-  gap: clamp(1.5rem, 4vw, 3rem);
+  /* Drei Belege nebeneinander, sobald je Spalte gut 16rem bleiben -- bei
+     24rem stand der dritte allein unter zweien und liess eine Luecke. */
+  grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+  gap: clamp(1.5rem, 3vw, 2.5rem);
   grid-template-rows: auto auto auto;
 }
 .befund {
@@ -816,7 +818,7 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 /* "QUELLE" ist kurz; die 9–15rem des Standard-Feldgitters draengen den
    Firmennamen sonst in den Umbruch. */
 .befund .gitter-reihe { grid-template-columns: auto minmax(0, 1fr); gap: 0.4rem 0.9rem; }
-.befund blockquote { margin: 0; font-size: clamp(1.0625rem, 0.95rem + 0.6vw, 1.3125rem); line-height: 1.4; font-variation-settings: 'wght' 500; text-wrap: pretty; }
+.befund blockquote { margin: 0; font-size: clamp(1.0625rem, 0.95rem + 0.35vw, 1.1875rem); line-height: 1.4; font-variation-settings: 'wght' 500; text-wrap: pretty; }
 .befund blockquote::before { content: '„'; color: var(--gruen); }
 .befund blockquote::after { content: '“'; color: var(--gruen); }
 :lang(en) .befund blockquote::before { content: '“'; }
