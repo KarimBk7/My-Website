@@ -590,6 +590,98 @@ public void markValidated() {
     },
     repo: 'https://github.com/KarimBk7/My-Website',
   },
+  /**
+   * Kleines Werkzeug, bewusst als solches ausgewiesen: es steht hier, weil es
+   * fertig ausgeliefert ist -- als Programm, das jemand ohne Python startet --
+   * und weil der Umbau vom Erzeugen aller Kombinationen zum Filtern der
+   * Wortlisten messbar ist.
+   */
+  {
+    id: 'wordle',
+    kachel: 'wordle-ergebnis',
+    nr: 'M-5',
+    stempel: { wort: { de: 'Veröffentlicht', en: 'Released' }, zusatz: 'v1.0' },
+    titel: { de: 'Wordle-Solver', en: 'Wordle Solver' },
+    kurz: {
+      de: 'Kleines Windows-Programm, das aus den Farbhinweisen einer Wordle-Runde alle noch möglichen Wörter herausfiltert — aus den echten Wortlisten des Spiels, in Python ohne eine einzige Abhängigkeit.',
+      en: 'A small Windows program that filters every word still possible from the colour hints of a Wordle round — using the game’s own word lists, written in Python without a single dependency.',
+    },
+    kopf: [
+      { l: { de: 'Rahmen', en: 'Context' }, w: { de: 'Eigenarbeit', en: 'Own work' } },
+      { l: { de: 'Zeitraum', en: 'Period' }, w: { de: 'Dez. 2025 – Sept. 2026', en: 'Dec 2025 – Sep 2026' } },
+      { l: { de: 'Meine Rolle', en: 'My role' }, w: { de: 'Gesamter Quelltext', en: 'Entire source code' } },
+      { l: { de: 'Umfang', en: 'Scope' }, w: { de: '367 Zeilen Python, drei Dateien', en: '367 lines of Python, three files' } },
+      { l: { de: 'Stand', en: 'Status' }, w: { de: 'Release v1.0 auf GitHub', en: 'Release v1.0 on GitHub' } },
+    ],
+    aufgabe: {
+      de: 'Wordle gibt nach jedem Rateversuch drei Arten von Hinweisen: richtiger Buchstabe an richtiger Stelle, richtiger Buchstabe an falscher Stelle, Buchstabe gar nicht im Wort. Diese Hinweise im Kopf zu kombinieren ist mühsam und fehleranfällig. Das Programm nimmt sie als Eingabe und zeigt genau die Wörter, die noch übrig bleiben.',
+      en: 'After each guess Wordle gives three kinds of hint: right letter in the right place, right letter in the wrong place, and letter not in the word at all. Combining those in your head is tedious and error-prone. The program takes them as input and shows exactly the words that remain.',
+    },
+    herausforderung: {
+      titel: { de: 'Erst erzeugen, dann filtern', en: 'From generating to filtering' },
+      text: {
+        de: 'Die erste Fassung baute aus den erlaubten Buchstaben alle denkbaren Zeichenketten und prüfte anschließend, welche davon in der Wortliste stehen. Das wächst exponentiell mit der Zahl der offenen Stellen. Die heutige Fassung dreht die Richtung um: Sie geht einmal über die Wortliste und prüft jedes Wort gegen die Bedingungen — feste Buchstaben, ausgeschlossene Positionen, erlaubte Buchstaben und die Häufigkeit je gelbem Buchstaben. Der Aufwand hängt damit nur noch an der Länge der Liste, nicht an der Zahl der Möglichkeiten.',
+        en: 'The first version built every conceivable string from the allowed letters and then checked which of them were in the word list. That grows exponentially with the number of open positions. The current version turns it around: it walks the word list once and tests each word against the constraints — fixed letters, excluded positions, allowed letters, and the required count per yellow letter. The work now depends only on the length of the list, not on the number of possibilities.',
+      },
+    },
+    beitrag: {
+      de: [
+        'Filterlogik über beide Wortlisten, mit Häufigkeitsprüfung je Buchstabe',
+        'Oberfläche in Tkinter: fünf Spalten für die fünf Stellen, Tastatur zum Ausschließen grauer Buchstaben',
+        'Ergebnisse nach Anzahl verschiedener Buchstaben sortiert — das nächste Raten schließt so am meisten aus',
+        'Trennung in mögliche Lösungen und nur erlaubte Rateworte',
+        'Auslieferung als Windows-Ordner mit PyInstaller, startbar ohne Python',
+      ],
+      en: [
+        'Filter logic across both word lists, including a per-letter count check',
+        'Tkinter interface: five columns for the five positions, a keyboard for excluding grey letters',
+        'Results sorted by number of distinct letters — the next guess then rules out the most',
+        'Possible solutions kept separate from words that are only accepted as guesses',
+        'Shipped as a Windows folder built with PyInstaller, runnable without Python',
+      ],
+    },
+    kennzahlen: [
+      { wert: '14.855', l: { de: 'geprüfte Wörter', en: 'words checked' }, s: { de: '2.315 Lösungen, 12.540 Rateworte', en: '2,315 solutions, 12,540 guess words' } },
+      { wert: '2', l: { de: 'ms je Suchlauf', en: 'ms per search' }, s: { de: 'Median aus 15 Läufen, Python 3.14', en: 'median of 15 runs, Python 3.14' } },
+      { wert: '367', l: { de: 'Zeilen Python', en: 'lines of Python' }, s: { de: 'Oberfläche, Solver, Einstieg', en: 'interface, solver, entry point' } },
+      { wert: '0', l: { de: 'Abhängigkeiten', en: 'dependencies' }, s: { de: 'nur die Standardbibliothek', en: 'standard library only' } },
+    ],
+    stack: ['Python 3', 'Tkinter', 'PyInstaller', 'Git'],
+    maengel: {
+      titel: { de: 'Was fehlt', en: 'What is missing' },
+      hinweis: {
+        de: 'Ein Werkzeug für mich selbst, kein Produkt. Die Grenzen stehen hier, damit niemand sie erst suchen muss.',
+        en: 'A tool I built for myself, not a product. Its limits are listed here so nobody has to go looking for them.',
+      },
+      punkte: {
+        de: [
+          'Keine automatisierten Tests; geprüft wurde von Hand gegen echte Spielrunden',
+          'Die Oberfläche liegt mit 305 Zeilen in einer einzigen Datei',
+          'Das Programm schlägt kein Wort vor, es filtert nur — eine Bewertung nach Informationsgewinn fehlt',
+          'Fertig gebaut nur für Windows, aus dem Quelltext läuft es überall',
+        ],
+        en: [
+          'No automated tests; checked by hand against real rounds of the game',
+          'The interface sits in a single 305-line file',
+          'The program suggests no word, it only filters — a ranking by information gain is missing',
+          'Pre-built for Windows only, though it runs anywhere from source',
+        ],
+      },
+    },
+    bilder: [
+      { datei: 'wordle-fenster', breit: true, bu: { de: 'Eingabefenster: je Spalte eine Stelle im Wort. Oben der grüne Buchstabe, darunter ob er noch einmal vorkommen darf, dann die gelben Buchstaben mit ihrer Häufigkeit, unten die Tastatur für die grauen.', en: 'Input window: one column per position in the word. The green letter at the top, below it whether it may occur again, then the yellow letters with their count, and at the bottom the keyboard for the grey ones.' } },
+      { datei: 'wordle-ergebnis', breit: true, bu: { de: 'Ergebnis in zwei Listen: links die Wörter, die noch die Lösung sein können, rechts die, die nur als Rateversuch erlaubt sind. Je Liste stehen Wörter mit den meisten verschiedenen Buchstaben oben.', en: 'The result in two lists: on the left the words that can still be the solution, on the right those accepted only as a guess. Within each list, words with the most distinct letters come first.' } },
+    ],
+    auslieferung: {
+      de: 'Als ZIP mit Programmordner, entpacken und starten — Python wird nicht gebraucht. Bewusst als Ordner statt als einzelne EXE: eine selbstentpackende Datei stufen Virenscanner und Browser regelmäßig als verdächtig ein.',
+      en: 'Shipped as a ZIP containing the program folder: unpack and start, no Python needed. Deliberately a folder rather than a single EXE, because a self-extracting executable is regularly flagged as suspicious by virus scanners and browsers.',
+    },
+    einordnung: {
+      de: 'Private Arbeit, der Quelltext stammt vollständig von mir. Die beiden Wortlisten sind die des Spiels und stammen aus öffentlichen Sammlungen; sie sind im Repository als Quelle genannt.',
+      en: 'Private work; the source code is entirely mine. The two word lists are the game’s own and come from public collections, credited as such in the repository.',
+    },
+    repo: 'https://github.com/KarimBk7/Wordle-Solver',
+  },
 ] as const;
 
 /* ----------------------------------------------------------- Fremdbefunde */
@@ -727,8 +819,8 @@ export const ui: Record<string, S> = {
   alleProjekte: { de: 'Alle Projekte', en: 'All projects' },
   weitereProjekte: { de: 'Weitere Projekte', en: 'More projects' },
   projekteText: {
-    de: 'Vier Arbeiten, je ein Blatt zum Aufschlagen: eine Auftragsentwicklung für ein Softwareunternehmen, ein von Grund auf selbst gebautes Spiel ohne fertige Engine, ein über anderthalb Jahre gepflegtes Lernrepository — und diese Seite selbst.',
-    en: 'Four pieces of work, one sheet each to open: a contract development for a software company, a game built from scratch without an engine, a learning repository maintained over eighteen months — and this page itself.',
+    de: 'Fünf Arbeiten, je ein Blatt zum Aufschlagen: eine Auftragsentwicklung für ein Softwareunternehmen, ein von Grund auf selbst gebautes Spiel ohne fertige Engine, ein über anderthalb Jahre gepflegtes Lernrepository, diese Seite selbst — und ein kleines Werkzeug, das fertig ausgeliefert ist.',
+    en: 'Five pieces of work, one sheet each to open: a contract development for a software company, a game built from scratch without an engine, a learning repository maintained over eighteen months, this page itself — and a small tool that is finished and shipped.',
   },
 
   /* Inhaltsverzeichnis in der linken Spalte */

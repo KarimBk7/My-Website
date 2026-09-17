@@ -61,4 +61,16 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://my-website.abdilkarimb.workers.dev/en/projects/website/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://my-website.abdilkarimb.workers.dev/projekte/website/"/>
   </url>
+  <url>
+    <loc>https://my-website.abdilkarimb.workers.dev/projekte/wordle/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://my-website.abdilkarimb.workers.dev/projekte/wordle/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://my-website.abdilkarimb.workers.dev/en/projects/wordle/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://my-website.abdilkarimb.workers.dev/projekte/wordle/"/>
+  </url>
+  <url>
+    <loc>https://my-website.abdilkarimb.workers.dev/en/projects/wordle/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://my-website.abdilkarimb.workers.dev/projekte/wordle/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://my-website.abdilkarimb.workers.dev/en/projects/wordle/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://my-website.abdilkarimb.workers.dev/projekte/wordle/"/>
+  </url>
 </urlset>

@@ -233,5 +233,39 @@
         "kb": 19
       }
     ]
+  },
+  "wordle-ergebnis": {
+    "breite": 900,
+    "hoehe": 500,
+    "seitenverhaeltnis": 1.8,
+    "varianten": [
+      {
+        "datei": "/media/wordle-ergebnis-800.webp",
+        "breite": 800,
+        "kb": 53
+      },
+      {
+        "datei": "/media/wordle-ergebnis-900.webp",
+        "breite": 900,
+        "kb": 62
+      }
+    ]
+  },
+  "wordle-fenster": {
+    "breite": 1785,
+    "hoehe": 537,
+    "seitenverhaeltnis": 3.324,
+    "varianten": [
+      {
+        "datei": "/media/wordle-fenster-800.webp",
+        "breite": 800,
+        "kb": 11
+      },
+      {
+        "datei": "/media/wordle-fenster-1600.webp",
+        "breite": 1600,
+        "kb": 27
+      }
+    ]
   }
 }

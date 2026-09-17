@@ -7,7 +7,7 @@ related_targets: ["src/pages/en/index.astro"]
 
 Scope: the bilingual application site at `/` (DE default) and `/en/` (EN mirror), with one detail page per project at `/projekte/<id>/` and `/en/projects/<id>/`, plus the legal notice and privacy pages. Visitor mode: **Persuade**.
 
-Audience: a recruiter or hiring manager in Berlin, semi-technical, skimming under a minute, often on a phone, comparing candidates in adjacent tabs. Secondary: the engineer who opens it afterwards and looks deeper — including the public repository the page links to. Action: send an email; secondary, download the CV. Proof: four projects with measured outcomes (the fourth is the site itself), the code of the change behind the headline number, two employment references. Constraints: static, served as a Cloudflare Worker with static assets; contact surface email, GitHub and LinkedIn; no phone number or postal address anywhere in the artifact or the files it serves; grades and the transcript never published; Projektron's corporate identity assets never republished.
+Audience: a recruiter or hiring manager in Berlin, semi-technical, skimming under a minute, often on a phone, comparing candidates in adjacent tabs. Secondary: the engineer who opens it afterwards and looks deeper — including the public repository the page links to. Action: send an email; secondary, download the CV. Proof: five projects with measured outcomes (the fourth is the site itself, the fifth a small shipped tool), the code of the change behind the headline number, two employment references. Constraints: static, served as a Cloudflare Worker with static assets; contact surface email, GitHub and LinkedIn; no phone number or postal address anywhere in the artifact or the files it serves; grades and the transcript never published; Projektron's corporate identity assets never republished.
 
 ## Direction contract
 
@@ -29,7 +29,7 @@ Changes to the original contract, each on the user's decision unless noted. Reco
 
 - **The PRÜFLAST instrument was removed** (user, September 2026). The first viewport no longer carries a load slider or a two-trace curve; the measurements moved, shortened, into the measurement sheet they came from, with the measuring method named. The "one live control remaps the whole page" raise is therefore retired.
 - **The "working with AI agents" section was removed** (user). The site's own sheet now notes in one sentence that it was built in dialogue with an AI agent; there is no method section.
-- **A fourth project, the site itself, was added**, with its repository linked.
+- **A fourth project, the site itself, was added**, with its repository linked; a fifth (Wordle-Solver, a small shipped Python tool) followed in September 2026.
 - **The page gained behaviour and motion** (user asked for more energy and for interactive projects): a register column, the head writing itself on load, rows filling in on scroll, counters, a full-size plate dialog and two clips: the Kaiju gameplay and the Spesenkonfigurator in use, which replaced the static main-window plate. Recordings are cropped to the application window; the Projektron logo is painted over and the operating system file dialog is cut. The page stays complete without script.
 - **A photograph now exists** and sits in the head as a form field. The earlier note that none exists is obsolete.
 - **The continuous vertical rule** is hidden while the register column is open, where the column's edge takes its place.
