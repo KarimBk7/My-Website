@@ -207,7 +207,7 @@ export const stationen: { zeit: S; rolle: S; ort: string; text: S }[] = [
     },
   },
   {
-    zeit: { de: '04/2026 – 07/2026', en: '04/2026 – 07/2026' },
+    zeit: { de: '04/2026 – 08/2026', en: '04/2026 – 08/2026' },
     rolle: { de: 'Backend Architect', en: 'Backend Architect' },
     ort: 'Projektron GmbH · Softwareprojekt FU Berlin',
     text: {
@@ -223,6 +223,32 @@ export const stationen: { zeit: S; rolle: S; ort: string; text: S }[] = [
       de: 'Prototyp für die automatische Online-Aktualisierung der Laborsoftware SEPView 7. Einarbeitung in das WiX Toolset, Analyse und Behebung von Altlasten, Auslieferung eines lauffähigen Prototyps in C# und .NET.',
       en: 'Prototype for the automatic online update of the SEPView 7 laboratory software. Learned the WiX Toolset, analysed and fixed legacy issues, delivered a working prototype in C# and .NET.',
     },
+  },
+];
+
+/* Drei Messwerte fuer den Kopf der Startseite. Absichtlich aus drei
+   verschiedenen Blaettern, und jeder fuehrt zu seinem Blatt: wer nur einen
+   Bildschirm liest, soll trotzdem die staerkste Zahl gesehen haben. Die Werte
+   stehen so auch auf ihrem Blatt -- wird dort einer geaendert, gehoert er hier
+   mitgeaendert. */
+export const kopfzahlen: { wert: string; l: S; s: S; ziel: string }[] = [
+  {
+    wert: '34',
+    l: { de: 'mal schnellere Prüfung', en: 'times faster validation' },
+    s: { de: 'bei 10.000 Zeilen, Spesenkonfigurator', en: 'at 10,000 rows, expense configurator' },
+    ziel: 'spesenkonfigurator',
+  },
+  {
+    wert: '67/67',
+    l: { de: 'abgenommene Aufgaben', en: 'assignments accepted' },
+    s: { de: 'Programmierpraktikum der FU Berlin', en: 'programming practicum, FU Berlin' },
+    ziel: 'lernrepo',
+  },
+  {
+    wert: '145',
+    l: { de: 'ms Antwortzeit', en: 'ms response time' },
+    s: { de: 'dieser Seite, Median aus fünf Abrufen', en: 'of this page, median of five requests' },
+    ziel: 'website',
   },
 ];
 
@@ -249,7 +275,7 @@ export const projekte = [
     kopf: [
       { l: { de: 'Auftraggeber', en: 'Client' }, w: { de: 'Projektron GmbH', en: 'Projektron GmbH' } },
       { l: { de: 'Rahmen', en: 'Context' }, w: { de: 'Softwareprojekt, FU Berlin', en: 'Software project, FU Berlin' } },
-      { l: { de: 'Zeitraum', en: 'Period' }, w: { de: 'April – Juli 2026', en: 'April – July 2026' } },
+      { l: { de: 'Zeitraum', en: 'Period' }, w: { de: '13.04. – 01.08.2026', en: '13 Apr – 1 Aug 2026' } },
       { l: { de: 'Team', en: 'Team' }, w: { de: '6 Personen', en: '6 people' } },
       { l: { de: 'Meine Rolle', en: 'My role' }, w: { de: 'Backend Architect', en: 'Backend Architect' } },
     ],
@@ -379,8 +405,8 @@ public void markValidated() {
     stempel: { wort: { de: 'Abgegeben', en: 'Submitted' }, zusatz: '12/2022' },
     titel: { de: 'Kaiju Adventure', en: 'Kaiju Adventure' },
     kurz: {
-      de: 'Vollständiges 2D-Action-Adventure in Java, bewusst ohne Spiel-Engine gebaut: eigene Spielschleife, eigene Kollisionserkennung, kachelbasierte Welt und Spielstände in einer MySQL-Datenbank.',
-      en: 'A complete 2D action adventure in Java, deliberately built without a game engine: own game loop, own collision detection, tile-based world and save games in a MySQL database.',
+      de: 'Vollständiges 2D-Action-Adventure in Java, bewusst ohne Spiel-Engine gebaut: eigene Spielschleife, eigene Kollisionserkennung, kachelbasierte Welt und Spielstände als Datei, wahlweise in einer MySQL-Datenbank.',
+      en: 'A complete 2D action adventure in Java, deliberately built without a game engine: own game loop, own collision detection, tile-based world and save games in a file, or optionally in a MySQL database.',
     },
     kopf: [
       { l: { de: 'Rahmen', en: 'Context' }, w: { de: 'Abiturprojekt', en: 'Abitur project' } },
@@ -406,7 +432,7 @@ public void markValidated() {
         'Spielschleife mit Delta-Zeit für konstante Bildrate',
         'Kollisionserkennung gegen Kacheln, Objekte und Einheiten',
         'Zustandsautomat über elf Spielzustände',
-        'Spielstände in einer MySQL-Datenbank über JDBC',
+        'Spielstände über JDBC in MySQL, später auf lokale Dateien als Standard umgestellt',
         'Auslieferung als Windows-Programm mit eigener Java-Laufzeit',
       ],
       en: [
@@ -414,7 +440,7 @@ public void markValidated() {
         'Game loop with delta time for a constant frame rate',
         'Collision detection against tiles, objects and units',
         'State machine across eleven game states',
-        'Save games in a MySQL database via JDBC',
+        'Save games via JDBC in MySQL, later switched to local files as the default',
         'Shipped as a Windows program with its own Java runtime',
       ],
     },
@@ -429,8 +455,8 @@ public void markValidated() {
     maengel: {
       titel: { de: 'Mängelliste, von mir selbst geführt', en: 'Defect list, kept by myself' },
       hinweis: {
-        de: 'Das Projekt liegt vier Jahre zurück und war mein erstes größeres Stück Software. Diese Liste steht hier, weil sie zeigt, wie ich meinen eigenen Code heute lese.',
-        en: 'The project is four years old and was my first larger piece of software. This list is here because it shows how I read my own code today.',
+        de: 'Das Projekt ist von 2022 und war mein erstes größeres Stück Software. Diese Liste steht hier, weil sie zeigt, wie ich meinen eigenen Code heute lese.',
+        en: 'The project is from 2022 and was my first larger piece of software. This list is here because it shows how I read my own code today.',
       },
       punkte: {
         de: [

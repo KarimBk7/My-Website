@@ -106,7 +106,10 @@ const b = await page.evaluate((muster) => {
 // Nur Auffaelliges melden, sonst wird die Ausgabe zur Tapete.
 const auffaellig = Object.entries(b).filter(([k, v]) =>
   (k === 'querUeberlauf' && v) || (k === 'h1' && v !== 1) || (['bilderOhneAlt', 'leereLinks'].includes(k) && v) ||
-  (k === 'privateDaten' && (!Array.isArray(v) || v.length)));
+  // Fehlt .sperrmuster.json (etwa in der Werkbank), steht hier "nicht
+  // geprueft" statt einer Liste. Das ist kein Befund -- die Warnung dazu
+  // steht schon oben auf der Fehlerausgabe.
+  (k === 'privateDaten' && Array.isArray(v) && v.length));
 befund[pfad] = auffaellig.length ? Object.fromEntries(auffaellig) : 'ok';
 }
 await page.goto(BASIS + '/projekte/spesenkonfigurator/', { waitUntil: 'networkidle' });

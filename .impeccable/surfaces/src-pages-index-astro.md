@@ -37,6 +37,9 @@ Changes to the original contract, each on the user's decision unless noted. Reco
 - **Projects moved to their own pages** (user, September 2026: scrolling through four full sheets was too much work). The start page shows four tiles; each opens its sheet on its own URL, with previous/next and contact beneath. The register no longer lists the sheets. Measurements, clips and the plate dialog now live on the project pages.
 - **Legal notice and privacy policy added** (user). The postal address appears on the legal notice pages only, which carry `noindex`.
 
+- **A measured-value band was added under the metadata strip** (September 2026): three numbers from three sheets, each linking to its own sheet, so a visitor who never scrolls has still seen the strongest measurement.
+- **A 404 page exists** in the protocol style, one page for both languages, marked `noindex`.
+
 ## Unresolved
 
 - Custom domain not chosen; the `workers.dev` subdomain is printed in both CVs, the LinkedIn banner and the link preview until then.

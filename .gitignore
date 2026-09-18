@@ -4,6 +4,10 @@
 # ... ausser dieser Datei selbst, sonst laesst sie sich nicht committen
 !.gitignore
 
+# Die Werkbank gehoert ins Repository, sonst laeuft die Pruefung bei GitHub nie.
+!.github/
+!.github/**
+
 # Persoenliche Unterlagen: Lebenslauf, Zeugnisse, Portfolio, Projektmaterial.
 # Durch ".*" schon abgedeckt - hier bewusst nochmal explizit, damit diese
 # Daten auch dann draussen bleiben, wenn die Regel oben mal geaendert wird.

@@ -1,0 +1,49 @@
+---
+import Basis from '../layouts/Basis.astro';
+import { person, ui } from '../data/inhalt';
+
+/* Eine einzige 404-Seite fuer beide Sprachfassungen: welche Sprache der
+   Besucher wollte, weiss man bei einer falschen Adresse nicht sicher, und
+   zwei Fehlerseiten waeren zwei Stellen, die man pflegen muss. Deshalb steht
+   der Hinweis hier auf Deutsch und auf Englisch untereinander.
+   Damit Cloudflare diese Seite ausliefert, muss beim Worker unter
+   Settings -> Assets die "Not Found handling" auf "404 page" stehen. */
+const mailto = `mailto:${person.email}?subject=${encodeURIComponent(ui.mailBetreff.de)}`;
+---
+
+<Basis lang="de" pfade={{ de: '/404.html', en: '/404.html' }} noindex
+       titel="Seite nicht gefunden — Abdil Karim Bakir"
+       beschreibung="Diese Adresse gibt es auf dieser Seite nicht.">
+  <div class="huelle recht-kopf">
+    <a href="/">← {person.name}</a>
+  </div>
+
+  <main id="inhalt" class="huelle abschnitt recht">
+    <p class="feld-name">Fehler 404 · Error 404</p>
+    <h1 class="titel-abschnitt">Prüfpunkt nicht gefunden</h1>
+    <p class="fliess">Diese Adresse gibt es hier nicht. Möglich, dass der Link alt ist oder sich ein Tippfehler eingeschlichen hat.</p>
+    <p class="fliess" lang="en">This address does not exist here. The link may be outdated, or it may contain a typo.</p>
+
+    <div class="gitter">
+      <div class="gitter-reihe">
+        <span class="feld-name">Start</span>
+        <span><a href="/">Bewerbungsseite</a> · <a href="/en/" hreflang="en">Application site (English)</a></span>
+      </div>
+      <div class="gitter-reihe">
+        <span class="feld-name">Projekte</span>
+        <span><a href="/#h-projekte">Alle Blätter</a> · <a href="/en/#h-projekte" hreflang="en">All sheets</a></span>
+      </div>
+      <div class="gitter-reihe">
+        <span class="feld-name">Kontakt</span>
+        <span><a href={mailto}>{person.email}</a></span>
+      </div>
+    </div>
+  </main>
+
+  <div class="huelle fuss">
+    <p class="rechtslinks">
+      <a href="/impressum/">{ui.impressum.de}</a>
+      <a href="/datenschutz/">{ui.datenschutz.de}</a>
+    </p>
+  </div>
+</Basis>

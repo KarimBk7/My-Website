@@ -344,6 +344,47 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
 .streifen-feld { display: flex; align-items: baseline; gap: 0.5rem; padding-block: 0.25rem; }
 .streifen-feld .wert { font-family: var(--mono); font-size: 0.8125rem; }
 
+/* Istwert-Band direkt unter dem Metadatenstreifen: die drei Zahlen, die ein
+   Besucher gesehen haben soll, auch wenn er nicht scrollt. Jede ist ein Link
+   auf ihr Blatt; beim Zeigen wird der Grund weiss und eine gruene Linie zieht
+   sich ueber die Zelle, wie bei den Arbeitsfeldern. */
+.istwerte { border-bottom: var(--spur) solid var(--haar); background: var(--papier); }
+.istwerte-innen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+}
+/* Trennlinien als Rahmen der Zellen, nicht als Rasterluecke ueber einem
+   gefaerbten Grund: der Grund schien sonst in der Seitenpolsterung durch. */
+.istwert + .istwert { border-left: var(--spur) solid var(--haar); }
+@media (max-width: 45rem) {
+  .istwert + .istwert { border-left: 0; border-top: var(--spur) solid var(--haar); }
+}
+.istwert {
+  position: relative;
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.85rem clamp(0.75rem, 2vw, 1.25rem) 0.95rem;
+  background: var(--papier);
+  text-decoration: none;
+  transition: background var(--takt) var(--kurve);
+}
+.istwert::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--gruen); transform: scaleX(0); transform-origin: left;
+  transition: transform 0.45s var(--kurve);
+}
+.istwert:hover { background: #fff; }
+.istwert:hover::before { transform: scaleX(1); }
+.istwert-zahl {
+  font-family: var(--mono);
+  font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2.1rem);
+  font-weight: 600; line-height: 1; letter-spacing: -0.02em;
+  color: var(--gruen-tief);
+}
+.istwert-l { font-size: 0.9375rem; font-variation-settings: 'wght' 620; margin-top: 0.15rem; }
+.istwert-s { font-size: 0.8125rem; color: var(--tinte-3); }
+
 .sprachwahl { display: flex; gap: 0.35rem; margin-left: auto; align-items: baseline; }
 .sprachwahl a {
   font-family: var(--mono);
@@ -890,6 +931,7 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
   /* Bedienelemente haben auf Papier nichts zu suchen. */
   .sprachwahl, .sprung, .register, .register-griff, .register-schleier,
   .klappe, .kontakt-hinweis, .lupe-marke, .lupe, .video-knopf { display: none !important; }
+  .istwert { border: 1px solid #999; margin: -0.5px; }
   .rumpf { grid-template-columns: minmax(0, 1fr) !important; }
   .rumpf::before { display: none !important; }
 

@@ -292,6 +292,9 @@ Links that navigate or download are anchors; controls that change state on the p
 ### Work Fields
 Four cells in the 1px-gap grid, each opened by a drawn line symbol in a 2.75rem box with a 2px inspection-green border on green wash — code brackets, a browser window, a cloud, a chip, stroked at 1.7 on a 24 grid with square caps and mitred joins, never an icon font — and the field's running number in mono ink 3 opposite. On hover the cell turns white, a 2px green rule draws across its top edge from the left, the symbol box fills green with a white stroke and the number turns green. Nothing moves and nothing casts a shadow.
 
+### Measured-Value Band
+Directly under the metadata strip, before anything needs scrolling: three measured values on paper ground, each in mono at `clamp(1.5rem, 1.2rem + 1.1vw, 2.1rem)` in deep green over a 0.9375rem label and a 0.8125rem source line, separated by 1px hairlines (which become horizontal below 45rem). Each cell is a link to the sheet the number comes from; on hover the cell turns white and a 2px green rule draws across its top edge from the left. The numbers are deliberately taken from three different sheets.
+
 ### Project Tile
 The start page's door to a sheet, described under Layout. Tile plates are real captures, never illustrations: a frame from the project's own clip (M-1 at 9 s, M-2 its poster), a crop of the site itself (M-3 its key figures and topic map, M-4 the protocol head), or the program's own window (M-5), rendered by `tools/kacheln.mjs`. Tile images carry `alt=""`; the title link names the tile.
 

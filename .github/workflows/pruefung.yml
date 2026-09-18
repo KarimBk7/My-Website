@@ -1,0 +1,48 @@
+# Baut die Seite und laesst die Pruefskripte gegen den gebauten Stand laufen.
+#
+# Nicht dabei: tools/video-test.mjs. Es braucht Edge wegen des H.264-Decoders,
+# den die Linux-Laeufer nicht haben -- das bleibt eine Pruefung von Hand.
+# Ebenso fehlt hier .sperrmuster.json (gitignoriert); die Suche nach privaten
+# Daten laeuft deshalb nur lokal, schuss.mjs sagt das in seiner Ausgabe.
+name: Pruefung
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.16.0
+          cache: npm
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      - name: Bauen
+        run: npm run build
+
+      - name: Seite ausliefern (mit den echten Kopfzeilen)
+        run: |
+          node tools/serve-mit-headern.mjs 4400 &
+          timeout 30 bash -c 'until curl -sf -o /dev/null http://127.0.0.1:4400/; do sleep 0.5; done'
+
+      - name: Pruefen
+        run: node tools/pruefen.mjs http://127.0.0.1:4400
+
+      - name: Bildschirmaufnahmen sichern
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aufnahmen
+          path: .impeccable/review/
+          if-no-files-found: ignore
+          retention-days: 7

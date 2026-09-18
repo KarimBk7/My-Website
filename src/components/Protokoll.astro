@@ -1,6 +1,6 @@
 ---
 import {
-  person, stammdaten, stationen, arbeitsfelder, projekte,
+  person, stammdaten, stationen, arbeitsfelder, projekte, kopfzahlen,
   fremdbefunde, ui, type Lang,
 } from '../data/inhalt';
 
@@ -157,6 +157,21 @@ const eintraege = [
       <a href="/" hreflang="de" aria-current={lang === 'de' ? 'true' : undefined}>DE</a>
       <a href="/en/" hreflang="en" aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
     </nav>
+  </div>
+</div>
+
+{/* Drei gemessene Werte, bevor irgendjemand scrollen muss. Jede Zahl ist ein
+    Link auf das Blatt, aus dem sie stammt -- eine Zahl ohne erreichbare Quelle
+    waere genau das, was diese Seite anderen vorwirft. */}
+<div class="istwerte">
+  <div class="huelle istwerte-innen">
+    {kopfzahlen.map((k) => (
+      <a class="istwert" href={projektPfad(lang, k.ziel)}>
+        <span class="istwert-zahl">{k.wert}</span>
+        <span class="istwert-l">{t(k.l)}</span>
+        <span class="istwert-s">{t(k.s)}</span>
+      </a>
+    ))}
   </div>
 </div>
 
