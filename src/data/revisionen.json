@@ -1,8 +1,13 @@
 {
   "stand": "2026-09-19",
   "seit": "2026-09-09",
-  "gesamt": 60,
+  "gesamt": 61,
   "eintraege": [
+    {
+      "kurz": "63b9fb9",
+      "datum": "2026-09-19",
+      "betreff": "Sitemap aus den Inhalten, Barrierefreiheitspruefung, Download, Revisionsstand"
+    },
     {
       "kurz": "0817350",
       "datum": "2026-09-19",
@@ -297,11 +302,6 @@
       "kurz": "131afcb",
       "datum": "2026-09-09",
       "betreff": "Aufnahmewerkzeug: Bilder vor der Ganzseitenaufnahme laden"
-    },
-    {
-      "kurz": "3ff1248",
-      "datum": "2026-09-09",
-      "betreff": "Bewerbungs-Website als zweisprachiges Prüfprotokoll"
     }
   ]
 }
