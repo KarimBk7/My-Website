@@ -973,3 +973,44 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 .recht a { overflow-wrap: anywhere; }
 .rechtslinks { display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; margin: 0; }
 * + .rechtslinks { margin-top: 0.6rem; }
+
+/* --- Wordle-Demo (Blatt M-5) -------------------------------------------- */
+/* Die Kacheln sehen aus wie im Spiel, alles andere bleibt Protokoll: rechte
+   Winkel, Hauchlinien, Mono fuer die Woerter. Die drei Farben sind die des
+   Spiels und nicht die der Seite -- hier zaehlt, dass man sie wiedererkennt. */
+.wordle { display: grid; gap: 1.1rem; }
+.wd-eingabe { display: grid; gap: 0.5rem; }
+.wd-zeile { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
+.wd-wort {
+  width: 9rem; padding: 0.45rem 0.6rem;
+  font-family: var(--mono); font-size: 1rem; letter-spacing: 0.12em;
+  background: #fff; border: var(--spur) solid var(--haar-stark); color: var(--tinte);
+}
+.wd-wort:focus-visible { outline: 2px solid var(--gruen); outline-offset: 1px; }
+.wd-marken { display: flex; gap: 0.3rem; }
+.wd-marke {
+  width: 2.1rem; height: 2.1rem;
+  font-family: var(--mono); font-size: 1rem; text-transform: uppercase;
+  border: var(--spur) solid var(--haar-stark); background: var(--papier); color: var(--tinte);
+  cursor: pointer; transition: background var(--takt) var(--kurve), color var(--takt) var(--kurve);
+}
+.wd-marke:disabled { cursor: default; color: var(--tinte-3); background: var(--papier-tief); }
+.wd-marke[data-farbe='y']:not(:disabled) { background: #c9b458; border-color: #c9b458; color: #fff; }
+.wd-marke[data-farbe='g']:not(:disabled) { background: #6aaa64; border-color: #6aaa64; color: #fff; }
+.wd-marke[data-farbe='x']:not(:disabled) { background: #787c7e; border-color: #787c7e; color: #fff; }
+.wd-leiste { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; }
+.wd-start { background: var(--papier); }
+.wd-legende { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.9rem; font-size: 0.8125rem; color: var(--tinte-3); }
+.wd-punkt { width: 0.7rem; height: 0.7rem; display: inline-block; }
+.wd-punkt[data-farbe='g'] { background: #6aaa64; }
+.wd-punkt[data-farbe='y'] { background: #c9b458; }
+.wd-punkt[data-farbe='x'] { background: #787c7e; }
+.wd-ausgabe { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)); gap: 1.25rem 2rem; }
+.wd-liste h3 { font-size: 0.9375rem; font-variation-settings: 'wght' 620; padding-bottom: 0.4rem; border-bottom: 2px solid var(--tinte); }
+.wd-liste .wd-zahl { font-family: var(--mono); color: var(--gruen); }
+.wd-liste ul {
+  margin: 0.6rem 0 0; padding: 0; list-style: none;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(4.5rem, 1fr)); gap: 0.15rem 0.6rem;
+  font-family: var(--mono); font-size: 0.8125rem;
+}
+.wd-hinweis { margin: 0.6rem 0 0; font-size: 0.8125rem; color: var(--tinte-3); }

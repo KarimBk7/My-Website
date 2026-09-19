@@ -1,0 +1,50 @@
+---
+import { ui, type Lang } from '../data/inhalt';
+
+/* Der Solver zum Ausprobieren, auf dem Blatt M-5. Ohne Skript bleibt der
+   Kasten versteckt und an seiner Stelle steht der Hinweis auf den Download --
+   ein Formular, das nichts tut, waere schlimmer als keins.
+   Die Texte reist der Kasten als data-Attribut mit: die Richtlinie verbietet
+   eingebettete Skripte, also kann das Skript sie nicht im Quelltext stehen
+   haben, und zweisprachig sollen sie trotzdem sein. */
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = (s: Record<Lang, string>) => s[lang];
+
+const texte = {
+  wortZeile: t(ui.wdWortZeile),
+  platzhalter: t(ui.wdPlatzhalter),
+  wechseln: t(ui.wdWechseln),
+  leer: t(ui.wdLeer),
+  farben: { x: t(ui.wdGrau), y: t(ui.wdGelb), g: t(ui.wdGruen) },
+  start: t(ui.wdStart),
+  lade: t(ui.wdLade),
+  fehler: t(ui.wdFehler),
+  leerText: t(ui.wdLeerText),
+  loesungen: t(ui.wdLoesungen),
+  rateworte: t(ui.wdRateworte),
+  von: t(ui.wdVon),
+  nichts: t(ui.wdNichts),
+  weitere: t(ui.wdWeitere),
+};
+---
+
+<div class="stapel" style="--l:.75rem">
+  <h2 class="feld-name">{t(ui.wdTitel)}</h2>
+  <p class="fliess" style="margin:0">{t(ui.wdText)}</p>
+
+  <p class="fliess wd-ohne" style="margin:0" data-wordle-ohne>{t(ui.wdOhneSkript)}</p>
+
+  <div class="wordle" data-wordle data-texte={JSON.stringify(texte)} hidden>
+    <div class="wd-eingabe" data-wordle-eingabe></div>
+    <div class="wd-leiste">
+      <button class="knopf knopf--rand wd-start" type="button" data-wordle-start>{t(ui.wdStart)}</button>
+      <p class="wd-legende">
+        <span class="wd-punkt" data-farbe="g"></span>{t(ui.wdGruen)}
+        <span class="wd-punkt" data-farbe="y"></span>{t(ui.wdGelb)}
+        <span class="wd-punkt" data-farbe="x"></span>{t(ui.wdGrau)}
+      </p>
+    </div>
+    <div class="wd-ausgabe" data-wordle-ausgabe aria-live="polite"></div>
+  </div>
+</div>

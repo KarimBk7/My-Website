@@ -16,7 +16,7 @@ import { promisify } from 'node:util';
 
 const lauf = promisify(execFile);
 const BASIS = process.argv[2] ?? 'http://127.0.0.1:4400';
-const SKRIPTE = ['schuss.mjs', 'register-test.mjs', 'lupe-test.mjs', 'links-test.mjs', 'kontakt-test.mjs'];
+const SKRIPTE = ['schuss.mjs', 'register-test.mjs', 'lupe-test.mjs', 'links-test.mjs', 'kontakt-test.mjs', 'wordle-test.mjs'];
 
 /** Sammelt alles, was in einer Ausgabe nach Fehler aussieht. */
 function befunde(wert, pfad = '') {
@@ -34,7 +34,8 @@ function befunde(wert, pfad = '') {
   const name = pfad.split('.').pop();
   if (name === 'ueberlauf' && wert === true) return [`${pfad}: Querueberlauf`];
   if (name === 'querUeberlauf' && wert === true) return [`${pfad}: Querueberlauf`];
-  if (name === 'stimmt' && wert === false) return [`${pfad}: Zaehlwerk stimmt nicht`];
+  if (name === 'stimmt' && wert === false) return [`${pfad}: stimmt nicht`];
+  if (name === 'listenErstBeiBedarf' && wert === false) return [`${pfad}: Wortlisten werden ungefragt geladen`];
   // schuss.mjs meldet je Seite entweder "ok" oder ein Objekt mit dem Befund
   if (pfad.startsWith('befund.') && typeof wert === 'string' && wert !== 'ok') return [`${pfad}: ${wert}`];
   return [];

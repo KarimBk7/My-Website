@@ -1,6 +1,7 @@
 ---
 import { projekte, pruefstand, ui, type Lang } from '../data/inhalt';
 import { bild } from '../data/bild';
+import WordleDemo from './WordleDemo.astro';
 
 /* Ein Projektblatt in voller Laenge. Steht auf seiner eigenen Seite
    (src/pages/projekte/[id].astro); die Startseite zeigt nur die Kachel. */
@@ -276,6 +277,8 @@ const kennzahl = (s: string) => {
         ))}
       </div>
     )}
+
+    {p.id === 'wordle' && <WordleDemo lang={lang} />}
 
     {'maengel' in p && p.maengel && (
       <div class="maengel">

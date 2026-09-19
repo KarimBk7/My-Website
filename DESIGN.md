@@ -295,6 +295,9 @@ Four cells in the 1px-gap grid, each opened by a drawn line symbol in a 2.75rem 
 ### Measured-Value Band
 Directly under the metadata strip, before anything needs scrolling: three measured values on paper ground, each in mono at `clamp(1.5rem, 1.2rem + 1.1vw, 2.1rem)` in deep green over a 0.9375rem label and a 0.8125rem source line, separated by 1px hairlines (which become horizontal below 45rem). Each cell is a link to the sheet the number comes from; on hover the cell turns white and a 2px green rule draws across its top edge from the left. The numbers are deliberately taken from three different sheets.
 
+### Solver Demo (sheet M-5)
+The one interactive instrument on the site: six rows, each a mono text field for the guessed word next to five 2.1rem tiles that cycle grey → yellow → green on click, in the game's own colours (#787c7e, #c9b458, #6aaa64) rather than the page's, because recognising them is the point. Results appear below in two hairline-headed lists of mono words, each headed by its count in green over the size of the full list. Everything else stays protocol: right angles, hairlines, no shadow. Without script the block stays `hidden` and a sentence points to the download instead; the word lists (90 KB) are fetched only when someone uses it.
+
 ### Project Tile
 The start page's door to a sheet, described under Layout. Tile plates are real captures, never illustrations: a frame from the project's own clip (M-1 at 9 s, M-2 its poster), a crop of the site itself (M-3 its key figures and topic map, M-4 the protocol head), or the program's own window (M-5), rendered by `tools/kacheln.mjs`. Tile images carry `alt=""`; the title link names the tile.
 

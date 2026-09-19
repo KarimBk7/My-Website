@@ -564,8 +564,8 @@ public void markValidated() {
     stempel: { wort: { de: 'Veröffentlicht', en: 'Published' }, zusatz: '09/2026' },
     titel: { de: 'Diese Seite', en: 'This page' },
     kurz: {
-      de: 'Die Bewerbungsseite, die Sie gerade lesen: statisch erzeugt, zweisprachig, ohne Tracker und ohne Cookies, ausgeliefert als Cloudflare Worker. Ein einziges JavaScript von 5,2 KB, kein Framework im Browser.',
-      en: 'The application site you are reading: statically generated, bilingual, no trackers and no cookies, served as a Cloudflare Worker. A single 5.2 KB JavaScript file, no framework in the browser.',
+      de: 'Die Bewerbungsseite, die Sie gerade lesen: statisch erzeugt, zweisprachig, ohne Tracker und ohne Cookies, ausgeliefert als Cloudflare Worker. Ein Skript von 5,2 KB je Seite, kein Framework im Browser; auf dem Blatt M-5 kommt der Solver als zweites Skript dazu.',
+      en: 'The application site you are reading: statically generated, bilingual, no trackers and no cookies, served as a Cloudflare Worker. One 5.2 KB script per page, no framework in the browser; sheet M-5 adds the solver as a second script.',
     },
     kopf: [
       { l: { de: 'Rahmen', en: 'Context' }, w: { de: 'Eigenarbeit', en: 'Own work' } },
@@ -605,7 +605,7 @@ public void markValidated() {
     },
     kennzahlen: [
       { wert: '145', l: { de: 'ms Antwortzeit', en: 'ms response time' }, s: { de: 'Median aus fünf Abrufen', en: 'median of five requests' } },
-      { wert: '5,2', l: { de: 'KB JavaScript', en: 'KB of JavaScript' }, s: { de: 'eine Datei, gzip, kein Framework', en: 'one file, gzipped, no framework' } },
+      { wert: '5,2', l: { de: 'KB JavaScript', en: 'KB of JavaScript' }, s: { de: 'je Seite eine Datei, gzip, kein Framework', en: 'one file per page, gzipped, no framework' } },
       { wert: '0', l: { de: 'Tracker und Cookies', en: 'trackers and cookies' }, s: { de: 'keine fremden Server', en: 'no third-party servers' } },
       { wert: '2', l: { de: 'Sprachen', en: 'languages' }, s: { de: 'vollständig, aus einer Quelle', en: 'complete, from one source' } },
     ],
@@ -925,6 +925,35 @@ export const ui: Record<string, S> = {
     en: 'Computer science student at FU Berlin. Backend at the core, plus web, cloud infrastructure and hardware. Four documented projects, measured results, two employment references.',
   },
   skipLink: { de: 'Zum Inhalt springen', en: 'Skip to content' },
+
+  /* Der Solver zum Ausprobieren auf Blatt M-5. Die Texte gehen als
+     data-Attribut an public/js/wordle.js -- eingebettete Skripte verbietet
+     die Richtlinie, zweisprachig soll es trotzdem sein. */
+  wdTitel: { de: 'Selbst ausprobieren', en: 'Try it here' },
+  wdText: {
+    de: 'Dieselbe Filterung wie im Programm, hier im Browser. Tragen Sie Ihr geratenes Wort ein und klicken Sie jeden Buchstaben auf die Farbe, die das Spiel gezeigt hat. Die Bedingungen leitet die Seite daraus ab, auch wie oft ein Buchstabe vorkommen darf.',
+    en: 'The same filtering as in the program, here in the browser. Enter the word you guessed and click each letter to the colour the game showed. The page derives the constraints from that, including how often a letter may occur.',
+  },
+  wdOhneSkript: {
+    de: 'Zum Ausprobieren im Browser wird JavaScript gebraucht. Ohne geht es mit dem Programm: der Link zum Repository steht unten, die Windows-Fassung liegt dort als Download.',
+    en: 'Trying it in the browser needs JavaScript. Without it, use the program: the repository link is below, and the Windows build is available there as a download.',
+  },
+  wdWortZeile: { de: 'Geratenes Wort, Zeile', en: 'Guessed word, row' },
+  wdPlatzhalter: { de: 'z. B. slate', en: 'e.g. slate' },
+  wdWechseln: { de: 'Farbe wechseln', en: 'change colour' },
+  wdLeer: { de: 'Noch kein Buchstabe', en: 'No letter yet' },
+  wdGrau: { de: 'grau, nicht im Wort', en: 'grey, not in the word' },
+  wdGelb: { de: 'gelb, falsche Stelle', en: 'yellow, wrong position' },
+  wdGruen: { de: 'grün, richtige Stelle', en: 'green, right position' },
+  wdStart: { de: 'Wörter suchen', en: 'Find words' },
+  wdLade: { de: 'Wortlisten laden …', en: 'Loading word lists …' },
+  wdFehler: { de: 'Die Wortlisten konnten nicht geladen werden.', en: 'The word lists could not be loaded.' },
+  wdLeerText: { de: 'Sobald ein vollständiges Wort eingetragen ist, stehen hier die Treffer.', en: 'Once a complete word is entered, the matches appear here.' },
+  wdLoesungen: { de: 'Mögliche Lösungen', en: 'Possible solutions' },
+  wdRateworte: { de: 'Nur als Rateversuch erlaubt', en: 'Accepted only as a guess' },
+  wdVon: { de: 'von', en: 'of' },
+  wdNichts: { de: 'Kein Wort passt zu diesen Angaben.', en: 'No word matches these hints.' },
+  wdWeitere: { de: 'und {n} weitere', en: 'and {n} more' },
   datenschutz: { de: 'Datenschutz', en: 'Privacy' },
   impressum: { de: 'Impressum', en: 'Legal notice' },
   fussnote: {
