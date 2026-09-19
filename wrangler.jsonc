@@ -1,0 +1,19 @@
+{
+  // Auslieferung als Worker mit statischen Dateien. Diese Datei gibt es nur
+  // aus einem Grund: "not_found_handling" laesst sich nirgends sonst setzen,
+  // auch nicht im Dashboard. Ohne sie beantwortet Cloudflare jede unbekannte
+  // Adresse mit einer leeren 404 statt mit dist/404.html.
+  //
+  // "name" muss der bestehende Worker sein, sonst entsteht beim naechsten
+  // Build ein zweiter unter einer anderen Adresse.
+  // "html_handling" haelt das bisherige Verhalten fest: /impressum wird auf
+  // /impressum/ umgeleitet, nicht andersherum.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "my-website",
+  "compatibility_date": "2026-09-19",
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}
