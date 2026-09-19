@@ -6,12 +6,12 @@ colors:
   papier-tief: "#ecece7"
   tinte: "#111318"
   tinte-2: "#4a4e55"
-  tinte-3: "#6f747c"
+  tinte-3: "#656a72"
   gruen: "#1d5c44"
   gruen-tief: "#164734"
   gruen-band: "#e6ede9"
   gruen-linie: "#a9c2b6"
-  gruen-auf-band: "#a8c8ba"
+  gruen-auf-band: "#c6ddd3"
   rot: "#a3231c"
   rot-band: "#f6e9e8"
   haar: "#cdcec8"
@@ -187,7 +187,7 @@ A two-signal palette on cool paper: green means checked, red means not measured 
 - **Protocol Paper** (`{colors.papier}`): page ground, the fill of light buttons and square controls, and the cells of the topic map.
 - **Paper Deep** (`{colors.papier-tief}`): the recessed surfaces — the register column, code blocks, the self-assessment block, the empty track behind a layer bar.
 - **Ink** (`{colors.tinte}`): body text, the skip link's fill, and the 2px rule that opens a table, a numeric row or a quote block.
-- **Ink 2** (`{colors.tinte-2}`) / **Ink 3** (`{colors.tinte-3}`): running prose, then field labels, units, source citations and captions; ink 3 also marks the bullets of the self-assessment block.
+- **Ink 2** (`{colors.tinte-2}`) / **Ink 3** (`{colors.tinte-3}`): running prose, then field labels, units, source citations and captions; ink 3 also marks the bullets of the self-assessment block. Ink 3 carries 5.0:1 on paper and 4.6:1 on paper deep, and the green band's label tone 4.7:1 even on the lighter stamp ground — both were raised after `tools/barriere-test.mjs` measured them below 4.5:1.
 - **Hairline** (`{colors.haar}`) / **Hairline Strong** (`{colors.haar-stark}`): the 1px rule vocabulary — section dividers, field-grid and table rows, image frames, tag borders, the register's inner rules.
 
 ### Named Rules

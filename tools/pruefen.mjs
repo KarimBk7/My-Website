@@ -16,7 +16,7 @@ import { promisify } from 'node:util';
 
 const lauf = promisify(execFile);
 const BASIS = process.argv[2] ?? 'http://127.0.0.1:4400';
-const SKRIPTE = ['schuss.mjs', 'register-test.mjs', 'lupe-test.mjs', 'links-test.mjs', 'kontakt-test.mjs', 'wordle-test.mjs'];
+const SKRIPTE = ['schuss.mjs', 'register-test.mjs', 'lupe-test.mjs', 'links-test.mjs', 'kontakt-test.mjs', 'wordle-test.mjs', 'barriere-test.mjs'];
 
 /** Sammelt alles, was in einer Ausgabe nach Fehler aussieht. */
 function befunde(wert, pfad = '') {

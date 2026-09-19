@@ -40,6 +40,10 @@ Changes to the original contract, each on the user's decision unless noted. Reco
 - **A measured-value band was added under the metadata strip** (September 2026): three numbers from three sheets, each linking to its own sheet, so a visitor who never scrolls has still seen the strongest measurement.
 - **A 404 page exists** in the protocol style, one page for both languages, marked `noindex`.
 
+- **A revision record was added** at `/revisionsstand/` and `/en/revisions/`, generated from the git history, and linked in every footer.
+- **The solver of M-5 runs on the page itself** — the first interactive instrument since the load slider was removed, and the one place with a second script.
+- **Contrast was raised** on ink 3 and the green band's label tone after an axe check; every page now passes WCAG 2.1 A and AA in `tools/barriere-test.mjs`.
+
 ## Unresolved
 
 - Custom domain not chosen; the `workers.dev` subdomain is printed in both CVs, the LinkedIn banner and the link preview until then.

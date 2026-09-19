@@ -54,6 +54,14 @@ Weitere Prüfungen, alle mit `[basis-url]` als optionalem Argument:
 | `tools/video-test.mjs` | Video: nur im Bild, Pause, Vollbild, reduzierte Bewegung, Fehlerfälle (läuft in Edge wegen H.264) |
 | `tools/links-test.mjs` | Downloads, Außenlinks in neuem Tab mit `noopener` |
 | `tools/kontakt-test.mjs` | Kontaktknopf kopiert die Adresse und zeigt die Rückmeldung |
+| `tools/wordle-test.mjs` | Solver-Demo auf Blatt M-5 gegen unabhängig in Python bestimmte Sollwerte |
+| `tools/barriere-test.mjs` | axe über alle Seiten, WCAG 2.1 A und AA |
+| `tools/pruefen.mjs` | fährt alle oben genannten Skripte und endet mit Fehler, wenn eines etwas meldet |
+
+Die Sitemap entsteht beim Bauen aus `src/data/inhalt.ts` (`src/pages/sitemap.xml.ts`).
+`node tools/revisionen.mjs` schreibt die Änderungshistorie für die Seite
+`/revisionsstand/` nach `src/data/revisionen.json` — vor einem Release neu
+ausführen.
 
 `tools/serve-mit-headern.mjs` wendet `public/_headers` an — die Vorschau von
 Astro tut das nicht, und die Content-Security-Policy fällt sonst erst in

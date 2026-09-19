@@ -1,0 +1,307 @@
+{
+  "stand": "2026-09-19",
+  "seit": "2026-09-09",
+  "gesamt": 60,
+  "eintraege": [
+    {
+      "kurz": "0817350",
+      "datum": "2026-09-19",
+      "betreff": "Wordle-Solver zum Ausprobieren auf Blatt M-5"
+    },
+    {
+      "kurz": "d39b3bd",
+      "datum": "2026-09-19",
+      "betreff": "404-Seite ausliefern: wrangler.jsonc mit not_found_handling"
+    },
+    {
+      "kurz": "8427e3e",
+      "datum": "2026-09-19",
+      "betreff": "Messwertband, 404-Seite, Pruefung in der Werkbank, Daten korrigiert"
+    },
+    {
+      "kurz": "4f7affe",
+      "datum": "2026-09-17",
+      "betreff": "Projekte: Wordle-Solver als M-5 aufgenommen"
+    },
+    {
+      "kurz": "a45afd9",
+      "datum": "2026-09-14",
+      "betreff": "Zeugnisse: Teilnahmebescheinigung Projektron ergaenzt"
+    },
+    {
+      "kurz": "dcc2a26",
+      "datum": "2026-09-13",
+      "betreff": "README: English overview for visitors, developer notes brought up to date"
+    },
+    {
+      "kurz": "6d947f0",
+      "datum": "2026-09-13",
+      "betreff": "Arbeitsfelder: gezeichnete Symbole, Nummern und Hover-Akzent"
+    },
+    {
+      "kurz": "2bfd977",
+      "datum": "2026-09-13",
+      "betreff": "Inhaltsverzeichnis: Stammdaten und Stationen als ein Eintrag"
+    },
+    {
+      "kurz": "c242253",
+      "datum": "2026-09-13",
+      "betreff": "live.mjs: eigenen Tab ueber den Browser oeffnen"
+    },
+    {
+      "kurz": "4bed989",
+      "datum": "2026-09-13",
+      "betreff": "live.mjs: Messwerte auf der Projektseite M-1 pruefen"
+    },
+    {
+      "kurz": "c84b3f9",
+      "datum": "2026-09-13",
+      "betreff": "Projekte als Kacheln mit eigener Detailseite je Projekt"
+    },
+    {
+      "kurz": "3e80b46",
+      "datum": "2026-09-13",
+      "betreff": "Impressum auf Deutsch und Englisch"
+    },
+    {
+      "kurz": "69f4cc9",
+      "datum": "2026-09-13",
+      "betreff": "Datenschutzerklaerung auf Deutsch und Englisch"
+    },
+    {
+      "kurz": "52f45b6",
+      "datum": "2026-09-13",
+      "betreff": "Projektblaetter sichtbar unter \"Projekte\" gruppiert"
+    },
+    {
+      "kurz": "20f5c74",
+      "datum": "2026-09-13",
+      "betreff": "Videos: Vollbild per Knopf oder Tippen aufs Video"
+    },
+    {
+      "kurz": "827579f",
+      "datum": "2026-09-13",
+      "betreff": "Spesenkonfigurator: Bedienung als Video statt Hauptfenster-Standbild"
+    },
+    {
+      "kurz": "9d5be46",
+      "datum": "2026-09-11",
+      "betreff": "DESIGN.md, design.json und Designvertrag an die ausgelieferte Seite angeglichen"
+    },
+    {
+      "kurz": "7a2f740",
+      "datum": "2026-09-11",
+      "betreff": "Aufraeumen: verwaiste Bilder, tote Texte, iPhone-Symbol, Bildunterschriften"
+    },
+    {
+      "kurz": "5a91497",
+      "datum": "2026-09-11",
+      "betreff": "Video: Safari-Annahme durch Messung auf dem iPhone ersetzt"
+    },
+    {
+      "kurz": "09acedf",
+      "datum": "2026-09-11",
+      "betreff": "Breite Aufnahmen: Bildunterschrift ueber die volle Bildbreite"
+    },
+    {
+      "kurz": "f2fcde3",
+      "datum": "2026-09-11",
+      "betreff": "Video: sauber zurueckfallen, wenn es nicht spielen kann"
+    },
+    {
+      "kurz": "85cadc1",
+      "datum": "2026-09-11",
+      "betreff": "Kaiju: laufende Spielszene statt Standbild"
+    },
+    {
+      "kurz": "225efc0",
+      "datum": "2026-09-11",
+      "betreff": "Deutscher Lebenslauf: Protokollname und Klammer korrigiert"
+    },
+    {
+      "kurz": "1a1fa83",
+      "datum": "2026-09-11",
+      "betreff": "Beide Lebenslaeufe korrigiert"
+    },
+    {
+      "kurz": "fdcfe09",
+      "datum": "2026-09-11",
+      "betreff": "Englischer Lebenslauf"
+    },
+    {
+      "kurz": "c2d0863",
+      "datum": "2026-09-10",
+      "betreff": "Lichtbild im Kopf"
+    },
+    {
+      "kurz": "f80c72b",
+      "datum": "2026-09-10",
+      "betreff": "LinkedIn-Titelbild"
+    },
+    {
+      "kurz": "7fe7b3b",
+      "datum": "2026-09-10",
+      "betreff": "Lupenbild erst beim Oeffnen anlegen -- Bildwaechter wieder scharf"
+    },
+    {
+      "kurz": "6e69643",
+      "datum": "2026-09-10",
+      "betreff": "Live-Pruefung: leeres Lupenbild nicht als fehlend melden"
+    },
+    {
+      "kurz": "b121c22",
+      "datum": "2026-09-10",
+      "betreff": "Bildlupe und Abnahmestempel"
+    },
+    {
+      "kurz": "19bbd53",
+      "datum": "2026-09-10",
+      "betreff": "Verfuegbarkeit, LinkedIn, neue Tabs, Ladepfeile"
+    },
+    {
+      "kurz": "e3463b8",
+      "datum": "2026-09-10",
+      "betreff": "Maengelblock ohne dicke Seitenkante"
+    },
+    {
+      "kurz": "a79089c",
+      "datum": "2026-09-10",
+      "betreff": "Belege statt Behauptungen: Quelltext, viertes Projekt, Vorschaubild"
+    },
+    {
+      "kurz": "0776eba",
+      "datum": "2026-09-10",
+      "betreff": "Lebenslauf-Knopf neben die Kontaktaufnahme in den Kopf"
+    },
+    {
+      "kurz": "9b25903",
+      "datum": "2026-09-10",
+      "betreff": "Versionsversatz zwischen HTML und Skript beseitigt"
+    },
+    {
+      "kurz": "22d16d4",
+      "datum": "2026-09-10",
+      "betreff": "Kontaktknopf gibt sichtbare Rueckmeldung"
+    },
+    {
+      "kurz": "73d7bd2",
+      "datum": "2026-09-10",
+      "betreff": "Inhaltsverzeichnis: durchgehendes Spaltenband"
+    },
+    {
+      "kurz": "fb85632",
+      "datum": "2026-09-10",
+      "betreff": "GitHub-Marke neben dem Namen und im Inhaltsverzeichnis"
+    },
+    {
+      "kurz": "44bbd5b",
+      "datum": "2026-09-10",
+      "betreff": "Neue Projektron-Aufnahmen; Bilderzeugung an den Build gekoppelt"
+    },
+    {
+      "kurz": "4ab9ac1",
+      "datum": "2026-09-10",
+      "betreff": "Kaiju-Bilder ergaenzt, Bildreihen zentriert, Hauptfenster nativ"
+    },
+    {
+      "kurz": "e615fb6",
+      "datum": "2026-09-10",
+      "betreff": "Fremdbefunde: beide Karten auf gleicher Hoehe"
+    },
+    {
+      "kurz": "a6cbd35",
+      "datum": "2026-09-10",
+      "betreff": "Inhaltsverzeichnis gegliedert: Projekte als Elternknoten"
+    },
+    {
+      "kurz": "a949f46",
+      "datum": "2026-09-09",
+      "betreff": "Stempel ohne federnde Kurve"
+    },
+    {
+      "kurz": "f537398",
+      "datum": "2026-09-09",
+      "betreff": "Inhaltsverzeichnis, breitere Positionierung, Bewegung"
+    },
+    {
+      "kurz": "7e47f3f",
+      "datum": "2026-09-09",
+      "betreff": "Alle Texte nach inhalt.ts, auch die drei Nachzuegler"
+    },
+    {
+      "kurz": "087b69c",
+      "datum": "2026-09-09",
+      "betreff": "DESIGN.md neu abgeleitet; zwei Widersprueche aufgeraeumt"
+    },
+    {
+      "kurz": "855489d",
+      "datum": "2026-09-09",
+      "betreff": "Abschnitt \"Arbeit mit KI-Agenten\" entfernt"
+    },
+    {
+      "kurz": "6ecac2d",
+      "datum": "2026-09-09",
+      "betreff": "Quellenspalte und Kopfzahl entfernt, Repos verlinkt"
+    },
+    {
+      "kurz": "ef5b627",
+      "datum": "2026-09-09",
+      "betreff": "Bewegungsempfindlichkeit wirklich beachten; totes CSS entfernen"
+    },
+    {
+      "kurz": "af40aac",
+      "datum": "2026-09-09",
+      "betreff": "Live-Pruefung an die entfernte Schalterlogik anpassen"
+    },
+    {
+      "kurz": "0aa742a",
+      "datum": "2026-09-09",
+      "betreff": "Pruefstand entfaellt; Messwerte kompakt in Messreihe M-1"
+    },
+    {
+      "kurz": "953a64d",
+      "datum": "2026-09-09",
+      "betreff": "Bilder selbst vorberechnen statt Astros Bildpipeline"
+    },
+    {
+      "kurz": "238d890",
+      "datum": "2026-09-09",
+      "betreff": "Bilder live reparieren und echte Adresse eintragen"
+    },
+    {
+      "kurz": "a30dd05",
+      "datum": "2026-09-09",
+      "betreff": "Node-Version festgelegt und Deploy-Anleitung korrigiert"
+    },
+    {
+      "kurz": "e7238eb",
+      "datum": "2026-09-09",
+      "betreff": "DESIGN.md und Sidecar aus dem gebauten Artefakt; Token-Drift dokumentiert"
+    },
+    {
+      "kurz": "2040929",
+      "datum": "2026-09-09",
+      "betreff": "Zwei Regressionen aus dem Fix-Durchgang behoben"
+    },
+    {
+      "kurz": "8b8f42c",
+      "datum": "2026-09-09",
+      "betreff": "Uebergang der Spurbild-Punkte ohne stroke-width"
+    },
+    {
+      "kurz": "d9c9801",
+      "datum": "2026-09-09",
+      "betreff": "Befunde der Abschlusspruefung abgearbeitet"
+    },
+    {
+      "kurz": "131afcb",
+      "datum": "2026-09-09",
+      "betreff": "Aufnahmewerkzeug: Bilder vor der Ganzseitenaufnahme laden"
+    },
+    {
+      "kurz": "3ff1248",
+      "datum": "2026-09-09",
+      "betreff": "Bewerbungs-Website als zweisprachiges Prüfprotokoll"
+    }
+  ]
+}

@@ -23,7 +23,7 @@
   --papier-tief:   #ecece7;
   --tinte:         #111318;
   --tinte-2:       #4a4e55;
-  --tinte-3:       #6f747c;
+  --tinte-3:       #656a72;
 
   /* Festgelegte Farbe: Prüfgrün trägt die Seite in ganzen Feldern */
   --gruen:         #1d5c44;
@@ -195,7 +195,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1
 }
 @media (max-width: 54rem) { .kopf-innen { grid-template-columns: 1fr; align-items: start; } }
 
-.kopf .feld-name { color: #a8c8ba; }
+.kopf .feld-name { color: #c6ddd3; } /* 4,7:1 auch auf dem helleren Stempelgrund */
 .kopf .titel-gross { color: #fff; }
 
 .kopf-zeile { display: flex; align-items: baseline; gap: 0.9rem; flex-wrap: wrap; }
@@ -869,7 +869,7 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 
 .freigabe { background: var(--gruen); color: #fff; }
 .freigabe a:not(.knopf) { color: #fff; }
-.freigabe .feld-name { color: #a8c8ba; }
+.freigabe .feld-name { color: #bcd6ca; }
 .freigabe .knopf { background: var(--papier); color: var(--gruen-tief); }
 .freigabe .knopf--rand { background: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.6); }
 
@@ -1014,3 +1014,18 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
   font-family: var(--mono); font-size: 0.8125rem;
 }
 .wd-hinweis { margin: 0.6rem 0 0; font-size: 0.8125rem; color: var(--tinte-3); }
+.knopf-zusatz { font-family: var(--mono); font-size: 0.75rem; color: var(--tinte-3); }
+
+/* --- Revisionsstand ------------------------------------------------------ */
+/* Ein Tag je Block, darunter seine Eintraege: Kurz-Nummer in Mono, dann der
+   Betreff. Wie eine Aenderungsliste am Rand einer technischen Zeichnung. */
+.revisionen { list-style: none; margin: 1.75rem 0 0; padding: 0; display: grid; gap: 1.25rem; }
+.revisionen > li { display: grid; grid-template-columns: minmax(6rem, 8rem) minmax(0, 1fr); gap: 0.4rem 1.5rem; align-items: baseline; }
+.revisionen ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.revisionen ul li { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 0.5rem 0.9rem; align-items: baseline; padding-bottom: 0.5rem; border-bottom: var(--spur) solid var(--haar); }
+.rev-tag { margin: 0; }
+.rev-nr { font-size: 0.8125rem; }
+@media (max-width: 34rem) {
+  .revisionen > li { grid-template-columns: minmax(0, 1fr); }
+  .revisionen ul li { grid-template-columns: 4.5rem minmax(0, 1fr); }
+}

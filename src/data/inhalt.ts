@@ -706,6 +706,10 @@ public void markValidated() {
       de: 'Private Arbeit, der Quelltext stammt vollständig von mir. Die beiden Wortlisten sind die des Spiels und stammen aus öffentlichen Sammlungen; sie sind im Repository als Quelle genannt.',
       en: 'Private work; the source code is entirely mine. The two word lists are the game’s own and come from public collections, credited as such in the repository.',
     },
+    release: {
+      url: 'https://github.com/KarimBk7/Wordle-Solver/releases/latest/download/Wordle-Solver-windows.zip',
+      groesse: '13 MB',
+    },
     repo: 'https://github.com/KarimBk7/Wordle-Solver',
   },
 ] as const;
@@ -929,6 +933,7 @@ export const ui: Record<string, S> = {
   /* Der Solver zum Ausprobieren auf Blatt M-5. Die Texte gehen als
      data-Attribut an public/js/wordle.js -- eingebettete Skripte verbietet
      die Richtlinie, zweisprachig soll es trotzdem sein. */
+  wdDownload: { de: 'Windows-Version herunterladen', en: 'Download the Windows build' },
   wdTitel: { de: 'Selbst ausprobieren', en: 'Try it here' },
   wdText: {
     de: 'Dieselbe Filterung wie im Programm, hier im Browser. Tragen Sie Ihr geratenes Wort ein und klicken Sie jeden Buchstaben auf die Farbe, die das Spiel gezeigt hat. Die Bedingungen leitet die Seite daraus ab, auch wie oft ein Buchstabe vorkommen darf.',
@@ -956,6 +961,22 @@ export const ui: Record<string, S> = {
   wdWeitere: { de: 'und {n} weitere', en: 'and {n} more' },
   datenschutz: { de: 'Datenschutz', en: 'Privacy' },
   impressum: { de: 'Impressum', en: 'Legal notice' },
+  revision: { de: 'Revisionsstand', en: 'Revisions' },
+  revTitel: { de: 'Revisionsstand', en: 'Revision record' },
+  revStand: { de: 'Stand', en: 'As of' },
+  revText: {
+    de: 'Was an dieser Seite wann geändert wurde, direkt aus der Versionsverwaltung. Ein Protokoll, das sich still ändert, wäre keins — deshalb steht die Historie hier offen, samt der Einträge, die Fehler zurücknehmen.',
+    en: 'What changed on this site and when, taken straight from version control. A record that changes silently is no record — so the history is open here, including the entries that undo mistakes.',
+  },
+  revSeit: { de: 'Erster Eintrag', en: 'First entry' },
+  revEintraege: { de: 'Gezeigte Einträge', en: 'Entries shown' },
+  revVon: { de: 'von', en: 'of' },
+  revQuelle: { de: 'Quelle', en: 'Source' },
+  revCommit: { de: 'Commit', en: 'Commit' },
+  revHinweis: {
+    de: 'Die Betreffzeilen stammen unverändert aus dem Repository und sind deutsch. Jede Zeile führt zum vollständigen Änderungssatz bei GitHub.',
+    en: 'The subject lines are taken unchanged from the repository and are in German. Each line links to the full change set on GitHub.',
+  },
   fussnote: {
     de: 'Diese Seite ist statisch, kommt ohne Tracker und ohne Cookies aus und setzt keine Analysewerkzeuge ein.',
     en: 'This page is static, uses no trackers and no cookies, and runs no analytics.',

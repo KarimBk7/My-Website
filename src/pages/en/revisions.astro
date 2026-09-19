@@ -1,0 +1,14 @@
+---
+import Basis from '../../layouts/Basis.astro';
+import Rechtsseite from '../../components/Rechtsseite.astro';
+import Revisionen from '../../components/Revisionen.astro';
+const pfade = { de: '/revisionsstand/', en: '/en/revisions/' };
+---
+
+<Basis lang="en" pfade={pfade}
+       titel="Revision record — Abdil Karim Bakir"
+       beschreibung="What changed on this application site and when, taken from version control.">
+  <Rechtsseite lang="en" pfade={pfade}>
+    <Revisionen lang="en" />
+  </Rechtsseite>
+</Basis>

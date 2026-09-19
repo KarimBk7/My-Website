@@ -1,0 +1,58 @@
+---
+import { ui, person, type Lang } from '../data/inhalt';
+import revisionen from '../data/revisionen.json';
+
+/* Der Revisionsstand: was wann an dieser Seite geaendert wurde, aus der
+   Git-Historie (tools/revisionen.mjs schreibt die Datei). Passt zum Rest --
+   ein Protokoll fuehrt Revisionen mit, statt stillschweigend zu wechseln.
+   Die Betreffzeilen stehen so im Repository und sind deutsch; sie werden
+   nicht uebersetzt, damit der Eintrag hier und der Commit dort derselbe ist. */
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = (s: Record<Lang, string>) => s[lang];
+const aussen = { target: '_blank', rel: 'noopener' } as const;
+
+const REPO = 'https://github.com/KarimBk7/My-Website';
+const datum = (iso: string) =>
+  new Date(iso + 'T12:00:00Z').toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-GB',
+    { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+// Nach Tag gruppieren: an einem Tag entstehen oft mehrere Eintraege.
+const tage: { tag: string; eintraege: typeof revisionen.eintraege }[] = [];
+for (const e of revisionen.eintraege) {
+  const letzter = tage.at(-1);
+  if (letzter?.tag === e.datum) letzter.eintraege.push(e);
+  else tage.push({ tag: e.datum, eintraege: [e] });
+}
+---
+
+<p class="feld-name">{t(ui.revStand)}: {datum(revisionen.stand)}</p>
+<h1 class="titel-abschnitt">{t(ui.revTitel)}</h1>
+<p class="fliess">{t(ui.revText)}</p>
+
+<div class="gitter">
+  <div class="gitter-reihe"><span class="feld-name">{t(ui.revSeit)}</span><span>{datum(revisionen.seit)}</span></div>
+  <div class="gitter-reihe"><span class="feld-name">{t(ui.revEintraege)}</span>
+    <span><span class="messwert">{revisionen.eintraege.length}</span> {t(ui.revVon)} {revisionen.gesamt}</span></div>
+  <div class="gitter-reihe"><span class="feld-name">{t(ui.revQuelle)}</span>
+    <span><a href={REPO} {...aussen} aria-label={`${REPO.replace('https://', '')} (${t(ui.neuerTab)})`}>{REPO.replace('https://', '')}</a></span></div>
+</div>
+
+<ol class="revisionen">
+  {tage.map(({ tag, eintraege }) => (
+    <li>
+      <p class="rev-tag feld-name">{datum(tag)}</p>
+      <ul>
+        {eintraege.map((e) => (
+          <li>
+            <a class="rev-nr messwert" href={`${REPO}/commit/${e.kurz}`} {...aussen}
+               aria-label={`${t(ui.revCommit)} ${e.kurz} (${t(ui.neuerTab)})`}>{e.kurz}</a>
+            <span>{e.betreff}</span>
+          </li>
+        ))}
+      </ul>
+    </li>
+  ))}
+</ol>
+
+<p class="fliess" style="font-size:.8125rem">{t(ui.revHinweis).replace('{name}', person.name)}</p>
