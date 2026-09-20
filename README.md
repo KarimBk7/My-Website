@@ -27,7 +27,7 @@ The content is not: the texts, my photograph, the screenshots and clips, my CV
 and my references are published here to be read, not reused (all rights
 reserved). Two parts are not even mine to give away — the Projektron material
 on sheet M-1 and the Kaiju artwork on M-2 are shown with permission and belong
-to them. [LICENSE](LICENSE) lists exactly which paths fall on which side.
+to them. [NOTICE.md](NOTICE.md) lists exactly which paths fall on which side.
 
 ---
 
