@@ -1,0 +1,60 @@
+MIT License
+
+Copyright (c) 2026 Abdil Karim Bakir
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+Scope: the code, not the person behind it
+-----------------------------------------
+
+This repository is my job application. The MIT license above covers the
+machinery — take it, change it, build your own site with it:
+
+  src/components/   src/layouts/   src/pages/   src/styles/   src/data/bild.ts
+  public/js/        public/_headers   tools/    astro.config.mjs
+  wrangler.jsonc    .github/       package.json
+
+It does NOT cover the content, which is mine personally and is published here
+so people can read it, not reuse it. All rights reserved for:
+
+  src/data/inhalt.ts        every text on the site
+  src/data/revisionen.json  the change history
+  src/assets/media/         screenshots, my photograph
+  public/media/             image variants, the clips, the link preview
+  public/dokumente/         my CV and my (redacted) references
+  public/daten/             Wordle's own word lists, see below
+  DESIGN.md                 the design system as a document
+  README.md, PRODUCT.md     the write-ups
+
+Two further points, because not everything here is mine to give away:
+
+- The screenshots and the clip on sheet M-1, and the four-line code excerpt
+  beside them, show software built for Projektron GmbH. They are published
+  with their permission; the code belongs to the client. The clip and the
+  stills of it are not licensed for reuse.
+- The artwork and sound on sheet M-2 were made by the Kaiju Adventure project
+  team and are shown with their permission. They remain theirs.
+- `public/daten/wordle-*.txt` are Wordle's own word lists, taken from public
+  collections (github.com/tabatkins/wordle-list). Wordle is a trademark of
+  The New York Times Company; this site is not affiliated with them.
+
+If you want to reuse something and are unsure which side of the line it falls
+on, write to me: abdilkarimb@gmail.com

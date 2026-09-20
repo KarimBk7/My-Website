@@ -17,6 +17,18 @@ The page is designed as a German *Prüfprotokoll*, an acceptance test record: ev
 
 **Stack:** Astro, TypeScript, CSS, Cloudflare Workers, sharp, ffmpeg, Playwright.
 
+## License
+
+The machinery is [MIT](LICENSE) — components, layouts, styles, the one script,
+the check tools, the build and deploy config. Take it and build your own site
+with it.
+
+The content is not: the texts, my photograph, the screenshots and clips, my CV
+and my references are published here to be read, not reused (all rights
+reserved). Two parts are not even mine to give away — the Projektron material
+on sheet M-1 and the Kaiju artwork on M-2 are shown with permission and belong
+to them. [LICENSE](LICENSE) lists exactly which paths fall on which side.
+
 ---
 
 *Ab hier: Entwicklerdokumentation auf Deutsch.*
