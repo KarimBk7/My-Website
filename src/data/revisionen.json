@@ -1,8 +1,18 @@
 {
   "stand": "2026-09-24",
   "seit": "2026-09-09",
-  "gesamt": 64,
+  "gesamt": 66,
   "eintraege": [
+    {
+      "kurz": "ea11e29",
+      "datum": "2026-09-24",
+      "betreff": "Projekte nach Wirkung sortiert, Blattnummern neu vergeben"
+    },
+    {
+      "kurz": "6648ce6",
+      "datum": "2026-09-24",
+      "betreff": "Projekte: ReflowTask als M-6 aufgenommen"
+    },
     {
       "kurz": "eb25ccb",
       "datum": "2026-09-20",
@@ -292,16 +302,6 @@
       "kurz": "a30dd05",
       "datum": "2026-09-09",
       "betreff": "Node-Version festgelegt und Deploy-Anleitung korrigiert"
-    },
-    {
-      "kurz": "e7238eb",
-      "datum": "2026-09-09",
-      "betreff": "DESIGN.md und Sidecar aus dem gebauten Artefakt; Token-Drift dokumentiert"
-    },
-    {
-      "kurz": "2040929",
-      "datum": "2026-09-09",
-      "betreff": "Zwei Regressionen aus dem Fix-Durchgang behoben"
     }
   ]
 }
