@@ -29,7 +29,10 @@ const texte = {
 };
 ---
 
-<div class="stapel" style="--l:.75rem">
+{/* `wd-block` umschliesst Ueberschrift, Erklaerung und Solver: auf Papier
+    faellt der ganze Abschnitt weg, nicht nur die Tasten -- eine Anleitung
+    zum Klicken ohne etwas zum Klicken waere schlimmer als gar nichts. */}
+<div class="stapel wd-block" style="--l:.75rem">
   <h2 class="feld-name">{t(ui.wdTitel)}</h2>
   <p class="fliess" style="margin:0">{t(ui.wdText)}</p>
 

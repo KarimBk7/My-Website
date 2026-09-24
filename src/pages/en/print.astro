@@ -1,0 +1,10 @@
+---
+import Basis from '../../layouts/Basis.astro';
+import Druckbogen from '../../components/Druckbogen.astro';
+import { ui } from '../../data/inhalt';
+---
+
+<Basis lang="en" pfade={{ de: '/druck/', en: '/en/print/' }} noindex
+       titel={`${ui.druckTitel.en} — Abdil Karim Bakir`} beschreibung={ui.seiteBeschreibung.en}>
+  <main id="inhalt"><Druckbogen lang="en" /></main>
+</Basis>

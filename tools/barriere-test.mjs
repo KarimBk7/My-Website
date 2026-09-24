@@ -19,6 +19,10 @@ const SEITEN = [
   '/', '/en/',
   '/projekte/spesenkonfigurator/', '/projekte/reflowtask/', '/projekte/wordle/', '/en/projects/wordle/',
   '/datenschutz/', '/impressum/', '/revisionsstand/', '/404.html',
+  // Die Druckvorlage ist eine ausgelieferte Seite wie jede andere -- sie
+  // enthaelt alle sechs Blaetter am Stueck und faellt damit als Erste auf,
+  // wenn eine Blattkomponente eine Barriere einbaut.
+  '/druck/',
 ];
 
 const browser = await chromium.launch();

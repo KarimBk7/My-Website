@@ -940,8 +940,23 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
      HTML, nur die Einblendung haelt ihn zurueck. */
   .aufbau { opacity: 1 !important; transform: none !important; }
 
+  /* Der Solver ist ein Formular. Auf Papier bliebe davon eine tote Tastatur
+     uebrig -- der Hinweis auf die Onlinefassung steht auf dem Deckblatt. */
+  .wd-block { display: none !important; }
+
+  /* Knoepfe im Inhalt sind auf Papier Text. Als Kasten gesetzt zerriss der
+     Download-Knopf in drei Zeilen, weil die Druckregel weiter unten die
+     Adresse dahinter schreibt. */
+  main .knopf { display: inline; border: 0 !important; padding: 0 !important; background: none !important; }
+  main .knopf .lade-marke { display: none; }
+  main .knopf-zusatz { display: inline; margin-left: 0.4rem; }
+
   .abschnitt { padding-block: 1.5rem; break-inside: avoid; }
   .blatt { break-before: page; }
+  /* Das Deckblatt ist eine Seite, nie anderthalb: die Angaben stehen enger
+     als auf dem Bildschirm, das Inhaltsverzeichnis einzeilig. */
+  .deckblatt .gitter-reihe { padding-block: 0.3rem; }
+  .deckblatt .kennwerte { padding-top: 0.6rem; }
   h2, h3, h4 { break-after: avoid; }
   figure, .codepaar, .maengel, .messtabelle { break-inside: avoid; }
   .codepaar pre { white-space: pre-wrap; }
@@ -957,6 +972,24 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
   }
   img { max-width: 100% !important; }
 }
+
+/* --- Druckbogen (/druck/) ----------------------------------------------- */
+/* Die Vorlage fuer das Portfolio-PDF: Deckblatt, danach die Blaetter
+   unveraendert. Eigene Regeln braucht nur das Deckblatt -- alles andere ist
+   dieselbe Darstellung wie auf den Projektseiten, und die Druckregeln weiter
+   unten gelten ohnehin fuer beide. */
+.deckblatt-kopf {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+/* Im Seitenkopf steht das Lichtbild auf Gruen, hier auf Papierweiss: Rahmen
+   und Bildunterschrift muessen die Farben des Bogens tragen, sonst steht die
+   Beschriftung weiss auf weiss. */
+.deckblatt .lichtbild img { border-color: var(--haar-stark); }
+.deckblatt .lichtbild figcaption { color: var(--tinte-3); }
+.deckblatt .kennwerte { border-top: var(--spur) solid var(--haar); padding-top: 1rem; }
 
 /* --- Datenschutzerklaerung ---------------------------------------------- */
 /* Ein Lesetext, kein Protokollblatt: eine Spalte in Lesebreite, Absatz-

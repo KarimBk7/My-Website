@@ -1020,13 +1020,24 @@ export const ui: Record<string, S> = {
   lebenslaufPdf: { de: 'Lebenslauf als PDF', en: 'CV as PDF' },
   mailBetreff: { de: 'Anfrage über die Website', en: 'Enquiry via your website' },
 
+  /* Deckblatt des Portfolio-PDFs (/druck/, gedruckt von tools/pdf.mjs). Es
+     entsteht aus denselben Daten wie die Seite: ein neues Projekt in
+     `projekte` steht ohne weiteres Zutun auch im Dokument. */
+  druckTitel: { de: 'Projektportfolio', en: 'Project portfolio' },
+  druckEmail: { de: 'E-Mail', en: 'Email' },
+  druckOnline: { de: 'Onlinefassung', en: 'Online version' },
+  druckHinweis: {
+    de: 'Dieses Dokument wird aus der Bewerbungsseite erzeugt und trägt denselben Stand. Videos und die interaktive Demo gibt es nur online; im Dokument steht an ihrer Stelle ein Standbild. Alle verlinkten Adressen sind ausgeschrieben.',
+    en: 'This document is generated from the application site and carries the same revision. Videos and the interactive demo exist online only; the document shows a still frame instead. Every linked address is written out in full.',
+  },
+
   seiteTitel: {
     de: 'Abdil Karim Bakir — Software Engineer',
     en: 'Abdil Karim Bakir — Software Engineer',
   },
   seiteBeschreibung: {
-    de: 'Informatikstudent an der FU Berlin. Backend als Kern, dazu Web, Cloud-Infrastruktur und Hardware. Vier belegte Projekte, gemessene Ergebnisse, zwei Arbeitszeugnisse.',
-    en: 'Computer science student at FU Berlin. Backend at the core, plus web, cloud infrastructure and hardware. Four documented projects, measured results, two employment references.',
+    de: 'Informatikstudent an der FU Berlin. Backend als Kern, dazu Web, Cloud-Infrastruktur und Hardware. Sechs belegte Projekte, gemessene Ergebnisse, zwei Arbeitszeugnisse.',
+    en: 'Computer science student at FU Berlin. Backend at the core, plus web, cloud infrastructure and hardware. Six documented projects, measured results, two employment references.',
   },
   skipLink: { de: 'Zum Inhalt springen', en: 'Skip to content' },
 

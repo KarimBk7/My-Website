@@ -1,0 +1,94 @@
+---
+import { person, projekte, kopfzahlen, ui, type Lang } from '../data/inhalt';
+import { bild } from '../data/bild';
+import Blatt from './Blatt.astro';
+
+/* Alle Projektblätter hintereinander, mit Deckblatt -- die Vorlage für das
+   Portfolio-PDF (tools/pdf.mjs druckt genau diese Seite).
+   Es gibt bewusst keine zweite Inhaltsquelle: gedruckt wird dieselbe
+   <Blatt>-Komponente wie auf der Detailseite, aus demselben `projekte`.
+   Ein neues Projekt steht damit ohne weiteres Zutun auch im Dokument --
+   Deckblatt, Inhaltsverzeichnis und Blattzählung wachsen mit.
+   Die Seite trägt noindex: sie ist die Druckvorlage, nicht die Leseseite. */
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = (s: Record<Lang, string>) => s[lang];
+
+const start = new URL(lang === 'de' ? '/' : '/en/', Astro.site).href;
+const stand = new Date().toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-GB',
+  { year: 'numeric', month: 'long', day: 'numeric' });
+
+const angaben = [
+  { l: t(ui.verfuegbarTitel), w: t(ui.verfuegbarWert) },
+  { l: t(ui.standort), w: t(ui.standortWert) },
+  { l: t(ui.druckEmail), w: person.email },
+  { l: 'GitHub', w: person.githubUrl.replace('https://', '') },
+  { l: t(ui.druckOnline), w: start.replace('https://', '').replace(/\/$/, '') },
+  { l: t(ui.stand), w: stand },
+];
+---
+
+<section class="abschnitt huelle deckblatt">
+  <div class="stapel" style="--l:1.75rem">
+    <div class="deckblatt-kopf">
+      <div class="stapel" style="--l:.75rem">
+        <p class="feld-name" style="margin:0">
+          {t(ui.druckTitel)} · {t(ui.protokollNr)} {person.protokollNr}
+        </p>
+        <h1 class="titel-gross" style="margin:0">{person.nachname},<br />{person.vorname}</h1>
+        <p class="fliess" style="margin:0">{t(ui.rolle)}</p>
+      </div>
+      {/* Dasselbe Lichtbild wie im Seitenkopf: auf einem Bewerbungsdokument
+          gehört es aufs Deckblatt, nicht erst irgendwo dazwischen. */}
+      <figure class="lichtbild">
+        <img
+          src={bild('portrait-bakir').gross}
+          width={bild('portrait-bakir').breite}
+          height={bild('portrait-bakir').hoehe}
+          alt={t(ui.lichtbildAlt)}
+        />
+        <figcaption class="feld-name">{t(ui.lichtbild)}</figcaption>
+      </figure>
+    </div>
+
+    <div class="gitter">
+      {angaben.map((a) => (
+        <div class="gitter-reihe">
+          <span class="feld-name">{a.l}</span>
+          <span>{a.w}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="kennwerte">
+      {kopfzahlen.map((k) => (
+        <div>
+          <span class="w">{k.wert}</span>
+          <span class="l">{t(k.l)}</span>
+          <span class="s">{t(k.s)}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="stapel" style="--l:.6rem">
+      <h2 class="feld-name">{t(ui.register)}</h2>
+      <div class="gitter">
+        {projekte.map((p) => (
+          <div class="gitter-reihe">
+            <span class="feld-name">{p.nr}</span>
+            <span>
+              {t(p.titel)}
+              {'stempel' in p && p.stempel && (
+                <span class="mess-quelle"> · {t(p.stempel.wort)} {p.stempel.zusatz}</span>
+              )}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <p class="mess-quelle" style="margin:0;max-width:68ch">{t(ui.druckHinweis)}</p>
+  </div>
+</section>
+
+{projekte.map((p, i) => <Blatt lang={lang} p={p} i={i} />)}

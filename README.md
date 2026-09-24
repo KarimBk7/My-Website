@@ -70,6 +70,20 @@ Weitere Prüfungen, alle mit `[basis-url]` als optionalem Argument:
 | `tools/barriere-test.mjs` | axe über alle Seiten, WCAG 2.1 A und AA |
 | `tools/pruefen.mjs` | fährt alle oben genannten Skripte und endet mit Fehler, wenn eines etwas meldet |
 
+### Portfolio-PDF
+
+`/druck/` und `/en/print/` sind die Druckvorlage: Deckblatt und danach alle
+Projektblätter am Stück, aus denselben Daten wie die Seite und mit `noindex`.
+`node tools/pdf.mjs` druckt daraus die beiden PDFs nach `public/dokumente/`
+(gebaute Seite muss laufen). Ein neues Projekt in `src/data/inhalt.ts` steht
+ohne weiteres Zutun auch im Dokument; das Werkzeug bricht ab, wenn im Bogen
+weniger Blätter stehen als es Blattnummern in den Inhalten gibt.
+
+```bash
+npx astro build && node tools/serve-mit-headern.mjs 4400
+node tools/pdf.mjs
+```
+
 Die Sitemap entsteht beim Bauen aus `src/data/inhalt.ts` (`src/pages/sitemap.xml.ts`).
 `node tools/revisionen.mjs` schreibt die Änderungshistorie für die Seite
 `/revisionsstand/` nach `src/data/revisionen.json` — vor einem Release neu
