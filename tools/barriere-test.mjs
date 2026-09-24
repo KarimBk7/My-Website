@@ -17,7 +17,7 @@ const BASIS = process.argv[2] ?? 'http://127.0.0.1:4400';
 const REGELN = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
 const SEITEN = [
   '/', '/en/',
-  '/projekte/spesenkonfigurator/', '/projekte/wordle/', '/en/projects/wordle/',
+  '/projekte/spesenkonfigurator/', '/projekte/reflowtask/', '/projekte/wordle/', '/en/projects/wordle/',
   '/datenschutz/', '/impressum/', '/revisionsstand/', '/404.html',
 ];
 

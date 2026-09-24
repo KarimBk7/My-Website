@@ -234,6 +234,74 @@
       }
     ]
   },
+  "reflow-arbeitszeiten": {
+    "breite": 1440,
+    "hoehe": 900,
+    "seitenverhaeltnis": 1.6,
+    "varianten": [
+      {
+        "datei": "/media/reflow-arbeitszeiten-800.webp",
+        "breite": 800,
+        "kb": 24
+      },
+      {
+        "datei": "/media/reflow-arbeitszeiten-1440.webp",
+        "breite": 1440,
+        "kb": 64
+      }
+    ]
+  },
+  "reflow-konten": {
+    "breite": 1440,
+    "hoehe": 900,
+    "seitenverhaeltnis": 1.6,
+    "varianten": [
+      {
+        "datei": "/media/reflow-konten-800.webp",
+        "breite": 800,
+        "kb": 30
+      },
+      {
+        "datei": "/media/reflow-konten-1440.webp",
+        "breite": 1440,
+        "kb": 81
+      }
+    ]
+  },
+  "reflow-neue-aufgabe": {
+    "breite": 1440,
+    "hoehe": 900,
+    "seitenverhaeltnis": 1.6,
+    "varianten": [
+      {
+        "datei": "/media/reflow-neue-aufgabe-800.webp",
+        "breite": 800,
+        "kb": 29
+      },
+      {
+        "datei": "/media/reflow-neue-aufgabe-1440.webp",
+        "breite": 1440,
+        "kb": 78
+      }
+    ]
+  },
+  "reflow-woche": {
+    "breite": 1440,
+    "hoehe": 900,
+    "seitenverhaeltnis": 1.6,
+    "varianten": [
+      {
+        "datei": "/media/reflow-woche-800.webp",
+        "breite": 800,
+        "kb": 29
+      },
+      {
+        "datei": "/media/reflow-woche-1440.webp",
+        "breite": 1440,
+        "kb": 80
+      }
+    ]
+  },
   "wordle-ergebnis": {
     "breite": 900,
     "hoehe": 500,

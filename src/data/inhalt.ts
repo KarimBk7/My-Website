@@ -712,6 +712,106 @@ public void markValidated() {
     },
     repo: 'https://github.com/KarimBk7/Wordle-Solver',
   },
+  /**
+   * Das bislang groesste eigene Projekt und das einzige, das im Betrieb laeuft:
+   * Backend, Oberflaeche, Anmeldung, Datentrennung und Auslieferung auf eigener
+   * Hardware. Die Zahlen sind gemessen -- 168 Backend-Tests am 24.09.2026 lokal
+   * ausgefuehrt, Migrationen und Commits im Repository gezaehlt.
+   */
+  {
+    id: 'reflowtask',
+    kachel: 'reflow-woche',
+    nr: 'M-6',
+    stempel: { wort: { de: 'In Betrieb', en: 'In service' }, zusatz: '09/2026' },
+    titel: { de: 'ReflowTask', en: 'ReflowTask' },
+    kurz: {
+      de: 'Aufgabenplaner, der sich selbst repariert: Jede Aufgabe bekommt echte Zeitblöcke, und wer einen verpasst, bekommt den Rest automatisch neu geplant. Selbst gehostet für einen Haushalt, im Betrieb auf einem Raspberry Pi 5.',
+      en: 'A task planner that repairs its own schedule: every task gets real time blocks, and a missed block is replanned automatically. Self-hosted for a household, running on a Raspberry Pi 5.',
+    },
+    kopf: [
+      { l: { de: 'Rahmen', en: 'Context' }, w: { de: 'Eigenarbeit', en: 'Own work' } },
+      { l: { de: 'Zeitraum', en: 'Period' }, w: { de: '14.09. – 24.09.2026', en: '14–24 Sep 2026' } },
+      { l: { de: 'Meine Rolle', en: 'My role' }, w: { de: 'Backend, Oberfläche, Betrieb', en: 'Backend, interface, operations' } },
+      { l: { de: 'Umfang', en: 'Scope' }, w: { de: '3.517 Zeilen Java, 4.300 Zeilen TypeScript', en: '3,517 lines of Java, 4,300 of TypeScript' } },
+      { l: { de: 'Betrieb', en: 'Operations' }, w: { de: 'Raspberry Pi 5, Docker Compose', en: 'Raspberry Pi 5, Docker Compose' } },
+    ],
+    aufgabe: {
+      de: 'Aufgabenlisten sagen, was zu tun ist, aber nicht wann. Wird ein Termin verpasst, steht die Aufgabe rot da und das Umräumen des Tages bleibt am Menschen hängen. Fertige Dienste, die selbst umplanen, kosten ein Abo und legen den Kalender auf fremde Server. ReflowTask macht dasselbe auf eigener Hardware: Jede Aufgabe trägt eine geschätzte Dauer und optional eine Frist, daraus werden Blöcke in den eigenen Arbeitszeiten.',
+      en: 'Task lists tell you what to do, not when. Miss an appointment and the task turns red, leaving you to rearrange the day by hand. Hosted services that replan for you cost a subscription and keep your calendar on someone else’s servers. ReflowTask does the same thing on your own hardware: every task carries an estimated duration and an optional deadline, and from those it places blocks inside your own working hours.',
+    },
+    herausforderung: {
+      titel: { de: 'Planen als reine Funktion', en: 'Planning as a pure function' },
+      text: {
+        de: 'Der Kern ist bewusst eine reine Funktion: Aufgaben, belegte Zeiten, Einstellungen und der aktuelle Zeitpunkt hinein, fertige Blöcke heraus — ohne Datenbank, ohne Uhr von außen. Dadurch ist jede Regel einzeln durch einen Test beweisbar. Die Reihenfolge ist Frist zuerst, dann Priorität, dann das Alter der Aufgabe. Der letzte Schlüssel ist kein Schönheitsfehler, sondern Absicht: Ohne ihn würden gleichwertige Aufgaben bei jedem Lauf die Plätze tauschen, und jede Umplanung sähe nach einer Änderung aus. Freie Zeit beginnt außerdem immer auf einer glatten Viertelstunde, sonst steht nach einer Umplanung um 10:37 Uhr ein Kalender voller 10:37-Termine.',
+        en: 'The core is deliberately a pure function: tasks, committed time, settings and the current moment go in, finished blocks come out — no database, no injected clock. That makes every rule provable by a single test. The order is deadline first, then priority, then the age of the task. That last tie-break is not cosmetic: without it, equivalent tasks would swap places on every run and each replan would look like a change. Free capacity also always starts on a clean quarter hour; otherwise a replan at 10:37 produces a calendar full of 10:37 starts.',
+      },
+    },
+    beitrag: {
+      de: [
+        'Planungskern als reine Funktion, direkt testbar ohne Datenbank',
+        'Stündlicher Lauf erkennt verpasste Blöcke und plant nur den Rest neu',
+        'Zustände je Block (geplant, erledigt, verpasst): erledigte Teile zählen gegen die Schätzung',
+        'Haushaltskonten mit eigenen Aufgaben, Arbeitszeiten und Verlauf je Person',
+        'Datentrennung gegnerisch geprüft: fremde IDs antworten mit 404, nicht mit 403',
+        'Anmeldung mit Sitzungscookies, bcrypt und Sperre nach fünf Fehlversuchen',
+        'Auslieferung als Docker Compose, im Betrieb auf einem Raspberry Pi 5 hinter Caddy und Tailscale',
+      ],
+      en: [
+        'Planning core as a pure function, testable directly without a database',
+        'An hourly job spots missed blocks and replans only what is left',
+        'Per-block states (planned, done, missed): finished parts count against the estimate',
+        'Household accounts with their own tasks, working hours and history per person',
+        'Data isolation tested adversarially: another user’s ID answers 404, not 403',
+        'Login with session cookies, bcrypt and a lockout after five failed attempts',
+        'Shipped as Docker Compose, running on a Raspberry Pi 5 behind Caddy and Tailscale',
+      ],
+    },
+    kennzahlen: [
+      { wert: '168', l: { de: 'Backend-Tests, alle grün', en: 'backend tests, all green' }, s: { de: 'am 24.09.2026 ausgeführt, dazu 29 im Frontend', en: 'run on 24 Sep 2026, plus 29 in the frontend' } },
+      { wert: '7', l: { de: 'Datenbank-Migrationen', en: 'database migrations' }, s: { de: 'laufen gleich auf H2 und PostgreSQL', en: 'run identically on H2 and PostgreSQL' } },
+      { wert: '40', l: { de: 'Commits', en: 'commits' }, s: { de: 'in zehn Tagen, 14.–24.09.2026', en: 'in ten days, 14–24 Sep 2026' } },
+      { wert: '59', l: { de: 'Java-Klassen', en: 'Java classes' }, s: { de: 'plus 26 Dateien im Frontend', en: 'plus 26 files in the frontend' } },
+    ],
+    stack: ['Java 25', 'Spring Boot 4.1', 'Spring Data JPA', 'PostgreSQL', 'Flyway', 'React 19', 'TypeScript', 'Vite', 'TanStack Query', 'JUnit 5', 'Vitest', 'Docker Compose', 'GitHub Actions'],
+    maengel: {
+      titel: { de: 'Was noch fehlt', en: 'What is still missing' },
+      hinweis: {
+        de: 'Im Betrieb, aber nicht fertig. Diese Punkte sind bekannt und stehen hier, damit niemand sie erst suchen muss.',
+        en: 'In service, but not finished. These points are known, and they are listed here so nobody has to go looking for them.',
+      },
+      punkte: {
+        de: [
+          'Keine wiederkehrenden Aufgaben',
+          'Kein Abgleich mit fremden Kalendern: Ein Termin von außen blockiert nur, wenn er auch hier steht',
+          'Die Anmeldesperre liegt im Arbeitsspeicher und ist nach einem Neustart weg',
+          'Die Oberfläche gibt es nur auf Englisch, alle Texte stehen aber in einer Datei',
+          'Keine Erinnerungen aufs Telefon; der vorgesehene Weg über einen Kalender-Feed fehlt noch',
+        ],
+        en: [
+          'No recurring tasks',
+          'No sync with external calendars: an outside appointment only blocks time if it is entered here too',
+          'The login lockout lives in memory and is gone after a restart',
+          'The interface is English-only, though every string sits in a single file',
+          'No phone reminders; the intended route through a calendar feed does not exist yet',
+        ],
+      },
+    },
+    bilder: [
+      { datei: 'reflow-woche', breit: true, bu: { de: 'Wochenansicht: geplante Blöcke in den Arbeitszeiten, rot markiert, was nach seiner Frist endet, gelb umrandet ein verschobener Block samt Herkunft. Links die Aufgaben, die Aufmerksamkeit brauchen, und darunter das Protokoll jeder Verschiebung. Oben je Tag, wie viel Zeit noch frei ist.', en: 'Week view: planned blocks inside the working hours, red for anything ending after its deadline, an amber outline for a moved block with where it came from. On the left the tasks needing attention, below them a log of every move. At the top of each day, how much time is still free.' } },
+      { datei: 'reflow-neue-aufgabe', bu: { de: 'Neue Aufgabe: Dauer, Priorität und Frist über Schaltflächen statt über ein Formular. Der Satz darüber sagt vorab, wohin die Aufgabe fällt.', en: 'New task: duration, priority and deadline as chips instead of a form. The sentence above says in advance where the task will land.' } },
+      { datei: 'reflow-arbeitszeiten', bu: { de: 'Arbeitszeiten je Person: Vorlagen für Mo–Fr, Mo–Sa oder jeden Tag, dazu Pausen, in die nichts geplant wird. Schichtwoche statt fest verdrahtetem Bürotag.', en: 'Working hours per person: presets for Mon–Fri, Mon–Sat or every day, plus breaks that nothing is scheduled into. Shift patterns rather than a hardcoded office day.' } },
+      { datei: 'reflow-konten', bu: { de: 'Haushaltskonten: Mitglieder anlegen, Passwörter zurücksetzen, Konten entfernen. Jede Person sieht nur ihre eigenen Aufgaben; Rolle und Passwortpflicht stehen an der Zeile.', en: 'Household accounts: add members, reset passwords, remove accounts. Each person sees only their own tasks; role and forced password change are shown on the row.' } },
+    ],
+    auslieferung: {
+      de: 'Ein Befehl mit Docker Compose bringt PostgreSQL, das Spring-Boot-Backend und die über Nginx ausgelieferte Oberfläche hoch. Läuft im Betrieb auf einem Raspberry Pi 5 hinter Caddy, erreichbar über Tailscale statt über das offene Internet. Eine Neuinstallation von Grund auf wurde durchgespielt, um die Anleitung zu prüfen.',
+      en: 'One Docker Compose command brings up PostgreSQL, the Spring Boot backend and the Nginx-served interface. It runs in production on a Raspberry Pi 5 behind Caddy, reachable over Tailscale rather than the open internet. A from-scratch reinstall was rehearsed to verify the setup guide.',
+    },
+    einordnung: {
+      de: 'Private Arbeit, Quelltext und Oberfläche stammen vollständig von mir. Bewusst ohne vollständiges Spring Security: Das Bedrohungsmodell ist ein Haushalt im privaten Netz, und die Begründung dafür steht als eigenes Dokument im Repository. Passwörter setzt zurück, wer Zugang zur Maschine hat — es gibt keinen Mailserver, also auch keinen Link zum Zurücksetzen.',
+      en: 'Private work; source code and interface are entirely mine. Deliberately without the full Spring Security stack: the threat model is a household on a private network, and the reasoning is written down in the repository. Passwords are reset by whoever has access to the machine — there is no mail server, so there is no reset link either.',
+    },
+    repo: 'https://github.com/KarimBk7/ReflowTask',
+  },
 ] as const;
 
 /* ----------------------------------------------------------- Fremdbefunde */
@@ -849,8 +949,8 @@ export const ui: Record<string, S> = {
   alleProjekte: { de: 'Alle Projekte', en: 'All projects' },
   weitereProjekte: { de: 'Weitere Projekte', en: 'More projects' },
   projekteText: {
-    de: 'Fünf Arbeiten, je ein Blatt zum Aufschlagen: eine Auftragsentwicklung für ein Softwareunternehmen, ein von Grund auf selbst gebautes Spiel ohne fertige Engine, ein über anderthalb Jahre gepflegtes Lernrepository, diese Seite selbst — und ein kleines Werkzeug, das fertig ausgeliefert ist.',
-    en: 'Five pieces of work, one sheet each to open: a contract development for a software company, a game built from scratch without an engine, a learning repository maintained over eighteen months, this page itself — and a small tool that is finished and shipped.',
+    de: 'Sechs Arbeiten, je ein Blatt zum Aufschlagen: eine Auftragsentwicklung für ein Softwareunternehmen, ein selbst gehosteter Aufgabenplaner im Betrieb, ein von Grund auf gebautes Spiel ohne fertige Engine, ein über anderthalb Jahre gepflegtes Lernrepository, diese Seite selbst — und ein kleines Werkzeug, das fertig ausgeliefert ist.',
+    en: 'Six pieces of work, one sheet each to open: a contract development for a software company, a self-hosted task planner in daily service, a game built from scratch without an engine, a learning repository maintained over eighteen months, this page itself — and a small tool that is finished and shipped.',
   },
 
   /* Inhaltsverzeichnis in der linken Spalte */

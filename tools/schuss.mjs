@@ -82,7 +82,7 @@ for (const a of ANSICHTEN) {
 // Ein paar harte Prüfungen, die kein Bild zeigt -- auf jeder ausgelieferten
 // Seite ausser dem Impressum, das die Anschrift absichtlich traegt.
 const PRUEFSEITEN = ['/', '/en/', '/datenschutz/', '/en/privacy/',
-  ...['spesenkonfigurator', 'kaiju', 'lernrepo', 'website', 'wordle'].flatMap((id) => [`/projekte/${id}/`, `/en/projects/${id}/`])];
+  ...['spesenkonfigurator', 'kaiju', 'lernrepo', 'website', 'wordle', 'reflowtask'].flatMap((id) => [`/projekte/${id}/`, `/en/projects/${id}/`])];
 const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
 const page = await ctx.newPage();
 const befund = {};

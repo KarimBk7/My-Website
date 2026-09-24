@@ -1,8 +1,23 @@
 {
-  "stand": "2026-09-19",
+  "stand": "2026-09-24",
   "seit": "2026-09-09",
-  "gesamt": 61,
+  "gesamt": 64,
   "eintraege": [
+    {
+      "kurz": "eb25ccb",
+      "datum": "2026-09-20",
+      "betreff": "LICENSE als reines MIT, Geltungsbereich in NOTICE.md"
+    },
+    {
+      "kurz": "767b9bc",
+      "datum": "2026-09-20",
+      "betreff": "Lizenz: MIT fuer den Code, Inhalte ausgenommen"
+    },
+    {
+      "kurz": "4d710a0",
+      "datum": "2026-09-19",
+      "betreff": "Revisionsstand aufgefrischt"
+    },
     {
       "kurz": "63b9fb9",
       "datum": "2026-09-19",
@@ -287,21 +302,6 @@
       "kurz": "2040929",
       "datum": "2026-09-09",
       "betreff": "Zwei Regressionen aus dem Fix-Durchgang behoben"
-    },
-    {
-      "kurz": "8b8f42c",
-      "datum": "2026-09-09",
-      "betreff": "Uebergang der Spurbild-Punkte ohne stroke-width"
-    },
-    {
-      "kurz": "d9c9801",
-      "datum": "2026-09-09",
-      "betreff": "Befunde der Abschlusspruefung abgearbeitet"
-    },
-    {
-      "kurz": "131afcb",
-      "datum": "2026-09-09",
-      "betreff": "Aufnahmewerkzeug: Bilder vor der Ganzseitenaufnahme laden"
     }
   ]
 }
