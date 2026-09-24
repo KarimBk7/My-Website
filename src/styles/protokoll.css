@@ -974,7 +974,7 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
 .rechtslinks { display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; margin: 0; }
 * + .rechtslinks { margin-top: 0.6rem; }
 
-/* --- Wordle-Demo (Blatt M-5) -------------------------------------------- */
+/* --- Wordle-Demo (Blatt M-6) -------------------------------------------- */
 /* Die Kacheln sehen aus wie im Spiel, alles andere bleibt Protokoll: rechte
    Winkel, Hauchlinien, Mono fuer die Woerter. Die drei Farben sind die des
    Spiels und nicht die der Seite -- hier zaehlt, dass man sie wiedererkennt. */

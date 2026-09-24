@@ -26,7 +26,7 @@ with it.
 The content is not: the texts, my photograph, the screenshots and clips, my CV
 and my references are published here to be read, not reused (all rights
 reserved). Two parts are not even mine to give away — the Projektron material
-on sheet M-1 and the Kaiju artwork on M-2 are shown with permission and belong
+on sheet M-1 and the Kaiju artwork on M-4 are shown with permission and belong
 to them. [NOTICE.md](NOTICE.md) lists exactly which paths fall on which side.
 
 ---
@@ -66,7 +66,7 @@ Weitere Prüfungen, alle mit `[basis-url]` als optionalem Argument:
 | `tools/video-test.mjs` | Video: nur im Bild, Pause, Vollbild, reduzierte Bewegung, Fehlerfälle (läuft in Edge wegen H.264) |
 | `tools/links-test.mjs` | Downloads, Außenlinks in neuem Tab mit `noopener` |
 | `tools/kontakt-test.mjs` | Kontaktknopf kopiert die Adresse und zeigt die Rückmeldung |
-| `tools/wordle-test.mjs` | Solver-Demo auf Blatt M-5 gegen unabhängig in Python bestimmte Sollwerte |
+| `tools/wordle-test.mjs` | Solver-Demo auf Blatt M-6 gegen unabhängig in Python bestimmte Sollwerte |
 | `tools/barriere-test.mjs` | axe über alle Seiten, WCAG 2.1 A und AA |
 | `tools/pruefen.mjs` | fährt alle oben genannten Skripte und endet mit Fehler, wenn eines etwas meldet |
 

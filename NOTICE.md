@@ -37,7 +37,7 @@ Two parts are not mine to give away at all:
   code excerpt show software built for them. Published with their permission;
   the code belongs to the client. Their logo and corporate identity assets are
   deliberately not published — they are painted over in the clip.
-- **The Kaiju Adventure team (sheet M-2):** the artwork and sound are theirs
+- **The Kaiju Adventure team (sheet M-4):** the artwork and sound are theirs
   and are shown with their permission.
 
 And one that is nobody's to claim:

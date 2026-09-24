@@ -1,4 +1,4 @@
-// Prueft die Wordle-Demo auf Blatt M-5 im Browser.
+// Prueft die Wordle-Demo auf Blatt M-6 im Browser.
 //
 // Die Sollwerte stammen NICHT aus derselben Rechnung: sie wurden mit einem
 // eigenen Python-Skript ueber dieselben Wortlisten bestimmt, das die Regeln

@@ -3,7 +3,7 @@
  * Eigene Datei und kein eingebetteter Block: die Content-Security-Policy
  * erlaubt nur Skripte von dieser Seite (script-src 'self').
  *
- * Unterschied zur Windows-Fassung (M-5): dort traegt man die Bedingungen
+ * Unterschied zur Windows-Fassung (M-6): dort traegt man die Bedingungen
  * selbst ein -- gruene Buchstaben, gelbe, wie oft ein Buchstabe vorkommt.
  * Hier gibt man ein, was das Spiel zeigt: das geratene Wort und die Farben.
  * Die Bedingungen leitet der Rechner daraus ab, auch die Anzahl je Buchstabe.

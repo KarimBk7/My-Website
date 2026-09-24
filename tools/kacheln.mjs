@@ -1,5 +1,5 @@
 // Rendert die Kachelbilder fuer Projekte ohne eigene Aufnahme aus der Seite
-// selbst: M-3 zeigt seine Themenlandkarte, M-4 den Kopf dieser Seite. Beides
+// selbst: M-5 zeigt seine Themenlandkarte, M-3 den Kopf dieser Seite. Beides
 // sind echte Ausschnitte, keine Illustrationen -- die Kachel zeigt, was hinter
 // ihr steht.
 //
@@ -10,7 +10,7 @@
 // M-1 nimmt statt eines Seitenausschnitts ein Bild aus seinem Video (bei 9 s:
 // gefuellte Tabelle, gelb markierte Warnung, offene Auswahlliste):
 //   ffmpeg -ss 9 -i public/media/projektron-ablauf.mp4 -frames:v 1 -vf scale=1200:-1 src/assets/media/kachel-spesenkonfig.png
-// M-2 nutzt das Standbild seines Videos (kaiju-spiel) unveraendert.
+// M-4 nutzt das Standbild seines Videos (kaiju-spiel) unveraendert.
 //
 // Aufruf: node tools/kacheln.mjs [basis-url]
 import { chromium } from 'playwright';
@@ -21,11 +21,11 @@ const b = await chromium.launch();
 const ctx = await b.newContext({ viewport: { width: BREITE, height: Math.round(BREITE * 9 / 16) }, reducedMotion: 'reduce' });
 const p = await ctx.newPage();
 
-// M-4: der Seitenkopf, wie ihn ein Besucher als Erstes sieht
+// M-3: der Seitenkopf, wie ihn ein Besucher als Erstes sieht
 await p.goto(BASIS + '/', { waitUntil: 'networkidle' });
 await p.screenshot({ path: 'src/assets/media/kachel-website.png' });
 
-// M-3: Kennwerte und Themenlandkarte, im Seitenverhaeltnis der Kachel.
+// M-5: Kennwerte und Themenlandkarte, im Seitenverhaeltnis der Kachel.
 // Vorher ganz nach unten scrollen, damit alle Zeilen eingeblendet sind.
 await p.setViewportSize({ width: BREITE, height: 1400 });
 await p.goto(BASIS + '/projekte/lernrepo/', { waitUntil: 'networkidle' });

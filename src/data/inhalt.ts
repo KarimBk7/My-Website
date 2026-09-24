@@ -398,10 +398,178 @@ public void markValidated() {
       en: 'The functions listed come from my area of responsibility within the six-person team. UI, prototyping and requirements were handled by the other members; the domain validation logic was developed jointly. The source code belongs to the client and is therefore the only project shown here that is not publicly viewable.',
     },
   },
+  /**
+   * Das bislang groesste eigene Projekt und das einzige, das im Betrieb laeuft:
+   * Backend, Oberflaeche, Anmeldung, Datentrennung und Auslieferung auf eigener
+   * Hardware. Die Zahlen sind gemessen -- 168 Backend-Tests am 24.09.2026 lokal
+   * ausgefuehrt, Migrationen und Commits im Repository gezaehlt.
+   */
+  {
+    id: 'reflowtask',
+    kachel: 'reflow-woche',
+    nr: 'M-2',
+    stempel: { wort: { de: 'In Betrieb', en: 'In service' }, zusatz: '09/2026' },
+    titel: { de: 'ReflowTask', en: 'ReflowTask' },
+    kurz: {
+      de: 'Aufgabenplaner, der sich selbst repariert: Jede Aufgabe bekommt echte Zeitblöcke, und wer einen verpasst, bekommt den Rest automatisch neu geplant. Selbst gehostet für einen Haushalt, im Betrieb auf einem Raspberry Pi 5.',
+      en: 'A task planner that repairs its own schedule: every task gets real time blocks, and a missed block is replanned automatically. Self-hosted for a household, running on a Raspberry Pi 5.',
+    },
+    kopf: [
+      { l: { de: 'Rahmen', en: 'Context' }, w: { de: 'Eigenarbeit', en: 'Own work' } },
+      { l: { de: 'Zeitraum', en: 'Period' }, w: { de: '14.09. – 24.09.2026', en: '14–24 Sep 2026' } },
+      { l: { de: 'Meine Rolle', en: 'My role' }, w: { de: 'Backend, Oberfläche, Betrieb', en: 'Backend, interface, operations' } },
+      { l: { de: 'Umfang', en: 'Scope' }, w: { de: '3.517 Zeilen Java, 4.300 Zeilen TypeScript', en: '3,517 lines of Java, 4,300 of TypeScript' } },
+      { l: { de: 'Betrieb', en: 'Operations' }, w: { de: 'Raspberry Pi 5, Docker Compose', en: 'Raspberry Pi 5, Docker Compose' } },
+    ],
+    aufgabe: {
+      de: 'Aufgabenlisten sagen, was zu tun ist, aber nicht wann. Wird ein Termin verpasst, steht die Aufgabe rot da und das Umräumen des Tages bleibt am Menschen hängen. Fertige Dienste, die selbst umplanen, kosten ein Abo und legen den Kalender auf fremde Server. ReflowTask macht dasselbe auf eigener Hardware: Jede Aufgabe trägt eine geschätzte Dauer und optional eine Frist, daraus werden Blöcke in den eigenen Arbeitszeiten.',
+      en: 'Task lists tell you what to do, not when. Miss an appointment and the task turns red, leaving you to rearrange the day by hand. Hosted services that replan for you cost a subscription and keep your calendar on someone else’s servers. ReflowTask does the same thing on your own hardware: every task carries an estimated duration and an optional deadline, and from those it places blocks inside your own working hours.',
+    },
+    herausforderung: {
+      titel: { de: 'Planen als reine Funktion', en: 'Planning as a pure function' },
+      text: {
+        de: 'Der Kern ist bewusst eine reine Funktion: Aufgaben, belegte Zeiten, Einstellungen und der aktuelle Zeitpunkt hinein, fertige Blöcke heraus — ohne Datenbank, ohne Uhr von außen. Dadurch ist jede Regel einzeln durch einen Test beweisbar. Die Reihenfolge ist Frist zuerst, dann Priorität, dann das Alter der Aufgabe. Der letzte Schlüssel ist kein Schönheitsfehler, sondern Absicht: Ohne ihn würden gleichwertige Aufgaben bei jedem Lauf die Plätze tauschen, und jede Umplanung sähe nach einer Änderung aus. Freie Zeit beginnt außerdem immer auf einer glatten Viertelstunde, sonst steht nach einer Umplanung um 10:37 Uhr ein Kalender voller 10:37-Termine.',
+        en: 'The core is deliberately a pure function: tasks, committed time, settings and the current moment go in, finished blocks come out — no database, no injected clock. That makes every rule provable by a single test. The order is deadline first, then priority, then the age of the task. That last tie-break is not cosmetic: without it, equivalent tasks would swap places on every run and each replan would look like a change. Free capacity also always starts on a clean quarter hour; otherwise a replan at 10:37 produces a calendar full of 10:37 starts.',
+      },
+    },
+    beitrag: {
+      de: [
+        'Planungskern als reine Funktion, direkt testbar ohne Datenbank',
+        'Stündlicher Lauf erkennt verpasste Blöcke und plant nur den Rest neu',
+        'Zustände je Block (geplant, erledigt, verpasst): erledigte Teile zählen gegen die Schätzung',
+        'Haushaltskonten mit eigenen Aufgaben, Arbeitszeiten und Verlauf je Person',
+        'Datentrennung gegnerisch geprüft: fremde IDs antworten mit 404, nicht mit 403',
+        'Anmeldung mit Sitzungscookies, bcrypt und Sperre nach fünf Fehlversuchen',
+        'Auslieferung als Docker Compose, im Betrieb auf einem Raspberry Pi 5 hinter Caddy und Tailscale',
+      ],
+      en: [
+        'Planning core as a pure function, testable directly without a database',
+        'An hourly job spots missed blocks and replans only what is left',
+        'Per-block states (planned, done, missed): finished parts count against the estimate',
+        'Household accounts with their own tasks, working hours and history per person',
+        'Data isolation tested adversarially: another user’s ID answers 404, not 403',
+        'Login with session cookies, bcrypt and a lockout after five failed attempts',
+        'Shipped as Docker Compose, running on a Raspberry Pi 5 behind Caddy and Tailscale',
+      ],
+    },
+    kennzahlen: [
+      { wert: '168', l: { de: 'Backend-Tests, alle grün', en: 'backend tests, all green' }, s: { de: 'am 24.09.2026 ausgeführt, dazu 29 im Frontend', en: 'run on 24 Sep 2026, plus 29 in the frontend' } },
+      { wert: '7', l: { de: 'Datenbank-Migrationen', en: 'database migrations' }, s: { de: 'laufen gleich auf H2 und PostgreSQL', en: 'run identically on H2 and PostgreSQL' } },
+      { wert: '40', l: { de: 'Commits', en: 'commits' }, s: { de: 'in zehn Tagen, 14.–24.09.2026', en: 'in ten days, 14–24 Sep 2026' } },
+      { wert: '59', l: { de: 'Java-Klassen', en: 'Java classes' }, s: { de: 'plus 26 Dateien im Frontend', en: 'plus 26 files in the frontend' } },
+    ],
+    stack: ['Java 25', 'Spring Boot 4.1', 'Spring Data JPA', 'PostgreSQL', 'Flyway', 'React 19', 'TypeScript', 'Vite', 'TanStack Query', 'JUnit 5', 'Vitest', 'Docker Compose', 'GitHub Actions'],
+    maengel: {
+      titel: { de: 'Was noch fehlt', en: 'What is still missing' },
+      hinweis: {
+        de: 'Im Betrieb, aber nicht fertig. Diese Punkte sind bekannt und stehen hier, damit niemand sie erst suchen muss.',
+        en: 'In service, but not finished. These points are known, and they are listed here so nobody has to go looking for them.',
+      },
+      punkte: {
+        de: [
+          'Keine wiederkehrenden Aufgaben',
+          'Kein Abgleich mit fremden Kalendern: Ein Termin von außen blockiert nur, wenn er auch hier steht',
+          'Die Anmeldesperre liegt im Arbeitsspeicher und ist nach einem Neustart weg',
+          'Die Oberfläche gibt es nur auf Englisch, alle Texte stehen aber in einer Datei',
+          'Keine Erinnerungen aufs Telefon; der vorgesehene Weg über einen Kalender-Feed fehlt noch',
+        ],
+        en: [
+          'No recurring tasks',
+          'No sync with external calendars: an outside appointment only blocks time if it is entered here too',
+          'The login lockout lives in memory and is gone after a restart',
+          'The interface is English-only, though every string sits in a single file',
+          'No phone reminders; the intended route through a calendar feed does not exist yet',
+        ],
+      },
+    },
+    bilder: [
+      { datei: 'reflow-woche', breit: true, bu: { de: 'Wochenansicht: geplante Blöcke in den Arbeitszeiten, rot markiert, was nach seiner Frist endet, gelb umrandet ein verschobener Block samt Herkunft. Links die Aufgaben, die Aufmerksamkeit brauchen, und darunter das Protokoll jeder Verschiebung. Oben je Tag, wie viel Zeit noch frei ist.', en: 'Week view: planned blocks inside the working hours, red for anything ending after its deadline, an amber outline for a moved block with where it came from. On the left the tasks needing attention, below them a log of every move. At the top of each day, how much time is still free.' } },
+      { datei: 'reflow-neue-aufgabe', bu: { de: 'Neue Aufgabe: Dauer, Priorität und Frist über Schaltflächen statt über ein Formular. Der Satz darüber sagt vorab, wohin die Aufgabe fällt.', en: 'New task: duration, priority and deadline as chips instead of a form. The sentence above says in advance where the task will land.' } },
+      { datei: 'reflow-arbeitszeiten', bu: { de: 'Arbeitszeiten je Person: Vorlagen für Mo–Fr, Mo–Sa oder jeden Tag, dazu Pausen, in die nichts geplant wird. Schichtwoche statt fest verdrahtetem Bürotag.', en: 'Working hours per person: presets for Mon–Fri, Mon–Sat or every day, plus breaks that nothing is scheduled into. Shift patterns rather than a hardcoded office day.' } },
+      { datei: 'reflow-konten', bu: { de: 'Haushaltskonten: Mitglieder anlegen, Passwörter zurücksetzen, Konten entfernen. Jede Person sieht nur ihre eigenen Aufgaben; Rolle und Passwortpflicht stehen an der Zeile.', en: 'Household accounts: add members, reset passwords, remove accounts. Each person sees only their own tasks; role and forced password change are shown on the row.' } },
+    ],
+    auslieferung: {
+      de: 'Ein Befehl mit Docker Compose bringt PostgreSQL, das Spring-Boot-Backend und die über Nginx ausgelieferte Oberfläche hoch. Läuft im Betrieb auf einem Raspberry Pi 5 hinter Caddy, erreichbar über Tailscale statt über das offene Internet. Eine Neuinstallation von Grund auf wurde durchgespielt, um die Anleitung zu prüfen.',
+      en: 'One Docker Compose command brings up PostgreSQL, the Spring Boot backend and the Nginx-served interface. It runs in production on a Raspberry Pi 5 behind Caddy, reachable over Tailscale rather than the open internet. A from-scratch reinstall was rehearsed to verify the setup guide.',
+    },
+    einordnung: {
+      de: 'Private Arbeit, Quelltext und Oberfläche stammen vollständig von mir. Bewusst ohne vollständiges Spring Security: Das Bedrohungsmodell ist ein Haushalt im privaten Netz, und die Begründung dafür steht als eigenes Dokument im Repository. Passwörter setzt zurück, wer Zugang zur Maschine hat — es gibt keinen Mailserver, also auch keinen Link zum Zurücksetzen.',
+      en: 'Private work; source code and interface are entirely mine. Deliberately without the full Spring Security stack: the threat model is a household on a private network, and the reasoning is written down in the repository. Passwords are reset by whoever has access to the machine — there is no mail server, so there is no reset link either.',
+    },
+    repo: 'https://github.com/KarimBk7/ReflowTask',
+  },
+  /**
+   * Das Projekt, das der Betrachter gerade benutzt. Es stand bis zuletzt nicht
+   * in der Liste -- drei Projekte gezeigt und das vierte ausgelassen, obwohl es
+   * offen im Netz liegt und den Web- und Betriebsteil belegt.
+   *
+   * Die Kennzahlen sind gemessen, nicht geschaetzt: Antwortzeit als Median aus
+   * fuenf Abrufen gegen die veroeffentlichte Adresse, JavaScript als gzip-Groesse
+   * der ausgelieferten Datei.
+   */
+  {
+    id: 'website',
+    kachel: 'kachel-website',
+    nr: 'M-3',
+    stempel: { wort: { de: 'Veröffentlicht', en: 'Published' }, zusatz: '09/2026' },
+    titel: { de: 'Diese Seite', en: 'This page' },
+    kurz: {
+      de: 'Die Bewerbungsseite, die Sie gerade lesen: statisch erzeugt, zweisprachig, ohne Tracker und ohne Cookies, ausgeliefert als Cloudflare Worker. Ein Skript von 5,2 KB je Seite, kein Framework im Browser; auf dem Blatt M-6 kommt der Solver als zweites Skript dazu.',
+      en: 'The application site you are reading: statically generated, bilingual, no trackers and no cookies, served as a Cloudflare Worker. One 5.2 KB script per page, no framework in the browser; sheet M-6 adds the solver as a second script.',
+    },
+    kopf: [
+      { l: { de: 'Rahmen', en: 'Context' }, w: { de: 'Eigenarbeit', en: 'Own work' } },
+      { l: { de: 'Zeitraum', en: 'Period' }, w: { de: 'September 2026', en: 'September 2026' } },
+      { l: { de: 'Meine Rolle', en: 'My role' }, w: { de: 'Entwurf, Umsetzung, Betrieb', en: 'Design, build, operations' } },
+      { l: { de: 'Betrieb', en: 'Operations' }, w: { de: 'Cloudflare Worker', en: 'Cloudflare Worker' } },
+      { l: { de: 'Umfang', en: 'Scope' }, w: { de: 'Zwei Sprachen, eine Quelle', en: 'Two languages, one source' } },
+    ],
+    aufgabe: {
+      de: 'Eine Bewerbungsseite, die das belegt, was sie behauptet: schnell, ohne fremde Dienste, ohne Datensammlung, mit Inhalten aus einer einzigen geprüften Quelldatei statt handgepflegtem HTML. Bilder werden beim Bauen einmal in mehreren Größen erzeugt, nicht zur Laufzeit umgerechnet.',
+      en: 'An application site that demonstrates what it claims: fast, no third-party services, no data collection, with content from a single verified source file instead of hand-maintained HTML. Images are generated once at build time in several sizes rather than converted at runtime.',
+    },
+    herausforderung: {
+      titel: { de: 'Was lokal grün ist, ist online noch lange nicht grün', en: 'Green locally is not green in production' },
+      text: {
+        de: 'Drei Fehler haben es trotz vollständig grüner lokaler Prüfung bis auf den Server geschafft: die Sicherheitsrichtlinie verbot eingebettete Skripte, weshalb das Seitenverhalten stumm ausfiel; die Bilder wurden zur Laufzeit angefordert und liefen ins Leere; und eine zu lange Cache-Frist lieferte neues HTML mit altem JavaScript aus. Alle drei schlugen nirgends fehl — sie taten einfach nichts. Daraus wurde ein zweiter Prüflauf, der nicht die gebaute Seite testet, sondern die veröffentlichte: ob die Kopfzeilen wirklich ankommen, ob jedes Bild lädt und ob das Skript tatsächlich gelaufen ist.',
+        en: 'Three faults reached the server despite an all-green local check: the security policy forbade inline scripts, so the page behaviour silently died; the images were requested at runtime and went nowhere; and an over-long cache lifetime served new HTML with old JavaScript. None of the three failed loudly — they simply did nothing. The answer was a second check that does not test the built site but the published one: whether the headers actually arrive, whether every image loads, and whether the script really ran.',
+      },
+    },
+    beitrag: {
+      de: [
+        'Inhalte in einer einzigen typisierten Quelldatei, beide Sprachen daneben statt in getrennten Dateien',
+        'Sicherheitsrichtlinie ohne eingebettete Skripte, dazu nosniff, Referrer-Regel und gesperrte Einbettung',
+        'Eigene Bild-Pipeline: WebP in zwei Breiten beim Bauen, ohne je hochzurechnen',
+        'Prüflauf gegen die veröffentlichte Adresse, nicht nur gegen den lokalen Bau',
+        'Prüfung auf Querüberlauf bei 1440 und 390 Pixeln, auch während der Einblendbewegung',
+        'Bewegung vollständig abschaltbar über prefers-reduced-motion',
+      ],
+      en: [
+        'Content in a single typed source file, both languages side by side rather than in separate files',
+        'Security policy without inline scripts, plus nosniff, referrer rule and blocked embedding',
+        'Own image pipeline: WebP at two widths at build time, never upscaled',
+        'A check against the published address, not only against the local build',
+        'Horizontal-overflow checks at 1440 and 390 pixels, including during the reveal animation',
+        'Motion fully disabled via prefers-reduced-motion',
+      ],
+    },
+    kennzahlen: [
+      { wert: '145', l: { de: 'ms Antwortzeit', en: 'ms response time' }, s: { de: 'Median aus fünf Abrufen', en: 'median of five requests' } },
+      { wert: '5,2', l: { de: 'KB JavaScript', en: 'KB of JavaScript' }, s: { de: 'je Seite eine Datei, gzip, kein Framework', en: 'one file per page, gzipped, no framework' } },
+      { wert: '0', l: { de: 'Tracker und Cookies', en: 'trackers and cookies' }, s: { de: 'keine fremden Server', en: 'no third-party servers' } },
+      { wert: '2', l: { de: 'Sprachen', en: 'languages' }, s: { de: 'vollständig, aus einer Quelle', en: 'complete, from one source' } },
+    ],
+    stack: ['Astro', 'TypeScript', 'CSS', 'Cloudflare Workers', 'sharp', 'Playwright', 'GitHub Actions'],
+    einordnung: {
+      de: 'Entwurf, Inhalte und Abnahme liegen bei mir; die Umsetzung ist im Dialog mit einem KI-Agenten entstanden. Das Repository ist offen — Quelltext, Prüfskripte und die Historie samt der oben genannten Fehler sind einsehbar.',
+      en: 'Design, content and sign-off are mine; the implementation was produced in dialogue with an AI agent. The repository is open — source, check scripts and the history including the faults named above are all visible.',
+    },
+    repo: 'https://github.com/KarimBk7/My-Website',
+  },
   {
     id: 'kaiju',
     kachel: 'kaiju-spiel',
-    nr: 'M-2',
+    nr: 'M-4',
     stempel: { wort: { de: 'Abgegeben', en: 'Submitted' }, zusatz: '12/2022' },
     titel: { de: 'Kaiju Adventure', en: 'Kaiju Adventure' },
     kurz: {
@@ -493,7 +661,7 @@ public void markValidated() {
   {
     id: 'lernrepo',
     kachel: 'kachel-lernrepo',
-    nr: 'M-3',
+    nr: 'M-5',
     stempel: { wort: { de: 'Abgenommen', en: 'Accepted' }, zusatz: '67/67' },
     titel: { de: 'Technisches Lern-Repository', en: 'Technical learning repository' },
     kurz: {
@@ -549,74 +717,6 @@ public void markValidated() {
     repo: 'https://github.com/KarimBk7/-propra-Lern-Repository',
   },
   /**
-   * Das Projekt, das der Betrachter gerade benutzt. Es stand bis zuletzt nicht
-   * in der Liste -- drei Projekte gezeigt und das vierte ausgelassen, obwohl es
-   * offen im Netz liegt und den Web- und Betriebsteil belegt.
-   *
-   * Die Kennzahlen sind gemessen, nicht geschaetzt: Antwortzeit als Median aus
-   * fuenf Abrufen gegen die veroeffentlichte Adresse, JavaScript als gzip-Groesse
-   * der ausgelieferten Datei.
-   */
-  {
-    id: 'website',
-    kachel: 'kachel-website',
-    nr: 'M-4',
-    stempel: { wort: { de: 'Veröffentlicht', en: 'Published' }, zusatz: '09/2026' },
-    titel: { de: 'Diese Seite', en: 'This page' },
-    kurz: {
-      de: 'Die Bewerbungsseite, die Sie gerade lesen: statisch erzeugt, zweisprachig, ohne Tracker und ohne Cookies, ausgeliefert als Cloudflare Worker. Ein Skript von 5,2 KB je Seite, kein Framework im Browser; auf dem Blatt M-5 kommt der Solver als zweites Skript dazu.',
-      en: 'The application site you are reading: statically generated, bilingual, no trackers and no cookies, served as a Cloudflare Worker. One 5.2 KB script per page, no framework in the browser; sheet M-5 adds the solver as a second script.',
-    },
-    kopf: [
-      { l: { de: 'Rahmen', en: 'Context' }, w: { de: 'Eigenarbeit', en: 'Own work' } },
-      { l: { de: 'Zeitraum', en: 'Period' }, w: { de: 'September 2026', en: 'September 2026' } },
-      { l: { de: 'Meine Rolle', en: 'My role' }, w: { de: 'Entwurf, Umsetzung, Betrieb', en: 'Design, build, operations' } },
-      { l: { de: 'Betrieb', en: 'Operations' }, w: { de: 'Cloudflare Worker', en: 'Cloudflare Worker' } },
-      { l: { de: 'Umfang', en: 'Scope' }, w: { de: 'Zwei Sprachen, eine Quelle', en: 'Two languages, one source' } },
-    ],
-    aufgabe: {
-      de: 'Eine Bewerbungsseite, die das belegt, was sie behauptet: schnell, ohne fremde Dienste, ohne Datensammlung, mit Inhalten aus einer einzigen geprüften Quelldatei statt handgepflegtem HTML. Bilder werden beim Bauen einmal in mehreren Größen erzeugt, nicht zur Laufzeit umgerechnet.',
-      en: 'An application site that demonstrates what it claims: fast, no third-party services, no data collection, with content from a single verified source file instead of hand-maintained HTML. Images are generated once at build time in several sizes rather than converted at runtime.',
-    },
-    herausforderung: {
-      titel: { de: 'Was lokal grün ist, ist online noch lange nicht grün', en: 'Green locally is not green in production' },
-      text: {
-        de: 'Drei Fehler haben es trotz vollständig grüner lokaler Prüfung bis auf den Server geschafft: die Sicherheitsrichtlinie verbot eingebettete Skripte, weshalb das Seitenverhalten stumm ausfiel; die Bilder wurden zur Laufzeit angefordert und liefen ins Leere; und eine zu lange Cache-Frist lieferte neues HTML mit altem JavaScript aus. Alle drei schlugen nirgends fehl — sie taten einfach nichts. Daraus wurde ein zweiter Prüflauf, der nicht die gebaute Seite testet, sondern die veröffentlichte: ob die Kopfzeilen wirklich ankommen, ob jedes Bild lädt und ob das Skript tatsächlich gelaufen ist.',
-        en: 'Three faults reached the server despite an all-green local check: the security policy forbade inline scripts, so the page behaviour silently died; the images were requested at runtime and went nowhere; and an over-long cache lifetime served new HTML with old JavaScript. None of the three failed loudly — they simply did nothing. The answer was a second check that does not test the built site but the published one: whether the headers actually arrive, whether every image loads, and whether the script really ran.',
-      },
-    },
-    beitrag: {
-      de: [
-        'Inhalte in einer einzigen typisierten Quelldatei, beide Sprachen daneben statt in getrennten Dateien',
-        'Sicherheitsrichtlinie ohne eingebettete Skripte, dazu nosniff, Referrer-Regel und gesperrte Einbettung',
-        'Eigene Bild-Pipeline: WebP in zwei Breiten beim Bauen, ohne je hochzurechnen',
-        'Prüflauf gegen die veröffentlichte Adresse, nicht nur gegen den lokalen Bau',
-        'Prüfung auf Querüberlauf bei 1440 und 390 Pixeln, auch während der Einblendbewegung',
-        'Bewegung vollständig abschaltbar über prefers-reduced-motion',
-      ],
-      en: [
-        'Content in a single typed source file, both languages side by side rather than in separate files',
-        'Security policy without inline scripts, plus nosniff, referrer rule and blocked embedding',
-        'Own image pipeline: WebP at two widths at build time, never upscaled',
-        'A check against the published address, not only against the local build',
-        'Horizontal-overflow checks at 1440 and 390 pixels, including during the reveal animation',
-        'Motion fully disabled via prefers-reduced-motion',
-      ],
-    },
-    kennzahlen: [
-      { wert: '145', l: { de: 'ms Antwortzeit', en: 'ms response time' }, s: { de: 'Median aus fünf Abrufen', en: 'median of five requests' } },
-      { wert: '5,2', l: { de: 'KB JavaScript', en: 'KB of JavaScript' }, s: { de: 'je Seite eine Datei, gzip, kein Framework', en: 'one file per page, gzipped, no framework' } },
-      { wert: '0', l: { de: 'Tracker und Cookies', en: 'trackers and cookies' }, s: { de: 'keine fremden Server', en: 'no third-party servers' } },
-      { wert: '2', l: { de: 'Sprachen', en: 'languages' }, s: { de: 'vollständig, aus einer Quelle', en: 'complete, from one source' } },
-    ],
-    stack: ['Astro', 'TypeScript', 'CSS', 'Cloudflare Workers', 'sharp', 'Playwright', 'GitHub Actions'],
-    einordnung: {
-      de: 'Entwurf, Inhalte und Abnahme liegen bei mir; die Umsetzung ist im Dialog mit einem KI-Agenten entstanden. Das Repository ist offen — Quelltext, Prüfskripte und die Historie samt der oben genannten Fehler sind einsehbar.',
-      en: 'Design, content and sign-off are mine; the implementation was produced in dialogue with an AI agent. The repository is open — source, check scripts and the history including the faults named above are all visible.',
-    },
-    repo: 'https://github.com/KarimBk7/My-Website',
-  },
-  /**
    * Kleines Werkzeug, bewusst als solches ausgewiesen: es steht hier, weil es
    * fertig ausgeliefert ist -- als Programm, das jemand ohne Python startet --
    * und weil der Umbau vom Erzeugen aller Kombinationen zum Filtern der
@@ -625,7 +725,7 @@ public void markValidated() {
   {
     id: 'wordle',
     kachel: 'wordle-ergebnis',
-    nr: 'M-5',
+    nr: 'M-6',
     stempel: { wort: { de: 'Veröffentlicht', en: 'Released' }, zusatz: 'v1.0' },
     titel: { de: 'Wordle-Solver', en: 'Wordle Solver' },
     kurz: {
@@ -711,106 +811,6 @@ public void markValidated() {
       groesse: '13 MB',
     },
     repo: 'https://github.com/KarimBk7/Wordle-Solver',
-  },
-  /**
-   * Das bislang groesste eigene Projekt und das einzige, das im Betrieb laeuft:
-   * Backend, Oberflaeche, Anmeldung, Datentrennung und Auslieferung auf eigener
-   * Hardware. Die Zahlen sind gemessen -- 168 Backend-Tests am 24.09.2026 lokal
-   * ausgefuehrt, Migrationen und Commits im Repository gezaehlt.
-   */
-  {
-    id: 'reflowtask',
-    kachel: 'reflow-woche',
-    nr: 'M-6',
-    stempel: { wort: { de: 'In Betrieb', en: 'In service' }, zusatz: '09/2026' },
-    titel: { de: 'ReflowTask', en: 'ReflowTask' },
-    kurz: {
-      de: 'Aufgabenplaner, der sich selbst repariert: Jede Aufgabe bekommt echte Zeitblöcke, und wer einen verpasst, bekommt den Rest automatisch neu geplant. Selbst gehostet für einen Haushalt, im Betrieb auf einem Raspberry Pi 5.',
-      en: 'A task planner that repairs its own schedule: every task gets real time blocks, and a missed block is replanned automatically. Self-hosted for a household, running on a Raspberry Pi 5.',
-    },
-    kopf: [
-      { l: { de: 'Rahmen', en: 'Context' }, w: { de: 'Eigenarbeit', en: 'Own work' } },
-      { l: { de: 'Zeitraum', en: 'Period' }, w: { de: '14.09. – 24.09.2026', en: '14–24 Sep 2026' } },
-      { l: { de: 'Meine Rolle', en: 'My role' }, w: { de: 'Backend, Oberfläche, Betrieb', en: 'Backend, interface, operations' } },
-      { l: { de: 'Umfang', en: 'Scope' }, w: { de: '3.517 Zeilen Java, 4.300 Zeilen TypeScript', en: '3,517 lines of Java, 4,300 of TypeScript' } },
-      { l: { de: 'Betrieb', en: 'Operations' }, w: { de: 'Raspberry Pi 5, Docker Compose', en: 'Raspberry Pi 5, Docker Compose' } },
-    ],
-    aufgabe: {
-      de: 'Aufgabenlisten sagen, was zu tun ist, aber nicht wann. Wird ein Termin verpasst, steht die Aufgabe rot da und das Umräumen des Tages bleibt am Menschen hängen. Fertige Dienste, die selbst umplanen, kosten ein Abo und legen den Kalender auf fremde Server. ReflowTask macht dasselbe auf eigener Hardware: Jede Aufgabe trägt eine geschätzte Dauer und optional eine Frist, daraus werden Blöcke in den eigenen Arbeitszeiten.',
-      en: 'Task lists tell you what to do, not when. Miss an appointment and the task turns red, leaving you to rearrange the day by hand. Hosted services that replan for you cost a subscription and keep your calendar on someone else’s servers. ReflowTask does the same thing on your own hardware: every task carries an estimated duration and an optional deadline, and from those it places blocks inside your own working hours.',
-    },
-    herausforderung: {
-      titel: { de: 'Planen als reine Funktion', en: 'Planning as a pure function' },
-      text: {
-        de: 'Der Kern ist bewusst eine reine Funktion: Aufgaben, belegte Zeiten, Einstellungen und der aktuelle Zeitpunkt hinein, fertige Blöcke heraus — ohne Datenbank, ohne Uhr von außen. Dadurch ist jede Regel einzeln durch einen Test beweisbar. Die Reihenfolge ist Frist zuerst, dann Priorität, dann das Alter der Aufgabe. Der letzte Schlüssel ist kein Schönheitsfehler, sondern Absicht: Ohne ihn würden gleichwertige Aufgaben bei jedem Lauf die Plätze tauschen, und jede Umplanung sähe nach einer Änderung aus. Freie Zeit beginnt außerdem immer auf einer glatten Viertelstunde, sonst steht nach einer Umplanung um 10:37 Uhr ein Kalender voller 10:37-Termine.',
-        en: 'The core is deliberately a pure function: tasks, committed time, settings and the current moment go in, finished blocks come out — no database, no injected clock. That makes every rule provable by a single test. The order is deadline first, then priority, then the age of the task. That last tie-break is not cosmetic: without it, equivalent tasks would swap places on every run and each replan would look like a change. Free capacity also always starts on a clean quarter hour; otherwise a replan at 10:37 produces a calendar full of 10:37 starts.',
-      },
-    },
-    beitrag: {
-      de: [
-        'Planungskern als reine Funktion, direkt testbar ohne Datenbank',
-        'Stündlicher Lauf erkennt verpasste Blöcke und plant nur den Rest neu',
-        'Zustände je Block (geplant, erledigt, verpasst): erledigte Teile zählen gegen die Schätzung',
-        'Haushaltskonten mit eigenen Aufgaben, Arbeitszeiten und Verlauf je Person',
-        'Datentrennung gegnerisch geprüft: fremde IDs antworten mit 404, nicht mit 403',
-        'Anmeldung mit Sitzungscookies, bcrypt und Sperre nach fünf Fehlversuchen',
-        'Auslieferung als Docker Compose, im Betrieb auf einem Raspberry Pi 5 hinter Caddy und Tailscale',
-      ],
-      en: [
-        'Planning core as a pure function, testable directly without a database',
-        'An hourly job spots missed blocks and replans only what is left',
-        'Per-block states (planned, done, missed): finished parts count against the estimate',
-        'Household accounts with their own tasks, working hours and history per person',
-        'Data isolation tested adversarially: another user’s ID answers 404, not 403',
-        'Login with session cookies, bcrypt and a lockout after five failed attempts',
-        'Shipped as Docker Compose, running on a Raspberry Pi 5 behind Caddy and Tailscale',
-      ],
-    },
-    kennzahlen: [
-      { wert: '168', l: { de: 'Backend-Tests, alle grün', en: 'backend tests, all green' }, s: { de: 'am 24.09.2026 ausgeführt, dazu 29 im Frontend', en: 'run on 24 Sep 2026, plus 29 in the frontend' } },
-      { wert: '7', l: { de: 'Datenbank-Migrationen', en: 'database migrations' }, s: { de: 'laufen gleich auf H2 und PostgreSQL', en: 'run identically on H2 and PostgreSQL' } },
-      { wert: '40', l: { de: 'Commits', en: 'commits' }, s: { de: 'in zehn Tagen, 14.–24.09.2026', en: 'in ten days, 14–24 Sep 2026' } },
-      { wert: '59', l: { de: 'Java-Klassen', en: 'Java classes' }, s: { de: 'plus 26 Dateien im Frontend', en: 'plus 26 files in the frontend' } },
-    ],
-    stack: ['Java 25', 'Spring Boot 4.1', 'Spring Data JPA', 'PostgreSQL', 'Flyway', 'React 19', 'TypeScript', 'Vite', 'TanStack Query', 'JUnit 5', 'Vitest', 'Docker Compose', 'GitHub Actions'],
-    maengel: {
-      titel: { de: 'Was noch fehlt', en: 'What is still missing' },
-      hinweis: {
-        de: 'Im Betrieb, aber nicht fertig. Diese Punkte sind bekannt und stehen hier, damit niemand sie erst suchen muss.',
-        en: 'In service, but not finished. These points are known, and they are listed here so nobody has to go looking for them.',
-      },
-      punkte: {
-        de: [
-          'Keine wiederkehrenden Aufgaben',
-          'Kein Abgleich mit fremden Kalendern: Ein Termin von außen blockiert nur, wenn er auch hier steht',
-          'Die Anmeldesperre liegt im Arbeitsspeicher und ist nach einem Neustart weg',
-          'Die Oberfläche gibt es nur auf Englisch, alle Texte stehen aber in einer Datei',
-          'Keine Erinnerungen aufs Telefon; der vorgesehene Weg über einen Kalender-Feed fehlt noch',
-        ],
-        en: [
-          'No recurring tasks',
-          'No sync with external calendars: an outside appointment only blocks time if it is entered here too',
-          'The login lockout lives in memory and is gone after a restart',
-          'The interface is English-only, though every string sits in a single file',
-          'No phone reminders; the intended route through a calendar feed does not exist yet',
-        ],
-      },
-    },
-    bilder: [
-      { datei: 'reflow-woche', breit: true, bu: { de: 'Wochenansicht: geplante Blöcke in den Arbeitszeiten, rot markiert, was nach seiner Frist endet, gelb umrandet ein verschobener Block samt Herkunft. Links die Aufgaben, die Aufmerksamkeit brauchen, und darunter das Protokoll jeder Verschiebung. Oben je Tag, wie viel Zeit noch frei ist.', en: 'Week view: planned blocks inside the working hours, red for anything ending after its deadline, an amber outline for a moved block with where it came from. On the left the tasks needing attention, below them a log of every move. At the top of each day, how much time is still free.' } },
-      { datei: 'reflow-neue-aufgabe', bu: { de: 'Neue Aufgabe: Dauer, Priorität und Frist über Schaltflächen statt über ein Formular. Der Satz darüber sagt vorab, wohin die Aufgabe fällt.', en: 'New task: duration, priority and deadline as chips instead of a form. The sentence above says in advance where the task will land.' } },
-      { datei: 'reflow-arbeitszeiten', bu: { de: 'Arbeitszeiten je Person: Vorlagen für Mo–Fr, Mo–Sa oder jeden Tag, dazu Pausen, in die nichts geplant wird. Schichtwoche statt fest verdrahtetem Bürotag.', en: 'Working hours per person: presets for Mon–Fri, Mon–Sat or every day, plus breaks that nothing is scheduled into. Shift patterns rather than a hardcoded office day.' } },
-      { datei: 'reflow-konten', bu: { de: 'Haushaltskonten: Mitglieder anlegen, Passwörter zurücksetzen, Konten entfernen. Jede Person sieht nur ihre eigenen Aufgaben; Rolle und Passwortpflicht stehen an der Zeile.', en: 'Household accounts: add members, reset passwords, remove accounts. Each person sees only their own tasks; role and forced password change are shown on the row.' } },
-    ],
-    auslieferung: {
-      de: 'Ein Befehl mit Docker Compose bringt PostgreSQL, das Spring-Boot-Backend und die über Nginx ausgelieferte Oberfläche hoch. Läuft im Betrieb auf einem Raspberry Pi 5 hinter Caddy, erreichbar über Tailscale statt über das offene Internet. Eine Neuinstallation von Grund auf wurde durchgespielt, um die Anleitung zu prüfen.',
-      en: 'One Docker Compose command brings up PostgreSQL, the Spring Boot backend and the Nginx-served interface. It runs in production on a Raspberry Pi 5 behind Caddy, reachable over Tailscale rather than the open internet. A from-scratch reinstall was rehearsed to verify the setup guide.',
-    },
-    einordnung: {
-      de: 'Private Arbeit, Quelltext und Oberfläche stammen vollständig von mir. Bewusst ohne vollständiges Spring Security: Das Bedrohungsmodell ist ein Haushalt im privaten Netz, und die Begründung dafür steht als eigenes Dokument im Repository. Passwörter setzt zurück, wer Zugang zur Maschine hat — es gibt keinen Mailserver, also auch keinen Link zum Zurücksetzen.',
-      en: 'Private work; source code and interface are entirely mine. Deliberately without the full Spring Security stack: the threat model is a household on a private network, and the reasoning is written down in the repository. Passwords are reset by whoever has access to the machine — there is no mail server, so there is no reset link either.',
-    },
-    repo: 'https://github.com/KarimBk7/ReflowTask',
   },
 ] as const;
 
@@ -1030,7 +1030,7 @@ export const ui: Record<string, S> = {
   },
   skipLink: { de: 'Zum Inhalt springen', en: 'Skip to content' },
 
-  /* Der Solver zum Ausprobieren auf Blatt M-5. Die Texte gehen als
+  /* Der Solver zum Ausprobieren auf Blatt M-6. Die Texte gehen als
      data-Attribut an public/js/wordle.js -- eingebettete Skripte verbietet
      die Richtlinie, zweisprachig soll es trotzdem sein. */
   wdDownload: { de: 'Windows-Version herunterladen', en: 'Download the Windows build' },
