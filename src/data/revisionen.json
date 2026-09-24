@@ -1,8 +1,23 @@
 {
   "stand": "2026-09-24",
   "seit": "2026-09-09",
-  "gesamt": 66,
+  "gesamt": 69,
   "eintraege": [
+    {
+      "kurz": "693bdcd",
+      "datum": "2026-09-24",
+      "betreff": "Portfolio-PDF aus den Projektblaettern"
+    },
+    {
+      "kurz": "5c55681",
+      "datum": "2026-09-24",
+      "betreff": "Change Porttrait"
+    },
+    {
+      "kurz": "845cd13",
+      "datum": "2026-09-24",
+      "betreff": "Revisionsstand auf den neuen Stand gebracht"
+    },
     {
       "kurz": "ea11e29",
       "datum": "2026-09-24",
@@ -287,21 +302,6 @@
       "kurz": "0aa742a",
       "datum": "2026-09-09",
       "betreff": "Pruefstand entfaellt; Messwerte kompakt in Messreihe M-1"
-    },
-    {
-      "kurz": "953a64d",
-      "datum": "2026-09-09",
-      "betreff": "Bilder selbst vorberechnen statt Astros Bildpipeline"
-    },
-    {
-      "kurz": "238d890",
-      "datum": "2026-09-09",
-      "betreff": "Bilder live reparieren und echte Adresse eintragen"
-    },
-    {
-      "kurz": "a30dd05",
-      "datum": "2026-09-09",
-      "betreff": "Node-Version festgelegt und Deploy-Anleitung korrigiert"
     }
   ]
 }
