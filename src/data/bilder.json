@@ -126,14 +126,14 @@
     ]
   },
   "portrait-bakir": {
-    "breite": 304,
-    "hoehe": 386,
-    "seitenverhaeltnis": 0.7876,
+    "breite": 203,
+    "hoehe": 273,
+    "seitenverhaeltnis": 0.7436,
     "varianten": [
       {
-        "datei": "/media/portrait-bakir-304.webp",
-        "breite": 304,
-        "kb": 20
+        "datei": "/media/portrait-bakir-203.webp",
+        "breite": 203,
+        "kb": 9
       }
     ]
   },
