@@ -160,13 +160,14 @@ const eintraege = [
   </div>
 </div>
 
-{/* Drei gemessene Werte, bevor irgendjemand scrollen muss. Jede Zahl ist ein
-    Link auf das Blatt, aus dem sie stammt -- eine Zahl ohne erreichbare Quelle
-    waere genau das, was diese Seite anderen vorwirft. */}
+{/* Drei belegte Angaben, bevor irgendjemand scrollen muss. Jede fuehrt dorthin,
+    wo sie herkommt -- ein Blatt, oder bei der letzten der Abschnitt mit allen
+    Projekten. Eine Zahl ohne erreichbare Quelle waere genau das, was diese
+    Seite anderen vorwirft. */}
 <div class="istwerte">
   <div class="huelle istwerte-innen">
     {kopfzahlen.map((k) => (
-      <a class="istwert" href={projektPfad(lang, k.ziel)}>
+      <a class="istwert" href={k.ziel.startsWith('#') ? k.ziel : projektPfad(lang, k.ziel)}>
         <span class="istwert-zahl">{k.wert}</span>
         <span class="istwert-l">{t(k.l)}</span>
         <span class="istwert-s">{t(k.s)}</span>

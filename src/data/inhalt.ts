@@ -226,29 +226,42 @@ export const stationen: { zeit: S; rolle: S; ort: string; text: S }[] = [
   },
 ];
 
-/* Drei Messwerte fuer den Kopf der Startseite. Absichtlich aus drei
-   verschiedenen Blaettern, und jeder fuehrt zu seinem Blatt: wer nur einen
-   Bildschirm liest, soll trotzdem die staerkste Zahl gesehen haben. Die Werte
-   stehen so auch auf ihrem Blatt -- wird dort einer geaendert, gehoert er hier
-   mitgeaendert. */
+/* Drei Angaben fuer den Kopf der Startseite. Sie beantworten die drei Fragen,
+   die vor dem ersten Scrollen zaehlen: Habe ich echte Auftragserfahrung, wie
+   arbeite ich, und bringe ich Dinge zu Ende.
+   Vorher standen hier drei Mikromesswerte (34x, 67/67, 145 ms). Jeder davon
+   stimmte, aber zusammen klangen sie kleinlich -- eine Note, eine Antwortzeit
+   der eigenen Seite und ein einzelner Optimierungsfaktor sagen wenig ueber die
+   Arbeit selbst. Die Werte stehen alle weiter auf ihren Blaettern; hier oben
+   stehen jetzt Umfang, Sorgfalt und Auslieferung.
+   `ziel` ist eine Blatt-Kennung oder ein Anker auf der Startseite. */
 export const kopfzahlen: { wert: string; l: S; s: S; ziel: string }[] = [
   {
-    wert: '34',
-    l: { de: 'mal schnellere Prüfung', en: 'times faster validation' },
-    s: { de: 'bei 10.000 Zeilen, Spesenkonfigurator', en: 'at 10,000 rows, expense configurator' },
+    wert: '368',
+    l: { de: 'eigene Commits im Auftragsprojekt', en: 'commits of my own in the client project' },
+    s: {
+      de: 'von 703 im Repository — Backend Architect im sechsköpfigen Team',
+      en: 'of 703 in the repository — backend architect in a team of six',
+    },
     ziel: 'spesenkonfigurator',
   },
   {
-    wert: '67/67',
-    l: { de: 'abgenommene Aufgaben', en: 'assignments accepted' },
-    s: { de: 'Programmierpraktikum der FU Berlin', en: 'programming practicum, FU Berlin' },
-    ziel: 'lernrepo',
+    wert: '197',
+    l: { de: 'Tests, grün bei jedem Push', en: 'tests, green on every push' },
+    s: {
+      de: 'ReflowTask: 168 im Backend, 29 im Frontend',
+      en: 'ReflowTask: 168 in the backend, 29 in the frontend',
+    },
+    ziel: 'reflowtask',
   },
   {
-    wert: '145',
-    l: { de: 'ms Antwortzeit', en: 'ms response time' },
-    s: { de: 'dieser Seite, Median aus fünf Abrufen', en: 'of this page, median of five requests' },
-    ziel: 'website',
+    wert: '5',
+    l: { de: 'ausgelieferte Programme', en: 'programs shipped' },
+    s: {
+      de: 'vom Windows-Installer bis zum Docker-Stack auf eigener Hardware',
+      en: 'from a Windows installer to a Docker stack on my own hardware',
+    },
+    ziel: '#h-projekte',
   },
 ];
 
