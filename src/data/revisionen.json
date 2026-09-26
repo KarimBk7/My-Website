@@ -1,8 +1,18 @@
 {
   "stand": "2026-09-26",
   "seit": "2026-09-09",
-  "gesamt": 71,
+  "gesamt": 73,
   "eintraege": [
+    {
+      "kurz": "7de1cdb",
+      "datum": "2026-09-26",
+      "betreff": "Kopfzahlen: Umfang, Sorgfalt, Auslieferung statt Mikromesswerte"
+    },
+    {
+      "kurz": "02be56b",
+      "datum": "2026-09-26",
+      "betreff": "Revisionsstand auf den neuen Stand gebracht"
+    },
     {
       "kurz": "a26c0cf",
       "datum": "2026-09-26",
@@ -292,16 +302,6 @@
       "kurz": "855489d",
       "datum": "2026-09-09",
       "betreff": "Abschnitt \"Arbeit mit KI-Agenten\" entfernt"
-    },
-    {
-      "kurz": "6ecac2d",
-      "datum": "2026-09-09",
-      "betreff": "Quellenspalte und Kopfzahl entfernt, Repos verlinkt"
-    },
-    {
-      "kurz": "ef5b627",
-      "datum": "2026-09-09",
-      "betreff": "Bewegungsempfindlichkeit wirklich beachten; totes CSS entfernen"
     }
   ]
 }
