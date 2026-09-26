@@ -1,8 +1,18 @@
 {
-  "stand": "2026-09-24",
+  "stand": "2026-09-26",
   "seit": "2026-09-09",
-  "gesamt": 69,
+  "gesamt": 71,
   "eintraege": [
+    {
+      "kurz": "a26c0cf",
+      "datum": "2026-09-26",
+      "betreff": "Repo-Adressen: Kaiju-Adventure und Learning-repository"
+    },
+    {
+      "kurz": "006326b",
+      "datum": "2026-09-24",
+      "betreff": "Revisionsstand auf den neuen Stand gebracht"
+    },
     {
       "kurz": "693bdcd",
       "datum": "2026-09-24",
@@ -292,16 +302,6 @@
       "kurz": "ef5b627",
       "datum": "2026-09-09",
       "betreff": "Bewegungsempfindlichkeit wirklich beachten; totes CSS entfernen"
-    },
-    {
-      "kurz": "af40aac",
-      "datum": "2026-09-09",
-      "betreff": "Live-Pruefung an die entfernte Schalterlogik anpassen"
-    },
-    {
-      "kurz": "0aa742a",
-      "datum": "2026-09-09",
-      "betreff": "Pruefstand entfaellt; Messwerte kompakt in Messreihe M-1"
     }
   ]
 }
