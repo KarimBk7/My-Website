@@ -656,7 +656,7 @@ public void markValidated() {
       de: 'Schulprojekt aus dem Jahr 2022. Der Quelltext stammt vollständig von mir, Grafiken und Klänge vom übrigen Team.',
       en: 'School project from 2022. The source code is entirely mine; graphics and sound came from the rest of the team.',
     },
-    repo: 'https://github.com/KarimBk7/Little-Adventure',
+    repo: 'https://github.com/KarimBk7/Kaiju-Adventure',
   },
   {
     id: 'lernrepo',
@@ -714,7 +714,7 @@ public void markValidated() {
       de: 'Sämtliche Inhalte stammen von mir; die Fremdbeiträge im Repository beschränken sich auf das Abhaken des Abnahmestatus durch den Tutor. Ich nutze es als persönliches Nachschlagewerk weiter.',
       en: 'All content is mine; third-party contributions in the repository are limited to the tutor ticking off the acceptance status. I still use it as a personal reference.',
     },
-    repo: 'https://github.com/KarimBk7/-propra-Lern-Repository',
+    repo: 'https://github.com/KarimBk7/Learning-repository',
   },
   /**
    * Kleines Werkzeug, bewusst als solches ausgewiesen: es steht hier, weil es
