@@ -1,8 +1,18 @@
 {
-  "stand": "2026-09-26",
+  "stand": "2026-09-28",
   "seit": "2026-09-09",
-  "gesamt": 73,
+  "gesamt": 75,
   "eintraege": [
+    {
+      "kurz": "327af44",
+      "datum": "2026-09-28",
+      "betreff": "ReflowTask: Blatt auf Version 1.0 gebracht"
+    },
+    {
+      "kurz": "56bf986",
+      "datum": "2026-09-26",
+      "betreff": "Revisionsstand auf den neuen Stand gebracht"
+    },
     {
       "kurz": "7de1cdb",
       "datum": "2026-09-26",
@@ -292,16 +302,6 @@
       "kurz": "7e47f3f",
       "datum": "2026-09-09",
       "betreff": "Alle Texte nach inhalt.ts, auch die drei Nachzuegler"
-    },
-    {
-      "kurz": "087b69c",
-      "datum": "2026-09-09",
-      "betreff": "DESIGN.md neu abgeleitet; zwei Widersprueche aufgeraeumt"
-    },
-    {
-      "kurz": "855489d",
-      "datum": "2026-09-09",
-      "betreff": "Abschnitt \"Arbeit mit KI-Agenten\" entfernt"
     }
   ]
 }
