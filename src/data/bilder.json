@@ -242,12 +242,12 @@
       {
         "datei": "/media/reflow-arbeitszeiten-800.webp",
         "breite": 800,
-        "kb": 24
+        "kb": 25
       },
       {
         "datei": "/media/reflow-arbeitszeiten-1440.webp",
         "breite": 1440,
-        "kb": 64
+        "kb": 67
       }
     ]
   },
@@ -259,12 +259,29 @@
       {
         "datei": "/media/reflow-konten-800.webp",
         "breite": 800,
-        "kb": 30
+        "kb": 35
       },
       {
         "datei": "/media/reflow-konten-1440.webp",
         "breite": 1440,
-        "kb": 81
+        "kb": 92
+      }
+    ]
+  },
+  "reflow-liste": {
+    "breite": 1440,
+    "hoehe": 900,
+    "seitenverhaeltnis": 1.6,
+    "varianten": [
+      {
+        "datei": "/media/reflow-liste-800.webp",
+        "breite": 800,
+        "kb": 25
+      },
+      {
+        "datei": "/media/reflow-liste-1440.webp",
+        "breite": 1440,
+        "kb": 70
       }
     ]
   },
@@ -276,12 +293,24 @@
       {
         "datei": "/media/reflow-neue-aufgabe-800.webp",
         "breite": 800,
-        "kb": 29
+        "kb": 36
       },
       {
         "datei": "/media/reflow-neue-aufgabe-1440.webp",
         "breite": 1440,
-        "kb": 78
+        "kb": 95
+      }
+    ]
+  },
+  "reflow-telefon": {
+    "breite": 390,
+    "hoehe": 844,
+    "seitenverhaeltnis": 0.4621,
+    "varianten": [
+      {
+        "datei": "/media/reflow-telefon-390.webp",
+        "breite": 390,
+        "kb": 22
       }
     ]
   },
@@ -293,12 +322,12 @@
       {
         "datei": "/media/reflow-woche-800.webp",
         "breite": 800,
-        "kb": 29
+        "kb": 30
       },
       {
         "datei": "/media/reflow-woche-1440.webp",
         "breite": 1440,
-        "kb": 80
+        "kb": 84
       }
     ]
   },

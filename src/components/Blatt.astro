@@ -193,6 +193,12 @@ const kennzahl = (s: string) => {
           <figure
             class="aufbau"
             data-breit={'breit' in b && b.breit ? '' : undefined}
+            {/* Hochformat kommt aus dem Bild selbst, nicht aus einer Angabe im
+                Inhalt: eine Telefonaufnahme (390 x 844) waere sonst ueber eine
+                Spaltenbreite gezogen worden und haette die gemeinsame Bildzeile
+                der Dreierreihe auf ihre Hoehe aufgeblasen -- daneben zwei
+                Aufnahmen mit 400 px Leerraum darueber. */}
+            data-hoch={bild(b.datei).hoehe > bild(b.datei).breite ? '' : undefined}
             style={`--nativ:${bild(b.datei).breite}px`}
           >
             {'video' in b && b.video ? (

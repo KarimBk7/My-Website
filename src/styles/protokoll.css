@@ -676,6 +676,12 @@ figcaption { margin-top: 0.6rem; font-size: 0.8125rem; color: var(--tinte-3); ma
   }
 }
 
+/* Hochformat, in der Praxis Telefonaufnahmen: nicht auf Spaltenbreite ziehen.
+   Bei 390 x 844 waere das Bild sonst rund 780 px hoch geworden und haette die
+   gemeinsame Bildzeile der Dreierreihe mitgerissen. Gedeckelt und zentriert
+   steht es neben den Schreibtischaufnahmen, statt sie zu erdruecken. */
+.bildreihe figure[data-hoch] img { max-height: 21rem; width: auto; margin-inline: auto; }
+
 /* --- Bildlupe ----------------------------------------------------------- */
 /* Die Aufnahmen sind kleiner abgebildet als sie sind: das Projektron-Haupt-
    fenster misst 1188 px und stand in 930, die drei kleinen 872 px in 294.
